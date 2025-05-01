@@ -1,0 +1,11 @@
+<h2 mat-dialog-title>SMS Source Details</h2>
+
+<mat-dialog-content class="sms-content">
+    <p><strong>Received At:</strong> {{ data.timestamp | date: 'medium' }}</p>
+    <p><strong>Message:</strong></p>
+    <mat-card class="sms-message">{{ data.body }}</mat-card>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close>Close</button>
+</mat-dialog-actions>

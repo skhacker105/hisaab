@@ -1,0 +1,51 @@
+:host {
+    display: block;
+    background-color: #121212;
+    color: white;
+    padding: 16px;
+  }
+  
+  .page-title {
+    margin-bottom: 20px;
+    font-size: 24px;
+  }
+  
+  .tentative-card {
+    background-color: #1e1e1e;
+    padding: 16px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 4px rgba(255, 255, 255, 0.1);
+    opacity: 0.8;
+  }
+  
+  .sms-body {
+    font-family: monospace;
+    white-space: pre-wrap;
+    color: #aaa;
+    margin-bottom: 12px;
+  }
+  
+  .field-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    align-items: center;
+  }
+  
+  mat-form-field {
+    flex: 1;
+    min-width: 160px;
+  }
+  
+  mat-button-toggle-group {
+    background: #2c2c2c;
+    border-radius: 4px;
+    color: white;
+  }
+  
+  mat-button-toggle.mat-button-toggle-checked {
+    background-color: #4caf50;
+    color: #fff;
+  }
+  

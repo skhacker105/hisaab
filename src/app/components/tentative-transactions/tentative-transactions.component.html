@@ -1,0 +1,76 @@
+<h2 class="page-title">Tentative Transactions</h2>
+
+<div *ngIf="tentativeTransactions.length === 0" class="empty-state">
+  No tentative transactions found.
+</div>
+
+<div *ngFor="let t of tentativeTransactions" class="tentative-card">
+  <div class="sms-body">{{ t.body }}</div>
+
+  <!-- Amount Chips -->
+  <div class="chip-group">
+    <label>Amounts:</label>
+    <mat-chip-listbox>
+      <mat-chip-option
+        *ngFor="let amt of t.possibleAmounts"
+        selectable
+        [selected]="selectedValues[t.id]?.amount === amt"
+        (click)="selectValue(t.id, 'amount', amt)"
+      >
+        ₹{{ amt }}
+      </mat-chip-option>
+    </mat-chip-listbox>
+
+    <mat-form-field appearance="fill" class="manual-input">
+      <mat-label>Or enter manually</mat-label>
+      <input matInput type="number" (input)="handleAmountInput($event, t.id)">
+    </mat-form-field>
+  </div>
+
+  <!-- Description Chips -->
+  <div class="chip-group">
+    <label>Descriptions:</label>
+    <mat-chip-listbox>
+      <mat-chip-option
+        *ngFor="let desc of t.possibleDescriptions"
+        selectable
+        [selected]="selectedValues[t.id]?.description === desc"
+        (click)="selectValue(t.id, 'description', desc)"
+      >
+        {{ desc }}
+      </mat-chip-option>
+    </mat-chip-listbox>
+
+    <mat-form-field appearance="fill" class="manual-input">
+      <mat-label>Or enter manually</mat-label>
+      <input matInput (input)="handleDescriptionInput($event, t.id)">
+    </mat-form-field>
+  </div>
+
+  <!-- Type Chips -->
+  <div class="chip-group">
+    <label>Type:</label>
+    <mat-chip-listbox>
+      <mat-chip-option
+        selectable
+        [selected]="selectedValues[t.id]?.type === 'credit'"
+        (click)="selectValue(t.id, 'type', 'credit')"
+        color="primary"
+      >
+        Credit
+      </mat-chip-option>
+      <mat-chip-option
+        selectable
+        [selected]="selectedValues[t.id]?.type === 'debit'"
+        (click)="selectValue(t.id, 'type', 'debit')"
+        color="warn"
+      >
+        Debit
+      </mat-chip-option>
+    </mat-chip-listbox>
+  </div>
+
+  <div class="actions">
+    <button mat-raised-button color="primary" (click)="confirm(t)">Confirm</button>
+  </div>
+</div>

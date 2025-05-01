@@ -1,0 +1,26 @@
+<div class="summary-row">
+  <mat-card class="summary-card credit">
+    <mat-card-title>Total Credit</mat-card-title>
+    <mat-card-content>₹{{ totalCredit | number:'1.2-2' }}</mat-card-content>
+  </mat-card>
+
+  <mat-card class="summary-card debit">
+    <mat-card-title>Total Debit</mat-card-title>
+    <mat-card-content>₹{{ totalDebit | number:'1.2-2' }}</mat-card-content>
+  </mat-card>
+</div>
+
+<div class="transaction-list">
+  <mat-card *ngFor="let t of transactions" class="transaction-card">
+    <div class="transaction-header">
+      <span class="amount" [ngClass]="{ credit: t.amount > 0, debit: t.amount < 0 }">
+        ₹{{ t.amount | number:'1.2-2' }}
+      </span>
+      <span class="date">{{ t.timestamp | date: 'mediumDate' }}</span>
+    </div>
+    <div class="description">{{ t.description }}</div>
+    <div class="source-icon" *ngIf="t.source === 'sms'" (click)="showSmsSourceDetails(t)">
+      <mat-icon>message</mat-icon>
+    </div>
+  </mat-card>
+</div>

@@ -1,4 +1,7 @@
 import { Component } from '@angular/core';
+import { FilterService } from './services';
+import { MatDialog } from '@angular/material/dialog';
+import { AddTransactionDialogComponent } from './components';
 
 @Component({
   selector: 'app-root',
@@ -6,5 +9,34 @@ import { Component } from '@angular/core';
   styleUrl: './app.component.scss'
 })
 export class AppComponent {
-  title = 'Hisaab';
+  year!: number;
+  month!: number;
+  years: number[] = [];
+  months = [
+    { name: 'Jan', value: 1 }, { name: 'Feb', value: 2 }, { name: 'Mar', value: 3 },
+    { name: 'Apr', value: 4 }, { name: 'May', value: 5 }, { name: 'Jun', value: 6 },
+    { name: 'Jul', value: 7 }, { name: 'Aug', value: 8 }, { name: 'Sep', value: 9 },
+    { name: 'Oct', value: 10 }, { name: 'Nov', value: 11 }, { name: 'Dec', value: 12 }
+  ];
+
+  constructor(private filterService: FilterService, private dialog: MatDialog) {}
+
+  ngOnInit() {
+    const currentYear = new Date().getFullYear();
+    this.years = Array.from({ length: 5 }, (_, i) => currentYear - i);
+    this.year = currentYear;
+    this.month = new Date().getMonth() + 1;
+    this.onFilterChange();
+  }
+
+  onFilterChange() {
+    this.filterService.setYear(this.year);
+    this.filterService.setMonth(this.month);
+  }
+
+  openAddTransactionDialog() {
+    this.dialog.open(AddTransactionDialogComponent, {
+      width: '400px'
+    });
+  }
 }

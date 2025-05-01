@@ -1,0 +1,116 @@
+@media (max-width: 600px) {
+  .app-wrapper {
+    display: flex;
+    height: 100vh;
+    background-color: #ffffff;
+    color: #000000;
+    flex-direction: column;
+    font-family: 'Roboto', sans-serif;
+  }
+
+  .toolbar {
+    background-color: #e3f2fd;
+    color: #000;
+    display: flex;
+    align-items: center;
+    padding: 0 8px;
+    height: 56px;
+  }
+
+  .title {
+    font-size: 20px;
+    font-weight: 600;
+    color: #1565c0;
+    white-space: nowrap;
+  }
+
+  .spacer {
+    flex: 1 1 auto;
+  }
+
+  .custom-select-wrapper {
+    display: flex;
+    flex-direction: column;
+    margin: 0 4px;
+    width: 80px;
+    font-size: 13px;
+
+    label {
+      font-size: 11px;
+      color: #1565c0;
+      margin-bottom: 2px;
+      text-align: left;
+    }
+
+    .mat-form-field {
+      font-size: 13px;
+      height: 36px;
+      margin: 0;
+
+      .mat-form-field-wrapper {
+        padding: 0;
+      }
+
+      .mat-form-field-flex {
+        background-color: transparent;
+        border: 1px solid #bbdefb;
+        border-radius: 4px;
+        height: 28px;
+        align-items: center;
+        padding: 0 6px;
+      }
+
+      .mat-form-field-infix {
+        padding: 0;
+        border: none;
+      }
+
+      .mat-select-trigger {
+        font-size: 13px;
+        color: #1565c0;
+      }
+
+      .mat-form-field-underline,
+      .mat-form-field-outline,
+      .mat-form-field-outline-start,
+      .mat-form-field-outline-end {
+        display: none;
+      }
+
+      .mat-select {
+        background-color: transparent;
+      }
+    }
+  }
+
+  mat-option.mat-selected {
+    background-color: #bbdefb !important;
+  }
+
+  .body-wrapper {
+    flex: 1 auto;
+  }
+
+  .footer {
+    background-color: #e3f2fd;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    height: 56px;
+    padding: 0 16px;
+  }
+
+  button[mat-fab] {
+    background-color: #4caf50;
+    color: white;
+    width: 40px;
+    height: 40px;
+    min-height: 40px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
+  }
+
+  mat-icon {
+    font-size: 20px;
+    line-height: 20px;
+  }
+}
