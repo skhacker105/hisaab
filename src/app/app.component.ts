@@ -25,9 +25,8 @@ export class AppComponent {
   constructor(private filterService: FilterService, private dialog: MatDialog) { }
 
   ngOnInit() {
-    const currentYear = new Date().getFullYear();
-    this.years = Array.from({ length: 5 }, (_, i) => currentYear - i);
-    this.year = currentYear;
+    this.years = Array.from({ length: 5 }, (_, i) => this.currentYear - i);
+    this.year = this.currentYear;
     this.month = new Date().getMonth() + 1;
     this.onFilterChange();
   }
