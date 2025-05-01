@@ -19,7 +19,10 @@ export class AppComponent {
     { name: 'Oct', value: 10 }, { name: 'Nov', value: 11 }, { name: 'Dec', value: 12 }
   ];
 
-  constructor(private filterService: FilterService, private dialog: MatDialog) {}
+  currentYear = new Date().getFullYear();
+  currentMonth = new Date().getMonth() + 1; // assuming your month values are 1-indexed
+
+  constructor(private filterService: FilterService, private dialog: MatDialog) { }
 
   ngOnInit() {
     const currentYear = new Date().getFullYear();

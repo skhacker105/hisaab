@@ -1,32 +1,37 @@
 <div class="app-wrapper">
-  <mat-toolbar color="primary" class="toolbar">
+  <div class="toolbar">
     <span class="title">Hisaab</span>
     <span class="spacer"></span>
 
     <div class="custom-select-wrapper">
       <label for="year-select">Year</label>
-      <mat-select id="year-select" [(value)]="year" (selectionChange)="onFilterChange()" disableRipple>
-        <mat-option *ngFor="let y of years" [value]="y">{{ y }}</mat-option>
-      </mat-select>
+      <select id="year-select" [(ngModel)]="year" (change)="onFilterChange()">
+        <option *ngFor="let y of years" [value]="y" [ngClass]="{ 'current-year': y == currentYear }">
+          {{ y }}
+        </option>
+      </select>
     </div>
 
     <div class="custom-select-wrapper">
       <label for="month-select">Month</label>
-      <mat-select id="month-select" [(value)]="month" (selectionChange)="onFilterChange()" disableRipple>
-        <mat-option *ngFor="let m of months" [value]="m.value">{{ m.name }}</mat-option>
-      </mat-select>
+      <select id="month-select" [(ngModel)]="month" (change)="onFilterChange()">
+        <option *ngFor="let m of months" [value]="m.value" [ngClass]="{
+                  'current-month': m.value === currentMonth && year == currentYear
+                }">
+          {{ m.name }}
+        </option>
+      </select>
     </div>
-  </mat-toolbar>
+  </div>
 
   <div class="body-wrapper">
     <router-outlet></router-outlet>
   </div>
 
-  <mat-toolbar color="primary" class="footer">
+  <div class="footer">
     <span class="spacer"></span>
-    <button mat-fab color="accent" (click)="openAddTransactionDialog()">
-      <mat-icon>add</mat-icon>
+    <button class="fab-button" (click)="openAddTransactionDialog()">
+      <span class="material-icons">add</span>
     </button>
-  </mat-toolbar>
-
+  </div>
 </div>
