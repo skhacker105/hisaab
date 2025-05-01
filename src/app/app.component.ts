@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { FilterService } from './services';
 import { MatDialog } from '@angular/material/dialog';
 import { AddTransactionDialogComponent } from './components';
+import { NavigationEnd, Router } from '@angular/router';
+import { filter } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -22,7 +24,19 @@ export class AppComponent {
   currentYear = new Date().getFullYear();
   currentMonth = new Date().getMonth() + 1; // assuming your month values are 1-indexed
 
-  constructor(private filterService: FilterService, private dialog: MatDialog) { }
+  isHomeRoute: boolean = true;
+
+  constructor(
+    private filterService: FilterService,
+    private dialog: MatDialog,
+    private router: Router
+  ) {
+    this.router.events
+      .pipe(filter(event => event instanceof NavigationEnd))
+      .subscribe((event: any) => {
+        this.isHomeRoute = event.urlAfterRedirects === '/' || event.urlAfterRedirects === '/home';
+      });
+  }
 
   ngOnInit() {
     this.years = Array.from({ length: 5 }, (_, i) => this.currentYear - i);
@@ -40,5 +54,9 @@ export class AppComponent {
     this.dialog.open(AddTransactionDialogComponent, {
       width: '400px'
     });
+  }
+
+  goToHome() {
+    this.router.navigate(['/']);
   }
 }
