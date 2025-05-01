@@ -4,7 +4,6 @@
     <span class="spacer"></span>
 
     <div class="custom-select-wrapper">
-      <label for="year-select">Year</label>
       <select id="year-select" [(ngModel)]="year" (change)="onFilterChange()">
         <option *ngFor="let y of years" [value]="y" [ngClass]="{ 'current-year': y == currentYear }">
           {{ y }}
@@ -13,9 +12,8 @@
     </div>
 
     <div class="custom-select-wrapper">
-      <label for="month-select">Month</label>
       <select id="month-select" [(ngModel)]="month" (change)="onFilterChange()">
-        <option *ngFor="let m of months" [value]="m.value" [ngClass]="{
+        <option *ngFor="let m of filterService.months" [value]="m.value" [ngClass]="{
                   'current-month': m.value === currentMonth && year == currentYear
                 }">
           {{ m.name }}

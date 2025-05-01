@@ -14,12 +14,7 @@ export class AppComponent {
   year!: number;
   month!: number;
   years: number[] = [];
-  months = [
-    { name: 'Jan', value: 1 }, { name: 'Feb', value: 2 }, { name: 'Mar', value: 3 },
-    { name: 'Apr', value: 4 }, { name: 'May', value: 5 }, { name: 'Jun', value: 6 },
-    { name: 'Jul', value: 7 }, { name: 'Aug', value: 8 }, { name: 'Sep', value: 9 },
-    { name: 'Oct', value: 10 }, { name: 'Nov', value: 11 }, { name: 'Dec', value: 12 }
-  ];
+  
 
   currentYear = new Date().getFullYear();
   currentMonth = new Date().getMonth() + 1; // assuming your month values are 1-indexed
@@ -27,7 +22,7 @@ export class AppComponent {
   isHomeRoute: boolean = true;
 
   constructor(
-    private filterService: FilterService,
+    public filterService: FilterService,
     private dialog: MatDialog,
     private router: Router
   ) {

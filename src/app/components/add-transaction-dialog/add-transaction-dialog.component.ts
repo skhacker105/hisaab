@@ -23,7 +23,7 @@ export class AddTransactionDialogComponent {
         amount: this.transactionType === 'debit' ? -Math.abs(this.amount) : Math.abs(this.amount),
         description: this.description,
         transactionType: this.transactionType,
-        timestamp: new Date().toISOString(),
+        date: new Date().toString(),
         id: Date.now().toString(),
         source: 'manual'
       });

@@ -10,10 +10,14 @@ import { SmsDetailsDialogComponent } from '../';
 })
 export class HomeComponent {
   transactions: any[] = [];
-  totalCredit = 0;
-  totalDebit = 0;
+  monthlyExpenditure = 0;
+  yearlyExpenditure = 0;
   year!: number;
   month!: number;
+
+  get monthName(): string {
+    return this.filterService.months.find(m => m.value == this.month)?.name ?? '';
+  }
 
   constructor(
     private transactionService: TransactionsService,
@@ -34,10 +38,18 @@ export class HomeComponent {
   }
 
   loadTransactions() {
-    const all = this.transactionService.getTransactionsForMonth(this.year, this.month);
-    this.transactions = all;
-    this.totalCredit = all.filter(t => t.amount > 0).reduce((sum, t) => sum + t.amount, 0);
-    this.totalDebit = all.filter(t => t.amount < 0).reduce((sum, t) => sum + Math.abs(t.amount), 0);
+    const allForMonth = this.transactionService.getTransactionsForMonth(this.year, this.month);
+    const allForYear = this.transactionService.getTransactionsForYear(this.year);
+
+    this.transactions = allForMonth;
+
+    this.monthlyExpenditure = allForMonth
+      .filter(t => t.amount < 0)
+      .reduce((sum, t) => sum + Math.abs(t.amount), 0);
+
+    this.yearlyExpenditure = allForYear
+      .filter(t => t.amount < 0)
+      .reduce((sum, t) => sum + Math.abs(t.amount), 0);
   }
 
   showSmsSourceDetails(transaction: any) {

@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { ITentativeTransaction } from '../interfaces';
 
 @Injectable({
   providedIn: 'root'
@@ -19,16 +20,17 @@ export class SmsService {
     return result === (window as any).PermissionsAndroid.RESULTS.GRANTED;
   }
 
-  async readMessages(): Promise<any[]> {
+  async readMessages(): Promise<ITentativeTransaction[]> {
     const { SmsReader } = (window as any).Capacitor.Plugins;
 
     const result = await SmsReader.read();
+    console.log(result)
     const messages = result.messages || [];
 
     return messages.map((msg: any) => this.extractTransaction(msg));
   }
 
-  private extractTransaction(msg: any): any | null {
+  private extractTransaction(msg: any): ITentativeTransaction | null {
     const content = msg.body;
     const regex = /(?:Rs\\.?|INR|₹)?\\s?([0-9,]+(?:\\.\\d{1,2})?)/gi;
     const matches = [...content.matchAll(regex)];
@@ -37,10 +39,8 @@ export class SmsService {
 
     return {
       id: `tentative-${msg.id}`,
-      sourceId: msg.id,
-      timestamp: msg.date,
+      receivedAt: msg.date,
       body: msg.body,
-      tentative: true,
       possibleAmounts: matches.map(m => parseFloat(m[1].replace(/,/g, ''))),
       possibleDescriptions: [msg.body.slice(0, 50)],
     };

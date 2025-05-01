@@ -15,7 +15,7 @@
         *ngFor="let amt of t.possibleAmounts"
         class="chip"
         [class.selected]="selectedValues[t.id]?.amount === amt"
-        (click)="selectValue(t.id, 'amount', amt)"
+        (click)="selectValue(t.id.toString(), 'amount', amt)"
       >
         ₹{{ amt }}
       </div>
@@ -24,7 +24,7 @@
       type="number"
       placeholder="Or enter manually"
       class="manual-input"
-      (input)="handleAmountInput($event, t.id)"
+      (input)="handleAmountInput($event, t.id.toString())"
     />
   </div>
 
@@ -36,7 +36,7 @@
         *ngFor="let desc of t.possibleDescriptions"
         class="chip"
         [class.selected]="selectedValues[t.id]?.description === desc"
-        (click)="selectValue(t.id, 'description', desc)"
+        (click)="selectValue(t.id.toString(), 'description', desc)"
       >
         {{ desc }}
       </div>
@@ -45,7 +45,7 @@
       type="text"
       placeholder="Or enter manually"
       class="manual-input"
-      (input)="handleDescriptionInput($event, t.id)"
+      (input)="handleDescriptionInput($event, t.id.toString())"
     />
   </div>
 
@@ -56,14 +56,14 @@
       <div
         class="chip credit"
         [class.selected]="selectedValues[t.id]?.type === 'credit'"
-        (click)="selectValue(t.id, 'type', 'credit')"
+        (click)="selectValue(t.id.toString(), 'type', 'credit')"
       >
         Credit
       </div>
       <div
         class="chip debit"
         [class.selected]="selectedValues[t.id]?.type === 'debit'"
-        (click)="selectValue(t.id, 'type', 'debit')"
+        (click)="selectValue(t.id.toString(), 'type', 'debit')"
       >
         Debit
       </div>

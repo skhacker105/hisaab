@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { TransactionsService } from '../../services';
+import { SmsService, TransactionsService } from '../../services';
+import { IMessageDetail, ITentativeTransaction, Transaction } from '../../interfaces';
 
 @Component({
   selector: 'app-tentative-transactions',
@@ -7,7 +8,7 @@ import { TransactionsService } from '../../services';
   styleUrl: './tentative-transactions.component.scss'
 })
 export class TentativeTransactionsComponent {
-  tentativeTransactions: any[] = [];
+  tentativeTransactions: ITentativeTransaction[] = [];
 
   selectedValues: {
     [id: string]: {
@@ -17,14 +18,14 @@ export class TentativeTransactionsComponent {
     };
   } = {};
 
-  constructor(private transactionService: TransactionsService) {}
+  constructor(private transactionService: TransactionsService, private sms: SmsService) {}
 
   ngOnInit(): void {
     this.loadTentative();
   }
 
-  loadTentative() {
-    this.tentativeTransactions = this.transactionService.getTentativeTransactions();
+  async loadTentative() {
+    this.tentativeTransactions = await this.sms.readMessages();
     // this.tentativeTransactions = [
     //   {
     //     id: '1',
@@ -64,7 +65,7 @@ export class TentativeTransactionsComponent {
     this.selectValue(id, 'description', value);
   }
 
-  confirm(tentative: any) {
+  confirm(tentative: ITentativeTransaction) {
     const values = this.selectedValues[tentative.id] || {};
     if (!values.amount || !values.description || !values.type) {
       alert('Please complete amount, description, and type.');
@@ -77,7 +78,7 @@ export class TentativeTransactionsComponent {
       transactionType: values.type
     };
 
-    this.transactionService.confirmTentative(tentative.id, transaction);
+    this.transactionService.confirmTentative(tentative.id.toString(), transaction);
     this.loadTentative();
   }
 }

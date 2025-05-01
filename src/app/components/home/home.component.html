@@ -1,12 +1,12 @@
 <div class="summary-row">
-  <mat-card class="summary-card credit">
-    <mat-card-title>Total Credit</mat-card-title>
-    <mat-card-content>₹{{ totalCredit | number:'1.2-2' }}</mat-card-content>
+  <mat-card class="summary-card year">
+    <mat-card-title class="summary-title">{{year}} Spending</mat-card-title>
+    <mat-card-content>₹{{ yearlyExpenditure | number:'1.2-2' }}</mat-card-content>
   </mat-card>
 
-  <mat-card class="summary-card debit">
-    <mat-card-title>Total Debit</mat-card-title>
-    <mat-card-content>₹{{ totalDebit | number:'1.2-2' }}</mat-card-content>
+  <mat-card class="summary-card month">
+    <mat-card-title class="summary-title">{{year}} {{monthName}} Spending</mat-card-title>
+    <mat-card-content>₹{{ monthlyExpenditure | number:'1.2-2' }}</mat-card-content>
   </mat-card>
 </div>
 
