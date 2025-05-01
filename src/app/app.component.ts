@@ -54,4 +54,8 @@ export class AppComponent {
   goToHome() {
     this.router.navigate(['/']);
   }
+
+  goToTentative() {
+    this.router.navigate(['/tentative']);
+  }
 }

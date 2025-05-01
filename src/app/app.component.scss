@@ -145,6 +145,19 @@
     font-weight: bold;
     border: 1px solid #81c784;
   }
+
+  .fab-button.tentative-button {
+    margin-left: 8px;
+    background-color: #ff9800;
+  }
+  
+  .fab-button.tentative-button:hover {
+    background-color: #fb8c00;
+  }
+  
+  .fab-button.tentative-button:active {
+    background-color: #ef6c00;
+  }
   
 }
 
