@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { ITentativeTransaction } from '../interfaces';
+import { LoggerService } from './';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SmsService {
 
-  constructor() { }
+  constructor(private loggerService: LoggerService) { }
 
   async requestPermission(): Promise<boolean> {
     const result = await (window as any).PermissionsAndroid.request(
@@ -21,13 +22,21 @@ export class SmsService {
   }
 
   async readMessages(): Promise<ITentativeTransaction[]> {
-    const { SmsReader } = (window as any).Capacitor.Plugins;
+    try {
+      const { SmsReader } = (window as any).Capacitor.Plugins;
 
-    const result = await SmsReader.read();
-    console.log(result)
-    const messages = result.messages || [];
+      const result = await SmsReader.read();
+      this.loggerService.log(result);
+      this.loggerService.setShowLogs('123');
 
-    return messages.map((msg: any) => this.extractTransaction(msg));
+      const messages = result.messages || [];
+
+      return messages.map((msg: any) => this.extractTransaction(msg));
+    } catch (err) {
+      this.loggerService.log(err);
+      this.loggerService.setShowLogs('123');
+      return [];
+    }
   }
 
   private extractTransaction(msg: any): ITentativeTransaction | null {
