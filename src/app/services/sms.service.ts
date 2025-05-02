@@ -29,10 +29,18 @@ export class SmsService {
       this.loggerService.log(result);
       this.loggerService.setShowLogs('123');
 
-      const messages = result.messages || [];
+      const messages: any[] = result.messages || [];
 
-      return messages.map((msg: any) => this.extractTransaction(msg));
+      return messages.reduce((arr, msg: any) => {
+        const data = this.extractTransaction(msg);
+        if (!data) return arr;
+
+        arr.push(data);
+        return arr;
+      }, [] as ITentativeTransaction[]);
+
     } catch (err) {
+
       this.loggerService.log(err);
       this.loggerService.setShowLogs('123');
       return [];
