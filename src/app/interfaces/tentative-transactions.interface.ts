@@ -1,6 +1,6 @@
 export interface ITentativeTransaction {
     id: string | number;
-    receivedAt: string;
+    date: string;
     body: string;
     possibleAmounts: number[];
     possibleDescriptions: string[];

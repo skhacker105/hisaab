@@ -14,8 +14,36 @@
 }
 
 .header-2 {
+    
+    background-color: #be972c;
+
+    .title {
+        flex: 1 auto;
+    }
+
+    .title, .title-text {
+        display: flex;
+        margin: inherit;
+        margin-left: auto;
+        margin-right: auto;
+        transition: all 1s ease !important;
+        font-size: xx-large !important;
+    }
+
+    .shadows {
+        color: #FFFFFF !important;
+        letter-spacing: -0.05em;
+        margin: auto;
+        margin-left: initial;
+        padding: 5px;
+        padding-left: 10px;
+        letter-spacing: -0.05em;
+    }
+
     .action {
         display: flex;
+        height: 35px;
+        max-height: 50px;
 
         mat-icon {
             margin: auto;
@@ -24,3 +52,4 @@
         }
     }
 }
+

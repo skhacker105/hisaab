@@ -18,6 +18,7 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
 
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { MatTabsModule } from '@angular/material/tabs';
+import { AndroidPermissions } from '@awesome-cordova-plugins/android-permissions/ngx';
 
 @NgModule({
   declarations: [
@@ -43,7 +44,8 @@ import { MatTabsModule } from '@angular/material/tabs';
     MatTabsModule
   ],
   providers: [
-    provideAnimationsAsync()
+    provideAnimationsAsync(),
+    AndroidPermissions
   ],
   bootstrap: [AppComponent]
 })
