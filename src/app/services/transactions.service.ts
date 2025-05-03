@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
-import { ITentativeTransaction, Transaction } from '../interfaces';
+import { Transaction } from '../interfaces';
 
 @Injectable({
   providedIn: 'root'
@@ -53,23 +52,16 @@ export class TransactionsService {
     this.save();
   }
 
-  confirmTentative(tentativeId: string, confirmedData: Partial<Omit<Transaction, 'id' | 'date'>>): void {
-    const index = this.transactions.findIndex(t => t.id === tentativeId);
-    if (index !== -1) {
-      const old = this.transactions[index];
-      this.transactions[index] = {
-        ...old,
-        ...confirmedData,
-        id: Date.now().toString(),
-        date: new Date().toString(),
-        isTentative: false
-      };
+  confirmTentative(tentativeId: string, confirmedData: Transaction): void {
+    const old = this.transactions.find(t => t.tentative?.id === tentativeId);
+    if (!old) {
+      this.transactions.push(confirmedData);
       this.save();
     }
   }
 
   getMessageDetailsByTransactionId(transactionId: string): Transaction | undefined {
-    return this.transactions.find(t => t.id === transactionId && !!t.messageDetails);
+    return this.transactions.find(t => t.id === transactionId && !!t.tentative);
   }
 
   private save(): void {

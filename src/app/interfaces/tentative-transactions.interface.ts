@@ -1,5 +1,5 @@
 export interface ITentativeTransaction {
-    id: string | number;
+    id: string;
     date: string;
     body: string;
     possibleAmounts: number[];

@@ -1,4 +1,4 @@
-import { IMessageDetail } from "./";
+import { ITentativeTransaction } from "./";
 
 export interface Transaction {
     id: string;
@@ -8,6 +8,7 @@ export interface Transaction {
     date: string;
     sourceMessageId?: string;
     isTentative?: boolean;
-    source: 'manual' | 'phoneMessage'
-    messageDetails?: IMessageDetail;
+    source: 'manual' | 'phoneMessage';
+    tentative?: ITentativeTransaction
+
 }

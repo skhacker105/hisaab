@@ -102,20 +102,33 @@
   .actions {
     text-align: right;
     margin-top: 12px;
-
+  
     .primary-button {
-      background-color: #4caf50;
-      color: white;
       padding: 8px 16px;
       border: none;
       border-radius: 6px;
       font-size: 14px;
       cursor: pointer;
+      color: white;
       transition: background-color 0.2s ease;
-
-      &:hover {
-        background-color: #43a047;
+      margin: 5px;
+  
+      &.confirm-button {
+        background-color: #4caf50;
+  
+        &:hover {
+          background-color: #43a047;
+        }
+      }
+  
+      &.delete-button {
+        background-color: #d46a6a; // soft dull red
+  
+        &:hover {
+          background-color: #c15858; // slightly darker on hover
+        }
       }
     }
   }
+  
 }

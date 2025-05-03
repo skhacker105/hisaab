@@ -8,8 +8,36 @@ import { AndroidPermissions } from '@awesome-cordova-plugins/android-permissions
   providedIn: 'root'
 })
 export class SmsService {
+  
+  smsStateStorageKey = 'SMSStateStorage';
+  confirmedMessageIds = new Set<string>();
+  deletedMessagesIds = new Set<string>();
 
-  constructor(private loggerService: LoggerService, private androidPermissions: AndroidPermissions) { }
+  constructor(private loggerService: LoggerService, private androidPermissions: AndroidPermissions) {
+    this.loadSmsStateFromStarage();
+  }
+
+  getSmsState(): any {
+    return {
+      confirmedMessageIds: [...this.confirmedMessageIds.values()],
+      deletedMessagesIds: [...this.deletedMessagesIds.values()]
+    };
+  }
+
+  setSmsState(state: any): void {
+    this.confirmedMessageIds = new Set<string>(state.confirmedMessageIds);
+    this.deletedMessagesIds = new Set<string>(state.deletedMessagesIds);
+  }
+
+  loadSmsStateFromStarage(): void {
+    const state = localStorage.getItem(this.smsStateStorageKey);
+    if (state) this.setSmsState(JSON.parse(state));
+  }
+
+  saveSmsStateToStorage(): void {
+    const state = this.getSmsState();
+    localStorage.setItem(this.smsStateStorageKey, JSON.stringify(state));
+  }
 
   async checkReadSmsPermission() {
     const READ_SMS = this.androidPermissions.PERMISSION.READ_SMS;
@@ -69,7 +97,7 @@ export class SmsService {
     const description = this.extractDescription(content);
   
     return {
-      id: `tentative-${msg.id}`,
+      id: msg.id,
       date: new Date(msg.date).toString(),
       body: msg.body,
       possibleAmounts: amounts,
@@ -141,5 +169,24 @@ export class SmsService {
     return content.slice(0, 50).trim();
   }
   
+  addConfirmedMessageId(id: string) {
+    this.confirmedMessageIds.add(id);
+    this.saveSmsStateToStorage();
+  }
+
+  removeConfirmedMessageId(id: string) {
+    this.confirmedMessageIds.delete(id);
+    this.saveSmsStateToStorage();
+  }
+  
+  addDeletedMessageId(id: string) {
+    this.deletedMessagesIds.add(id);
+    this.saveSmsStateToStorage();
+  }
+
+  removeDeletedMessageId(id: string) {
+    this.deletedMessagesIds.delete(id);
+    this.saveSmsStateToStorage();
+  }
   
 }

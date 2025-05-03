@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { LoggerService, SmsService, TransactionsService } from '../../services';
-import { ITentativeTransaction } from '../../interfaces';
+import { ITentativeTransaction, Transaction } from '../../interfaces';
 import { Capacitor } from '@capacitor/core';
+import { generateHexId } from '../../utils';
 
 @Component({
   selector: 'app-tentative-transactions',
@@ -21,18 +22,20 @@ export class TentativeTransactionsComponent {
 
   isLoaderActive = false;
 
-  constructor(private transactionService: TransactionsService, private sms: SmsService, private loggerService: LoggerService) { }
+  constructor(private transactionService: TransactionsService, public sms: SmsService, private loggerService: LoggerService) { }
 
   ngOnInit(): void {
     this.loadTentative();
   }
 
-  async loadTentative() {
+  loadTentative() {
     if (Capacitor.getPlatform() !== 'web'){
-      this.isLoaderActive = true
-      this.tentativeTransactions = await this.sms.readMessages();
-      this.loggerService.log(this.tentativeTransactions.length);
-      this.isLoaderActive = false;
+      this.isLoaderActive = true;
+      setTimeout(async () => {
+        this.tentativeTransactions = await this.sms.readMessages();
+        this.loggerService.log(this.tentativeTransactions.length);
+        this.isLoaderActive = false;
+      }, 100);
     }
     else
       this.tentativeTransactions = [
@@ -84,13 +87,23 @@ export class TentativeTransactionsComponent {
       return;
     }
 
-    const transaction = {
+    const transaction: Transaction = {
+      id: generateHexId(16),
       amount: values.type === 'debit' ? -Math.abs(values.amount) : Math.abs(values.amount),
       description: values.description,
-      transactionType: values.type
+      transactionType: values.type,
+      date: tentative.date,
+      source: 'phoneMessage',
+      tentative
     };
 
-    this.transactionService.confirmTentative(tentative.id.toString(), transaction);
+    this.transactionService.confirmTentative(tentative.id, transaction);
+    this.sms.addConfirmedMessageId(tentative.id);
+    this.loadTentative();
+  }
+
+  delete(tentative: ITentativeTransaction) {
+    this.sms.addDeletedMessageId(tentative.id);
     this.loadTentative();
   }
 }
