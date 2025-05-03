@@ -97,7 +97,7 @@ export class TentativeTransactionsComponent {
       tentative
     };
 
-    this.transactionService.confirmTentative(tentative.id, transaction);
+    this.transactionService.addTransaction(transaction, tentative.id);
     this.sms.addConfirmedMessageId(tentative.id);
     this.loadTentative();
   }

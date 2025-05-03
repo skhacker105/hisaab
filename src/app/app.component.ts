@@ -41,6 +41,8 @@ export class AppComponent {
   }
 
   onFilterChange() {
+    this.year = +this.year;
+    this.month = +this.month;
     this.filterService.setYear(this.year);
     this.filterService.setMonth(this.month);
   }

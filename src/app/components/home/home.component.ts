@@ -1,19 +1,23 @@
-import { Component } from '@angular/core';
-import { FilterService, TransactionsService } from '../../services';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { FilterService, SmsService, TransactionsService } from '../../services';
 import { MatDialog } from '@angular/material/dialog';
 import { SmsDetailsDialogComponent } from '../';
+import { Transaction } from '../../interfaces';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'
 })
-export class HomeComponent {
-  transactions: any[] = [];
+export class HomeComponent implements OnInit, OnDestroy {
+  transactions: Transaction[] = [];
   monthlyExpenditure = 0;
   yearlyExpenditure = 0;
   year!: number;
   month!: number;
+
+  isComponentActive = new Subject<boolean>();
 
   get monthName(): string {
     return this.filterService.months.find(m => m.value == this.month)?.name ?? '';
@@ -22,19 +26,35 @@ export class HomeComponent {
   constructor(
     private transactionService: TransactionsService,
     private filterService: FilterService,
-    private dialog: MatDialog
-  ) {}
+    private dialog: MatDialog,
+    private sms: SmsService
+  ) { }
 
   ngOnInit(): void {
-    this.filterService.year$.subscribe(year => {
-      this.year = year;
-      this.loadTransactions();
-    });
+    this.filterService.year$
+      .pipe(takeUntil(this.isComponentActive))
+      .subscribe(year => {
+        this.year = year;
+        this.loadTransactions();
+      });
 
-    this.filterService.month$.subscribe(month => {
-      this.month = month;
+    this.filterService.month$
+      .pipe(takeUntil(this.isComponentActive))
+      .subscribe(month => {
+        this.month = month;
+        this.loadTransactions();
+      });
+
+    this.transactionService.transactionsChanged
+    .pipe(takeUntil(this.isComponentActive))
+    .subscribe(transactions => {
       this.loadTransactions();
     });
+  }
+
+  ngOnDestroy(): void {
+    this.isComponentActive.next(true);
+    this.isComponentActive.complete();
   }
 
   loadTransactions() {
@@ -52,7 +72,7 @@ export class HomeComponent {
       .reduce((sum, t) => sum + Math.abs(t.amount), 0);
   }
 
-  showSmsSourceDetails(transaction: any) {
+  showSmsSourceDetails(transaction: Transaction) {
     const smsDetails = this.transactionService.getMessageDetailsByTransactionId(transaction.id);
     if (smsDetails) {
       this.dialog.open(SmsDetailsDialogComponent, {
@@ -60,5 +80,14 @@ export class HomeComponent {
         width: '400px'
       });
     }
+  }
+
+  deleteTransaction(transaction: Transaction) {
+    const confirmDelete = confirm('Are you sure to delete this transaction?');
+    if (!confirmDelete) return;
+
+    this.transactionService.removeTransaction(transaction);
+    if (transaction.tentative)
+      this.sms.removeConfirmedMessageId(transaction.tentative.id);
   }
 }

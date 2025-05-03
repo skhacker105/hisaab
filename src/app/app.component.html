@@ -5,7 +5,7 @@
 
     <div class="custom-select-wrapper">
       <select id="year-select" [(ngModel)]="year" (change)="onFilterChange()">
-        <option *ngFor="let y of years" [value]="y" [ngClass]="{ 'current-year': y == currentYear }">
+        <option *ngFor="let y of years" [value]="+y" [ngClass]="{ 'current-year': y == currentYear }">
           {{ y }}
         </option>
       </select>

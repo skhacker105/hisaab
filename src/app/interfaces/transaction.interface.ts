@@ -7,7 +7,6 @@ export interface Transaction {
     transactionType: 'credit' | 'debit';
     date: string;
     sourceMessageId?: string;
-    isTentative?: boolean;
     source: 'manual' | 'phoneMessage';
     tentative?: ITentativeTransaction
 

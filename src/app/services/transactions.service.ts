@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Transaction } from '../interfaces';
+import { Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -7,6 +8,7 @@ import { Transaction } from '../interfaces';
 export class TransactionsService {
   private storageKey = 'transactions';
   private transactions: Transaction[] = [];
+  transactionsChanged = new Subject<Transaction[]>();
 
   constructor() {
     const saved = localStorage.getItem(this.storageKey);
@@ -38,26 +40,22 @@ export class TransactionsService {
     return this.transactions.filter(t => new Date(t.date).getFullYear() === year);
   }
 
-  addTransaction(transaction: Transaction): void {
-    this.transactions.push(transaction);
-    this.save();
-  }
-
-  addTentativeTransactions(transactions: Transaction[]): void {
-    transactions.forEach(t => {
-      if (!this.transactions.some(existing => existing.sourceMessageId === t.sourceMessageId)) {
-        this.transactions.push(t);
-      }
-    });
-    this.save();
-  }
-
-  confirmTentative(tentativeId: string, confirmedData: Transaction): void {
-    const old = this.transactions.find(t => t.tentative?.id === tentativeId);
+  addTransaction(transactionData: Transaction, tentativeId?: string): void {
+    const old = tentativeId ? this.transactions.find(t => t.tentative?.id === tentativeId) : undefined;
     if (!old) {
-      this.transactions.push(confirmedData);
+      this.transactions.push(transactionData);
+      this.transactionsChanged.next(this.transactions);
       this.save();
     }
+  }
+
+  removeTransaction(transactionData: Transaction) {
+    const index = this.transactions.findIndex(t => t.id === transactionData.id);
+    if (index === -1) return;
+
+    this.transactions.splice(index, 1);
+    this.transactionsChanged.next(this.transactions);
+    this.save();
   }
 
   getMessageDetailsByTransactionId(transactionId: string): Transaction | undefined {

@@ -16,10 +16,14 @@
       <span class="amount" [ngClass]="{ credit: t.amount > 0, debit: t.amount < 0 }">
         ₹{{ t.amount | number:'1.2-2' }}
       </span>
-      <span class="date">{{ t.timestamp | date: 'mediumDate' }}</span>
+      <span class="date">{{ t.date | date: 'mediumDate' }}</span>
     </div>
     <div class="description">{{ t.description }}</div>
-    <div class="source-icon" *ngIf="t.source === 'sms'" (click)="showSmsSourceDetails(t)">
+    
+    <div class="delete-icon" (click)="deleteTransaction(t)">
+      <mat-icon>delete</mat-icon>
+    </div>
+    <div class="source-icon" *ngIf="t.source === 'phoneMessage'" (click)="showSmsSourceDetails(t)">
       <mat-icon>message</mat-icon>
     </div>
   </mat-card>

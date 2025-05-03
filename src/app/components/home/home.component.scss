@@ -65,10 +65,18 @@
   color: #555;
 }
 
+.delete-icon {
+  position: absolute;
+  bottom: 0px;
+  right: 8px;
+  cursor: pointer;
+  color: #c46a7c;
+}
+
 .source-icon {
   position: absolute;
-  top: 8px;
-  right: 8px;
+  bottom: 0px;
+  right: 50px;
   cursor: pointer;
   color: #1976d2;
 }
