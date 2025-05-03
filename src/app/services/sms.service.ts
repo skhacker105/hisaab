@@ -61,6 +61,8 @@ export class SmsService {
   private extractTransaction(msg: MessageObject): ITentativeTransaction | null {
     const content = msg.body;
   
+    if (!this.isTransactionMessage(content)) return null;
+  
     const amounts = this.extractCurrencyAmounts(content);
     if (amounts.length === 0) return null;
   
@@ -74,6 +76,26 @@ export class SmsService {
       possibleDescriptions: [description],
     };
   }
+  
+
+  private isTransactionMessage(content: string): boolean {
+    const keywords = [
+      'sent', 'received', 'credited', 'debited', 'deposited',
+      'paid', 'withdrawn', 'payment', 'transfer', 'transferred',
+      'purchase', 'purchased', 'successfully', 'transaction', 'added'
+    ];
+  
+    const accountKeywords = [
+      'a/c', 'account', 'bank', 'upi', 'imps', 'neft', 'rtgs', 'via', 'to', 'from'
+    ];
+  
+    const lowerContent = content.toLowerCase();
+    const hasKeyword = keywords.some(k => lowerContent.includes(k));
+    const hasAccountContext = accountKeywords.some(k => lowerContent.includes(k));
+  
+    return hasKeyword && hasAccountContext;
+  }
+  
   
   private extractCurrencyAmounts(content: string): number[] {
     const currencyRegex = new RegExp(
@@ -89,22 +111,35 @@ export class SmsService {
     const keywords = [
       'sent', 'received', 'credited', 'debited', 'paid',
       'withdrawn', 'deposited', 'transfer', 'transferred',
-      'purchase', 'purchased', 'recharged', 'payment'
+      'purchase', 'purchased', 'recharged', 'added'
     ];
   
     const lowerContent = content.toLowerCase();
     const keyword = keywords.find(k => lowerContent.includes(k));
   
-    if (!keyword) {
-      return content.slice(0, 50);
+    // Look for phrases like 'to <person>', 'at <merchant>', 'for <purpose>'
+    const postContextRegex = /\b(?:to|at|for)\s+([A-Za-z0-9 &.-]{2,40})/i;
+    const postContextMatch = content.match(postContextRegex);
+  
+    if (postContextMatch) {
+      return `${postContextMatch[0]}`.trim();
     }
   
-    const contextRegex = new RegExp(
-      `(?:.{0,30})(${keyword}[^.!\n]{0,100})`,
-      'i'
-    );
-    const match = content.match(contextRegex);
-    return match?.[1]?.trim() || content.slice(0, 50);
+    // Fallback: capture sentence starting from keyword
+    if (keyword) {
+      const keywordRegex = new RegExp(
+        `(?:.{0,30})(${keyword}[^.!\n]{0,100})`,
+        'i'
+      );
+      const keywordMatch = content.match(keywordRegex);
+      if (keywordMatch?.[1]) {
+        return keywordMatch[1].trim();
+      }
+    }
+  
+    // Fallback: first 50 characters
+    return content.slice(0, 50).trim();
   }
+  
   
 }
