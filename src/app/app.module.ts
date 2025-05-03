@@ -15,9 +15,10 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatTabsModule } from '@angular/material/tabs';
 
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
-import { MatTabsModule } from '@angular/material/tabs';
 import { AndroidPermissions } from '@awesome-cordova-plugins/android-permissions/ngx';
 
 @NgModule({
@@ -41,7 +42,8 @@ import { AndroidPermissions } from '@awesome-cordova-plugins/android-permissions
     MatChipsModule,
     MatDialogModule,
     MatButtonToggleModule,
-    MatTabsModule
+    MatTabsModule,
+    MatProgressSpinnerModule
   ],
   providers: [
     provideAnimationsAsync(),

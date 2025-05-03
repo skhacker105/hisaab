@@ -19,6 +19,8 @@ export class TentativeTransactionsComponent {
     };
   } = {};
 
+  isLoaderActive = false;
+
   constructor(private transactionService: TransactionsService, private sms: SmsService, private loggerService: LoggerService) { }
 
   ngOnInit(): void {
@@ -27,15 +29,17 @@ export class TentativeTransactionsComponent {
 
   async loadTentative() {
     if (Capacitor.getPlatform() !== 'web'){
+      this.isLoaderActive = true
       this.tentativeTransactions = await this.sms.readMessages();
       this.loggerService.log(this.tentativeTransactions.length);
+      this.isLoaderActive = false;
     }
     else
       this.tentativeTransactions = [
         {
           id: '1',
           date: new Date().toString(),
-          body: 'Your a/c XXXXX1234 is credited with Rs. 5000 on 01-Jan-2025. Avl bal: Rs. 15000',
+          body: 'Your a/c XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX1234 is credited with Rs. 5000 on 01-Jan-2025. Avl bal: Rs. 15000',
           possibleAmounts: [5000, 4999.99],
           possibleDescriptions: ['Salary', 'January Payment']
         },
