@@ -5,6 +5,7 @@ export interface Transaction {
     amount: number;
     description: string;
     transactionType: 'credit' | 'debit';
+    category?: string;
     date: string;
     sourceMessageId?: string;
     source: 'manual' | 'phoneMessage';

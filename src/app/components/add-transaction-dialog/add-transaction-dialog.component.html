@@ -1,61 +1,80 @@
 <div class="transaction-dialog">
-    <h2 class="dialog-title">Add Transaction</h2>
-  
-    <div class="dialog-content">
-      <div class="form-field">
-        <label for="amount">Amount</label>
-        <div class="input-prefix-wrapper">
-          <span class="prefix">$</span>
-          <input
-            id="amount"
-            type="number"
-            [(ngModel)]="amount"
-            placeholder="Enter amount"
-          />
+  <h2 class="dialog-title">Add Transaction</h2>
+
+  <div class="dialog-content">
+    <div class="form-field">
+      <label for="amount">Amount</label>
+      <div class="input-prefix-wrapper">
+        <span class="prefix">$</span>
+        <input id="amount" type="number" [(ngModel)]="amount" placeholder="Enter amount" />
+      </div>
+    </div>
+
+    <div class="form-field">
+      <label for="description">Description</label>
+      <textarea id="description" rows="2" [(ngModel)]="description" placeholder="Enter description"></textarea>
+    </div>
+
+    <div class="toggle-section">
+      <div class="toggle-group-label">Transaction Type</div>
+      <div class="toggle-group">
+        <button type="button" class="toggle-option" [class.active]="transactionType === 'credit'"
+          (click)="transactionType = 'credit'">
+          <span class="material-icons">arrow_downward</span>
+          Income
+        </button>
+        <button type="button" class="toggle-option" [class.active]="transactionType === 'debit'"
+          (click)="transactionType = 'debit'">
+          <span class="material-icons">arrow_upward</span>
+          Expense
+        </button>
+      </div>
+    </div>
+
+    <div class="category-section">
+      <input type="text" [(ngModel)]="searchTerm" placeholder="Search category or division" class="search-input" />
+
+      <!-- Search results -->
+      <div *ngIf="searchTerm && filteredCategories.length > 0" class="search-results">
+        <div *ngFor="let cat of filteredCategories" class="search-category-block">
+          <div class="search-category-name">{{ cat.category }}</div>
+          <div class="division-group">
+            <button *ngFor="let div of cat.divisions" type="button" class="division-option"
+              [class.selected]="isSelected(div)" (click)="selectDivision(div)">
+              {{ div }}
+            </button>
+          </div>
         </div>
       </div>
-  
-      <div class="form-field">
-        <label for="description">Description</label>
-        <textarea
-          id="description"
-          rows="2"
-          [(ngModel)]="description"
-          placeholder="Enter description"
-        ></textarea>
-      </div>
-  
-      <div class="toggle-section">
-        <div class="toggle-group-label">Transaction Type</div>
-        <div class="toggle-group">
-          <button
-            type="button"
-            class="toggle-option"
-            [class.active]="transactionType === 'credit'"
-            (click)="transactionType = 'credit'"
-          >
-            <span class="material-icons">arrow_downward</span>
-            Income
+
+      <!-- Tabs when no search -->
+      <div *ngIf="!searchTerm">
+        <div class="tab-header">
+          <button *ngFor="let cat of categories; let i = index" type="button" class="tab-button"
+            [class.active]="i === selectedTabIndex" (click)="selectedTabIndex = i">
+            {{ cat.category }}
           </button>
-          <button
-            type="button"
-            class="toggle-option"
-            [class.active]="transactionType === 'debit'"
-            (click)="transactionType = 'debit'"
-          >
-            <span class="material-icons">arrow_upward</span>
-            Expense
-          </button>
+        </div>
+
+        <div class="tab-content">
+          <div class="division-group">
+            <button *ngFor="let div of categories[selectedTabIndex].divisions" type="button" class="division-option"
+              [class.selected]="isSelected(div)" (click)="selectDivision(div)">
+              {{ div }}
+            </button>
+          </div>
         </div>
       </div>
     </div>
-  
-    <div class="dialog-actions">
-      <button class="cancel-button" (click)="close()">Cancel</button>
-      <button class="save-button" (click)="save()">
-        <span class="material-icons">save</span>
-        Save
-      </button>
-    </div>
+
+
   </div>
-  
+
+  <div class="dialog-actions">
+    <button class="cancel-button" (click)="close()">Cancel</button>
+    <button class="save-button" (click)="save()">
+      <span class="material-icons">save</span>
+      Save
+    </button>
+  </div>
+</div>
