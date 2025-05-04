@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FilterService, LoggerService, SmsService, ToastService, TransactionsService } from '../../services';
 import { ITentativeTransaction, Transaction } from '../../interfaces';
 import { Capacitor } from '@capacitor/core';
@@ -14,6 +14,9 @@ import { tempTentativeTransaction } from '../../configs';
   styleUrl: './tentative-transactions.component.scss'
 })
 export class TentativeTransactionsComponent implements OnInit, OnDestroy {
+
+  @Input() hideTitile = false;
+
   tentativeTransactions: ITentativeTransaction[] = [];
 
   selectedValues: {

@@ -1,9 +1,13 @@
-:host {
-  display: block;
-  background-color: #ffffff;
-  color: #000000;
+.home-container {
   padding: 16px;
-  font-family: 'Segoe UI', sans-serif;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  height: calc(100% - 32px);
+
+  .summary-row {
+    padding: 16px;
+  }
 }
 
 .summary-row {
@@ -32,6 +36,8 @@
 .transaction-list {
   display: flex;
   flex-direction: column;
+  flex: 1 auto;
+  overflow: scroll;
 }
 
 .transaction-card {
@@ -96,12 +102,6 @@
   color: #00796b;
 }
 
-
-.home-container {
-  padding: 16px;
-  color: #fff;
-  background-color: #121212;
-}
 
 .summary {
   margin-bottom: 24px;

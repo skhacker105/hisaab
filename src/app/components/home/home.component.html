@@ -1,47 +1,51 @@
-<div class="summary-row">
-  <mat-card class="summary-card year">
-    <mat-card-title class="summary-title">{{year}} Spending</mat-card-title>
-    <mat-card-content>₹{{ yearlyExpenditure | number:'1.2-2' }}</mat-card-content>
-  </mat-card>
+<div class="home-container">
+  <div class="summary-row">
+    <mat-card class="summary-card year">
+      <mat-card-title class="summary-title">{{year}} Spending</mat-card-title>
+      <mat-card-content>₹{{ yearlyExpenditure | number:'1.2-2' }}</mat-card-content>
+    </mat-card>
 
-  <mat-card class="summary-card month">
-    <mat-card-title class="summary-title">{{year}} {{monthName}} Spending</mat-card-title>
-    <mat-card-content>₹{{ monthlyExpenditure | number:'1.2-2' }}</mat-card-content>
-  </mat-card>
+    <mat-card class="summary-card month">
+      <mat-card-title class="summary-title">{{year}} {{monthName}} Spending</mat-card-title>
+      <mat-card-content>₹{{ monthlyExpenditure | number:'1.2-2' }}</mat-card-content>
+    </mat-card>
+  </div>
+
+  <div class="transaction-list">
+    <mat-card *ngFor="let t of transactions" class="transaction-card">
+      <div class="transaction-content">
+        <div class="left-icon">
+          <mat-icon>{{ getTransactionCategoryIcon(t) }}</mat-icon>
+        </div>
+
+        <div class="right-details">
+          <div class="transaction-header">
+            <span class="amount" [ngClass]="{ credit: t.amount > 0, debit: t.amount < 0 }">
+              ₹{{ t.amount | number:'1.2-2' }}
+            </span>
+            <span class="date">{{ t.date | date: 'mediumDate' }}</span>
+          </div>
+
+          <div class="description">{{ t.description }}</div>
+        </div>
+
+        <div class="right-icon">
+          <div class="source-icon" *ngIf="t.source === 'phoneMessage'" (click)="showSmsSourceDetails(t)">
+            <mat-icon>message</mat-icon>
+          </div>
+          <div class="delete-icon" (click)="deleteTransaction(t)">
+            <mat-icon>delete</mat-icon>
+          </div>
+        </div>
+
+      </div>
+    </mat-card>
+
+  </div>
+
+  <div class="transaction-list">
+    <ng-container *ngIf="showTentativeTransaction">
+      <app-tentative-transactions [hideTitile]="true"></app-tentative-transactions>
+    </ng-container>
+  </div>
 </div>
-
-<div class="transaction-list">
-  <mat-card *ngFor="let t of transactions" class="transaction-card">
-    <div class="transaction-content">
-      <div class="left-icon">
-        <mat-icon>{{ getTransactionCategoryIcon(t) }}</mat-icon>
-      </div>
-  
-      <div class="right-details">
-        <div class="transaction-header">
-          <span class="amount" [ngClass]="{ credit: t.amount > 0, debit: t.amount < 0 }">
-            ₹{{ t.amount | number:'1.2-2' }}
-          </span>
-          <span class="date">{{ t.date | date: 'mediumDate' }}</span>
-        </div>
-  
-        <div class="description">{{ t.description }}</div>
-      </div>
-
-      <div class="right-icon">
-        <div class="source-icon" *ngIf="t.source === 'phoneMessage'" (click)="showSmsSourceDetails(t)">
-          <mat-icon>message</mat-icon>
-        </div>
-        <div class="delete-icon" (click)="deleteTransaction(t)">
-          <mat-icon>delete</mat-icon>
-        </div>
-      </div>
-  
-    </div>
-  </mat-card>
-  
-</div>
-
-<ng-container *ngIf="showTentativeTransaction">
-  <app-tentative-transactions></app-tentative-transactions>
-</ng-container>

@@ -1,96 +1,101 @@
-<h2 class="page-title">Tentative Transactions</h2>
+<div class="tentaive-container">
+  <h2 class="page-title" *ngIf="!hideTitile">Tentative Transactions</h2>
 
-<div *ngIf="tentativeTransactions.length === 0 && !isLoaderActive" class="empty-state">
-  No tentative transactions found.
-</div>
-
-<ng-container *ngFor="let t of tentativeTransactions; let i = index;">
-
-  <div class="tentative-card" [attr.id]="'tentative-transaction-' + t.id">
-
-    <div class="transaction-date">
-      <div class="date">
-        {{ t.date | date:'mediumDate' }}
-      </div>
-      <div class="spacer"></div>
-      <div class="message-index">
-        {{ i + 1 }} / {{ tentativeTransactions.length }}
-      </div>
-    </div>
-
-    <div class="sms-body">{{ t.body }}</div>
-
-    <!-- Amount Chips -->
-    <div class="chip-group">
-      <label>Amounts:</label>
-      <div class="chip-options">
-        <div *ngFor="let amt of t.possibleAmounts" class="chip" [class.selected]="selectedValues[t.id]?.amount === amt"
-          (click)="selectValue(t.id.toString(), 'amount', amt)">
-          ₹{{ amt }}
-        </div>
-      </div>
-      <input type="number" placeholder="Or enter manually" class="manual-input"
-        (input)="handleAmountInput($event, t.id.toString())" />
-    </div>
-
-    <!-- Description Chips -->
-    <div class="chip-group">
-      <label>Descriptions:</label>
-      <div class="chip-options">
-        <div *ngFor="let desc of t.possibleDescriptions" class="chip"
-          [class.selected]="selectedValues[t.id]?.description === desc"
-          (click)="selectValue(t.id.toString(), 'description', desc)">
-          {{ desc }}
-        </div>
-      </div>
-      <input type="text" placeholder="Or enter manually" class="manual-input"
-        (input)="handleDescriptionInput($event, t.id.toString())" />
-    </div>
-
-    <!-- Type Chips -->
-    <div class="chip-group">
-      <label>Type:</label>
-      <div class="chip-options">
-        <div class="chip credit" [class.selected]="selectedValues[t.id]?.type === 'credit'"
-          (click)="selectValue(t.id.toString(), 'type', 'credit')">
-          Credit
-        </div>
-        <div class="chip debit" [class.selected]="selectedValues[t.id]?.type === 'debit'"
-          (click)="selectValue(t.id.toString(), 'type', 'debit')">
-          Debit
-        </div>
-      </div>
-    </div>
-
-    <!-- Category -->
-    <div class="division-select-row">
-      <label>Category:</label>
-      <div class="division-select-inline">
-        <button class="division-select-button" (click)="openDivisionSelector(t.id)">
-          Choose
-        </button>
-        <div *ngIf="selectedValues[t.id]?.category" class="selected-division">
-          {{ selectedValues[t.id]?.category }}
-          <span class="clear-icon" (click)="clearDivision(t.id)">×</span>
-        </div>
-      </div>
-    </div>
-
-
-    <div class="actions">
-      <!-- <button class="primary-button delete-button" (click)="remove(t)">Delete</button>
-      <button class="primary-button confirm-button" (click)="confirm(t)">Confirm</button> -->
-      <button mat-icon-button color="warn" (click)="remove(t)" class="action-icon-button delete-red">
-        <mat-icon>delete</mat-icon>
-      </button>
-
-      <button mat-icon-button color="primary" (click)="confirm(t)" class="action-icon-button confirm-green">
-        <mat-icon>check_circle</mat-icon>
-      </button>
-    </div>
-
+  <div *ngIf="tentativeTransactions.length === 0 && !isLoaderActive" class="empty-state">
+    No tentative transactions found.
   </div>
-</ng-container>
+
+  <div class="transaction-container">
+    <ng-container *ngFor="let t of tentativeTransactions; let i = index;">
+
+      <div class="tentative-card" [attr.id]="'tentative-transaction-' + t.id">
+
+        <div class="transaction-date">
+          <div class="date">
+            {{ t.date | date:'mediumDate' }}
+          </div>
+          <div class="spacer"></div>
+          <div class="message-index">
+            {{ i + 1 }} / {{ tentativeTransactions.length }}
+          </div>
+        </div>
+
+        <div class="sms-body">{{ t.body }}</div>
+
+        <!-- Amount Chips -->
+        <div class="chip-group">
+          <label>Amounts:</label>
+          <div class="chip-options">
+            <div *ngFor="let amt of t.possibleAmounts" class="chip"
+              [class.selected]="selectedValues[t.id]?.amount === amt"
+              (click)="selectValue(t.id.toString(), 'amount', amt)">
+              ₹{{ amt }}
+            </div>
+          </div>
+          <input type="number" placeholder="Or enter manually" class="manual-input"
+            (input)="handleAmountInput($event, t.id.toString())" />
+        </div>
+
+        <!-- Description Chips -->
+        <div class="chip-group">
+          <label>Descriptions:</label>
+          <div class="chip-options">
+            <div *ngFor="let desc of t.possibleDescriptions" class="chip"
+              [class.selected]="selectedValues[t.id]?.description === desc"
+              (click)="selectValue(t.id.toString(), 'description', desc)">
+              {{ desc }}
+            </div>
+          </div>
+          <input type="text" placeholder="Or enter manually" class="manual-input"
+            (input)="handleDescriptionInput($event, t.id.toString())" />
+        </div>
+
+        <!-- Type Chips -->
+        <div class="chip-group">
+          <label>Type:</label>
+          <div class="chip-options">
+            <div class="chip credit" [class.selected]="selectedValues[t.id]?.type === 'credit'"
+              (click)="selectValue(t.id.toString(), 'type', 'credit')">
+              Credit
+            </div>
+            <div class="chip debit" [class.selected]="selectedValues[t.id]?.type === 'debit'"
+              (click)="selectValue(t.id.toString(), 'type', 'debit')">
+              Debit
+            </div>
+          </div>
+        </div>
+
+        <!-- Category -->
+        <div class="division-select-row">
+          <label>Category:</label>
+          <div class="division-select-inline">
+            <button class="division-select-button" (click)="openDivisionSelector(t.id)">
+              Choose
+            </button>
+            <div *ngIf="selectedValues[t.id]?.category" class="selected-division">
+              {{ selectedValues[t.id]?.category }}
+              <span class="clear-icon" (click)="clearDivision(t.id)">×</span>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="actions">
+          <!-- <button class="primary-button delete-button" (click)="remove(t)">Delete</button>
+      <button class="primary-button confirm-button" (click)="confirm(t)">Confirm</button> -->
+          <button mat-icon-button color="warn" (click)="remove(t)" class="action-icon-button delete-red">
+            <mat-icon>delete</mat-icon>
+          </button>
+
+          <button mat-icon-button color="primary" (click)="confirm(t)" class="action-icon-button confirm-green">
+            <mat-icon>check_circle</mat-icon>
+          </button>
+        </div>
+
+      </div>
+    </ng-container>
+  </div>
+</div>
 
 <div class="spinner-container" *ngIf="isLoaderActive">
   <mat-spinner></mat-spinner>
