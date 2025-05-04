@@ -26,7 +26,8 @@ export class AddTransactionDialogComponent {
     return this.categories
       .map(c => ({
         category: c.category,
-        divisions: c.divisions.filter(d => d.toLowerCase().includes(lower) || c.category.toLowerCase().includes(lower))
+        divisions: c.divisions.filter(d => d.toLowerCase().includes(lower) || c.category.toLowerCase().includes(lower)),
+        matIcon: c.matIcon
       }))
       .filter(c => c.divisions.length > 0);
   }

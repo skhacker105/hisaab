@@ -6,7 +6,7 @@
 
 <ng-container *ngFor="let t of tentativeTransactions">
 
-  <div *ngIf="!sms.confirmedMessageIds.has(t.id) && !sms.deletedMessagesIds.has(t.id)" class="tentative-card">
+  <div class="tentative-card">
 
     <div class="sms-body">{{ t.body }}</div>
 
@@ -51,6 +51,21 @@
         </div>
       </div>
     </div>
+
+    <!-- Category -->
+    <div class="division-select-row">
+      <label>Category:</label>
+      <div class="division-select-inline">
+        <button class="division-select-button" (click)="openDivisionSelector(t.id)">
+          Choose
+        </button>
+        <div *ngIf="selectedValues[t.id]?.category" class="selected-division">
+          {{ selectedValues[t.id]?.category }}
+          <span class="clear-icon" (click)="clearDivision(t.id)">×</span>
+        </div>
+      </div>
+    </div>
+    
 
     <div class="actions">
       <button class="primary-button delete-button" (click)="delete(t)">Delete</button>

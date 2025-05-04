@@ -3,6 +3,9 @@ import { LoggerService, SmsService, TransactionsService } from '../../services';
 import { ITentativeTransaction, Transaction } from '../../interfaces';
 import { Capacitor } from '@capacitor/core';
 import { generateHexId } from '../../utils';
+import { MatDialog } from '@angular/material/dialog';
+import { DivisionSelectorDialogComponent } from '../division-selector-dialog/division-selector-dialog.component';
+import { take } from 'rxjs';
 
 @Component({
   selector: 'app-tentative-transactions',
@@ -17,28 +20,31 @@ export class TentativeTransactionsComponent {
       amount?: number;
       description?: string;
       type?: 'credit' | 'debit';
+      category?: string;
     };
   } = {};
 
   isLoaderActive = false;
 
-  constructor(private transactionService: TransactionsService, public sms: SmsService, private loggerService: LoggerService) { }
+  constructor(private transactionService: TransactionsService, public sms: SmsService, private loggerService: LoggerService,
+    private dialog: MatDialog) { }
 
   ngOnInit(): void {
     this.loadTentative();
   }
 
   loadTentative() {
-    if (Capacitor.getPlatform() !== 'web'){
+    if (Capacitor.getPlatform() !== 'web') {
       this.isLoaderActive = true;
       setTimeout(async () => {
-        this.tentativeTransactions = await this.sms.readMessages();
+        const tentativeTransactions = await this.sms.readMessages();
+        this.tentativeTransactions = this.filterByState(tentativeTransactions);
         this.loggerService.log(this.tentativeTransactions.length);
         this.isLoaderActive = false;
       }, 100);
     }
-    else
-      this.tentativeTransactions = [
+    else {
+      const tentativeTransactions: ITentativeTransaction[] = [
         {
           id: '1',
           date: new Date().toString(),
@@ -61,9 +67,15 @@ export class TentativeTransactionsComponent {
           possibleDescriptions: ['UPI Transfer', 'Friend Payback']
         }
       ];
+      this.tentativeTransactions = this.filterByState(tentativeTransactions);
+    }
   }
 
-  selectValue(id: string, key: 'amount' | 'description' | 'type', value: any) {
+  filterByState(tentativeTransactions: ITentativeTransaction[]): ITentativeTransaction[] {
+    return tentativeTransactions.filter(t => !this.sms.confirmedMessageIds.has(t.id) && !this.sms.deletedMessagesIds.has(t.id))
+  }
+
+  selectValue(id: string, key: 'amount' | 'description' | 'type' | 'category', value: any) {
     if (!this.selectedValues[id]) {
       this.selectedValues[id] = {};
     }
@@ -83,7 +95,7 @@ export class TentativeTransactionsComponent {
   confirm(tentative: ITentativeTransaction) {
     const values = this.selectedValues[tentative.id] || {};
     if (!values.amount || !values.description || !values.type) {
-      alert('Please complete amount, description, and type.');
+      alert('Please fill Amount, Description, and Type.');
       return;
     }
 
@@ -94,7 +106,8 @@ export class TentativeTransactionsComponent {
       transactionType: values.type,
       date: tentative.date,
       source: 'phoneMessage',
-      tentative
+      tentative,
+      category: values.category
     };
 
     this.transactionService.addTransaction(transaction, tentative.id);
@@ -106,4 +119,30 @@ export class TentativeTransactionsComponent {
     this.sms.addDeletedMessageId(tentative.id);
     this.loadTentative();
   }
+
+  openDivisionSelector(tid: string) {
+    const dialogRef = this.dialog.open(DivisionSelectorDialogComponent, {
+      width: '90vw',
+      maxHeight: '80vh',
+      data: {
+        selected: this.selectedValues[tid]?.category || ''
+      },
+      autoFocus: false,
+      panelClass: 'category-dialog'
+    });
+
+    dialogRef.afterClosed().pipe(take(1)).subscribe(result => {
+      if (result) {
+        if (!this.selectedValues[tid]) this.selectedValues[tid] = {};
+        this.selectedValues[tid].category = result;
+      }
+    });
+  }
+
+  clearDivision(id: string) {
+    if (this.selectedValues[id]) {
+      delete this.selectedValues[id].category;
+    }
+  }
+
 }

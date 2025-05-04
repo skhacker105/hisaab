@@ -20,6 +20,7 @@ import { MatTabsModule } from '@angular/material/tabs';
 
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { AndroidPermissions } from '@awesome-cordova-plugins/android-permissions/ngx';
+import { DivisionSelectorDialogComponent } from './components/division-selector-dialog/division-selector-dialog.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { AndroidPermissions } from '@awesome-cordova-plugins/android-permissions
     HomeComponent,
     TentativeTransactionsComponent,
     AddTransactionDialogComponent,
-    SmsDetailsDialogComponent
+    SmsDetailsDialogComponent,
+    DivisionSelectorDialogComponent
   ],
   imports: [
     FormsModule,

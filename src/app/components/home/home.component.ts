@@ -4,6 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { SmsDetailsDialogComponent } from '../';
 import { Transaction } from '../../interfaces';
 import { Subject, takeUntil } from 'rxjs';
+import { TransactionCategories } from '../../configs';
 
 @Component({
   selector: 'app-home',
@@ -16,6 +17,8 @@ export class HomeComponent implements OnInit, OnDestroy {
   yearlyExpenditure = 0;
   year!: number;
   month!: number;
+
+  transactionCategories = TransactionCategories;
 
   isComponentActive = new Subject<boolean>();
 
@@ -89,5 +92,14 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.transactionService.removeTransaction(transaction);
     if (transaction.tentative)
       this.sms.removeConfirmedMessageId(transaction.tentative.id);
+  }
+
+  getTransactionCategoryIcon(transaction: Transaction): string | undefined {
+    if (!transaction.category) return;
+
+    const category = this.transactionCategories.find(t => transaction.category && t.divisions.includes(transaction.category));
+    if (!category) return;
+
+    return category.matIcon;
   }
 }

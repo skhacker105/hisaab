@@ -1,0 +1,27 @@
+<div class="category-container">
+    <div class="flex">
+        <h3>Select Division</h3>
+        <div class="spacer"></div>
+        <mat-icon (click)="dialogRef.close()">
+            close
+        </mat-icon>
+    </div>
+
+    <input type="text" class="search-bar" placeholder="Search division or category" [(ngModel)]="searchText"
+        (input)="filter()" />
+
+    <div class="category-list" *ngIf="filteredCategories.length > 0">
+        <div class="category-block" *ngFor="let cat of filteredCategories">
+            <div class="category-name">{{ cat.category }}</div>
+            <div class="division-options">
+                <div class="division-chip" *ngFor="let div of cat.divisions" (click)="select(div)">
+                    {{ div }}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="no-results" *ngIf="filteredCategories.length === 0">
+        No matching divisions.
+    </div>
+</div>
