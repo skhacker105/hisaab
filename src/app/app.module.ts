@@ -21,6 +21,8 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { AndroidPermissions } from '@awesome-cordova-plugins/android-permissions/ngx';
 import { DivisionSelectorDialogComponent } from './components/division-selector-dialog/division-selector-dialog.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
   declarations: [
@@ -45,7 +47,13 @@ import { DivisionSelectorDialogComponent } from './components/division-selector-
     MatDialogModule,
     MatButtonToggleModule,
     MatTabsModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    BrowserAnimationsModule,
+    ToastrModule.forRoot({
+      positionClass: 'toast-bottom-center',
+      timeOut: 1500,
+      preventDuplicates: true,
+    })
   ],
   providers: [
     provideAnimationsAsync(),

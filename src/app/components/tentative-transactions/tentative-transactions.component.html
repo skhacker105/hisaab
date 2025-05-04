@@ -4,9 +4,19 @@
   No tentative transactions found.
 </div>
 
-<ng-container *ngFor="let t of tentativeTransactions">
+<ng-container *ngFor="let t of tentativeTransactions; let i = index;">
 
-  <div class="tentative-card">
+  <div class="tentative-card" [attr.id]="'tentative-transaction-' + t.id">
+
+    <div class="transaction-date">
+      <div class="date">
+        {{ t.date | date:'mediumDate' }}
+      </div>
+      <div class="spacer"></div>
+      <div class="message-index">
+        {{ i + 1 }} / {{ tentativeTransactions.length }}
+      </div>
+    </div>
 
     <div class="sms-body">{{ t.body }}</div>
 
@@ -68,8 +78,15 @@
 
 
     <div class="actions">
-      <button class="primary-button delete-button" (click)="delete(t)">Delete</button>
-      <button class="primary-button confirm-button" (click)="confirm(t)">Confirm</button>
+      <!-- <button class="primary-button delete-button" (click)="remove(t)">Delete</button>
+      <button class="primary-button confirm-button" (click)="confirm(t)">Confirm</button> -->
+      <button mat-icon-button color="warn" (click)="remove(t)" class="action-icon-button delete-red">
+        <mat-icon>delete</mat-icon>
+      </button>
+
+      <button mat-icon-button color="primary" (click)="confirm(t)" class="action-icon-button confirm-green">
+        <mat-icon>check_circle</mat-icon>
+      </button>
     </div>
 
   </div>

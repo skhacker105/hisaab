@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FilterService, LoggerService, SmsService, TransactionsService } from '../../services';
+import { FilterService, LoggerService, SmsService, ToastService, TransactionsService } from '../../services';
 import { ITentativeTransaction, Transaction } from '../../interfaces';
 import { Capacitor } from '@capacitor/core';
 import { generateHexId } from '../../utils';
@@ -30,7 +30,7 @@ export class TentativeTransactionsComponent implements OnInit, OnDestroy {
   isComponentActive = new Subject<boolean>();
 
   constructor(private transactionService: TransactionsService, public sms: SmsService, private loggerService: LoggerService,
-    private dialog: MatDialog, private filterService: FilterService) { }
+    private dialog: MatDialog, private filterService: FilterService, private toastService: ToastService) { }
 
   ngOnInit(): void {
     merge(this.filterService.year$, this.filterService.month$)
@@ -67,7 +67,7 @@ export class TentativeTransactionsComponent implements OnInit, OnDestroy {
     }
     else {
       const tentativeTransactions: ITentativeTransaction[] = tempTentativeTransaction;
-      interval(3000).pipe(take(1))
+      interval(1000).pipe(take(1))
         .subscribe(() => {
           this.tentativeTransactions = this.filterByState(tentativeTransactions);
 
@@ -104,6 +104,8 @@ export class TentativeTransactionsComponent implements OnInit, OnDestroy {
       return;
     }
 
+    const focusNextTransaction = this.getNextTransactionToFocus(tentative);
+
     const transaction: Transaction = {
       id: generateHexId(16),
       amount: values.type === 'debit' ? -Math.abs(values.amount) : Math.abs(values.amount),
@@ -117,12 +119,48 @@ export class TentativeTransactionsComponent implements OnInit, OnDestroy {
 
     this.transactionService.addTransaction(transaction, tentative.id);
     this.sms.addConfirmedMessageId(tentative.id);
-    this.loadTentative();
+    this.tentativeTransactions = this.filterByState(this.tentativeTransactions);
+    this.toastService.success(`SMS converted to transaction`, 'Transaction Created');
+    if (focusNextTransaction) this.scrollToTransaction(focusNextTransaction.id);
   }
 
-  delete(tentative: ITentativeTransaction) {
+  remove(tentative: ITentativeTransaction) {
+    const confirmDelete = confirm('Are you sure to delete this SMS?');
+    if (!confirmDelete) return;
+
+    const focusNextTransaction = this.getNextTransactionToFocus(tentative);
+    console.log({focusNextTransaction})
+    
     this.sms.addDeletedMessageId(tentative.id);
-    this.loadTentative();
+    this.tentativeTransactions = this.filterByState(this.tentativeTransactions);
+    this.toastService.success(`SMS deleted`);
+    if (focusNextTransaction) this.scrollToTransaction(focusNextTransaction.id);
+  }
+
+  getNextTransactionToFocus(tentative: ITentativeTransaction): ITentativeTransaction | undefined {
+    const index = this.tentativeTransactions.findIndex(t => t.id === tentative.id);
+    if (index === -1) return;
+
+    // check next SMS
+    const nextSms = this.tentativeTransactions[index + 1];
+    if (nextSms) return nextSms;
+
+    // check previous SMS
+    const prevSms = this.tentativeTransactions[index - 1];
+    return prevSms;
+  }
+
+  scrollToTransaction(id: string) {
+    setTimeout(() => {
+      const el = document.getElementById('tentative-transaction-' + id);
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    
+        // Optional: Highlight briefly
+        el.classList.add('highlight');
+        setTimeout(() => el.classList.remove('highlight'), 2000);
+      }
+    }, 500);
   }
 
   openDivisionSelector(tid: string) {

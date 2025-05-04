@@ -1,4 +1,4 @@
-/* You can add global styles to this file, and also import other style files */
+
 
 html,
 body {
@@ -13,4 +13,33 @@ body {
 }
 .spacer {
     flex: 1 auto;
+}
+
+
+.toast-success {
+  background-color: #4caf50 !important;
+  color: white !important;
+  font-family: 'Roboto', sans-serif;
+}
+
+.toast-error {
+  background-color: #d46a6a !important;
+  color: white !important;
+  font-family: 'Roboto', sans-serif;
+}
+
+.toast-info {
+  background-color: #1976d2 !important;
+  color: white !important;
+  font-family: 'Roboto', sans-serif;
+}
+
+.toast-warning {
+  background-color: #fbc02d !important;
+  color: #333 !important;
+  font-family: 'Roboto', sans-serif;
+}
+
+.toast-message {
+  font-size: 14px;
 }

@@ -22,6 +22,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   transactionCategories = TransactionCategories;
 
   isComponentActive = new Subject<boolean>();
+  showTentativeTransaction = false;
 
   get monthName(): string {
     return this.filterService.months.find(m => m.value == this.month)?.name ?? '';
@@ -39,21 +40,21 @@ export class HomeComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.isComponentActive))
       .subscribe(year => {
         this.year = year;
-        this.loadTransactions();
+        this.loadTransactions(true);
       });
 
     this.filterService.month$
       .pipe(takeUntil(this.isComponentActive))
       .subscribe(month => {
         this.month = month;
-        this.loadTransactions();
+        this.loadTransactions(true);
       });
 
     this.transactionService.transactionsChanged
-    .pipe(takeUntil(this.isComponentActive))
-    .subscribe(transactions => {
-      this.loadTransactions();
-    });
+      .pipe(takeUntil(this.isComponentActive))
+      .subscribe(transactions => {
+        this.loadTransactions();
+      });
   }
 
   ngOnDestroy(): void {
@@ -61,11 +62,12 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.isComponentActive.complete();
   }
 
-  loadTransactions() {
+  loadTransactions(showHideTentativeTransactions = false) {
     const allForMonth = this.transactionService.getTransactionsForMonth(this.year, this.month);
     const allForYear = this.transactionService.getTransactionsForYear(this.year);
 
     this.transactions = sortTransactionsByDateDesc(allForMonth);
+    if (showHideTentativeTransactions) this.showHideTentativeTransaction();
 
     this.monthlyExpenditure = allForMonth
       .filter(t => t.amount < 0)
@@ -74,6 +76,11 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.yearlyExpenditure = allForYear
       .filter(t => t.amount < 0)
       .reduce((sum, t) => sum + Math.abs(t.amount), 0);
+  }
+
+  showHideTentativeTransaction() {
+    if (this.transactions.length === 0) this.showTentativeTransaction = true;
+    else this.showTentativeTransaction = false;
   }
 
   showSmsSourceDetails(transaction: Transaction) {
