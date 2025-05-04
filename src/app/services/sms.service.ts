@@ -55,10 +55,11 @@ export class SmsService {
   }
 
 
-  async readMessages(): Promise<ITentativeTransaction[]> {
+  async readMessages(minDate: number, maxDate: number): Promise<ITentativeTransaction[]> {
     const filter: GetMessageFilterInput = {
-      minDate: Date.now() - 365 * 24 * 60 * 60 * 1000, // Optional: Messages from the last 365 days
+      // minDate: Date.now() - 365 * 24 * 60 * 60 * 1000, // Optional: Messages from the last 365 days
       // limit: 2, // Optional: Limit the number of messages
+      minDate, maxDate
     };
 
     try {

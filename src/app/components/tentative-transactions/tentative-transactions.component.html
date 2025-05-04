@@ -1,6 +1,6 @@
 <h2 class="page-title">Tentative Transactions</h2>
 
-<div *ngIf="tentativeTransactions.length === 0" class="empty-state">
+<div *ngIf="tentativeTransactions.length === 0 && !isLoaderActive" class="empty-state">
   No tentative transactions found.
 </div>
 
@@ -65,7 +65,7 @@
         </div>
       </div>
     </div>
-    
+
 
     <div class="actions">
       <button class="primary-button delete-button" (click)="delete(t)">Delete</button>
@@ -74,3 +74,8 @@
 
   </div>
 </ng-container>
+
+<div class="spinner-container" *ngIf="isLoaderActive">
+  <mat-spinner></mat-spinner>
+  <div class="label">Loading SMS messages</div>
+</div>

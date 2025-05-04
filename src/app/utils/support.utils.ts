@@ -1,3 +1,5 @@
+import { Transaction } from "../interfaces";
+
 export function generateHexId(length = 16): string {
     let result = '';
     const characters = '0123456789abcdef';
@@ -8,3 +10,9 @@ export function generateHexId(length = 16): string {
 
     return result;
 }
+
+export function sortTransactionsByDateDesc(transactions: Transaction[]): Transaction[] {
+    return transactions.sort((a, b) => {
+      return new Date(b.date).getTime() - new Date(a.date).getTime();
+    });
+  }

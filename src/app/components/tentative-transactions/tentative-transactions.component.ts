@@ -1,18 +1,19 @@
-import { Component } from '@angular/core';
-import { LoggerService, SmsService, TransactionsService } from '../../services';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { FilterService, LoggerService, SmsService, TransactionsService } from '../../services';
 import { ITentativeTransaction, Transaction } from '../../interfaces';
 import { Capacitor } from '@capacitor/core';
 import { generateHexId } from '../../utils';
 import { MatDialog } from '@angular/material/dialog';
 import { DivisionSelectorDialogComponent } from '../division-selector-dialog/division-selector-dialog.component';
-import { take } from 'rxjs';
+import { Subject, interval, merge, take, takeUntil } from 'rxjs';
+import { tempTentativeTransaction } from '../../configs';
 
 @Component({
   selector: 'app-tentative-transactions',
   templateUrl: './tentative-transactions.component.html',
   styleUrl: './tentative-transactions.component.scss'
 })
-export class TentativeTransactionsComponent {
+export class TentativeTransactionsComponent implements OnInit, OnDestroy {
   tentativeTransactions: ITentativeTransaction[] = [];
 
   selectedValues: {
@@ -26,48 +27,52 @@ export class TentativeTransactionsComponent {
 
   isLoaderActive = false;
 
+  isComponentActive = new Subject<boolean>();
+
   constructor(private transactionService: TransactionsService, public sms: SmsService, private loggerService: LoggerService,
-    private dialog: MatDialog) { }
+    private dialog: MatDialog, private filterService: FilterService) { }
 
   ngOnInit(): void {
-    this.loadTentative();
+    merge(this.filterService.year$, this.filterService.month$)
+      .pipe(takeUntil(this.isComponentActive))
+      .subscribe(() => this.loadTentative());
+  }
+
+  ngOnDestroy(): void {
+    this.isComponentActive.next(true);
+    this.isComponentActive.complete();
+  }
+
+  getMonthTimestamps(year: number, month: number): { start: number; end: number } {
+    // month is 1-based for this function, so January = 1, December = 12
+    const startDate = new Date(year, month - 1, 1, 0, 0, 0, 0); // 12:00 AM on the 1st
+    const endDate = new Date(year, month, 0, 23, 59, 59, 999); // 11:59:59.999 PM on last day
+
+    return {
+      start: startDate.getTime(),
+      end: endDate.getTime(),
+    };
   }
 
   loadTentative() {
+    this.isLoaderActive = true;
     if (Capacitor.getPlatform() !== 'web') {
-      this.isLoaderActive = true;
+      const dateRange = this.getMonthTimestamps(this.filterService.getCurrentYear(), this.filterService.getCurrentMonth())
       setTimeout(async () => {
-        const tentativeTransactions = await this.sms.readMessages();
+        const tentativeTransactions = await this.sms.readMessages(dateRange.start, dateRange.end);
         this.tentativeTransactions = this.filterByState(tentativeTransactions);
         this.loggerService.log(this.tentativeTransactions.length);
         this.isLoaderActive = false;
       }, 100);
     }
     else {
-      const tentativeTransactions: ITentativeTransaction[] = [
-        {
-          id: '1',
-          date: new Date().toString(),
-          body: 'Your a/c XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX1234 is credited with Rs. 5000 on 01-Jan-2025. Avl bal: Rs. 15000',
-          possibleAmounts: [5000, 4999.99],
-          possibleDescriptions: ['Salary', 'January Payment']
-        },
-        {
-          id: '2',
-          date: new Date().toString(),
-          body: 'Rs. 1200 debited from your a/c XXXXX1234 on 03-Jan-2025 at Swiggy',
-          possibleAmounts: [1200],
-          possibleDescriptions: ['Food', 'Swiggy Order']
-        },
-        {
-          id: '3',
-          date: new Date().toString(),
-          body: 'INR 8500 credited to your a/c on 05-Jan-2025. Ref: UPI12345XYZ',
-          possibleAmounts: [8500],
-          possibleDescriptions: ['UPI Transfer', 'Friend Payback']
-        }
-      ];
-      this.tentativeTransactions = this.filterByState(tentativeTransactions);
+      const tentativeTransactions: ITentativeTransaction[] = tempTentativeTransaction;
+      interval(3000).pipe(take(1))
+        .subscribe(() => {
+          this.tentativeTransactions = this.filterByState(tentativeTransactions);
+
+          this.isLoaderActive = false;
+        });
     }
   }
 

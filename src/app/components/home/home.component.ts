@@ -5,6 +5,7 @@ import { SmsDetailsDialogComponent } from '../';
 import { Transaction } from '../../interfaces';
 import { Subject, takeUntil } from 'rxjs';
 import { TransactionCategories } from '../../configs';
+import { sortTransactionsByDateDesc } from '../../utils';
 
 @Component({
   selector: 'app-home',
@@ -64,7 +65,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     const allForMonth = this.transactionService.getTransactionsForMonth(this.year, this.month);
     const allForYear = this.transactionService.getTransactionsForYear(this.year);
 
-    this.transactions = allForMonth;
+    this.transactions = sortTransactionsByDateDesc(allForMonth);
 
     this.monthlyExpenditure = allForMonth
       .filter(t => t.amount < 0)

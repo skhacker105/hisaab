@@ -192,3 +192,26 @@
   }
   
 }
+
+
+.spinner-container {
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  left: 0px;
+  top: 56px;
+  background: #000000cc;
+  width: 100%;
+  height: calc(100vh - 115px);
+
+  * {
+    margin: auto;
+  }
+
+  .label {
+    font-size: 14px;
+    color: white;
+    font-weight: bold;
+  }
+}

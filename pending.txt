@@ -1,0 +1,2 @@
+save in indexdb for transaction
+after tentative confirm/delete then scroll to next or prev
