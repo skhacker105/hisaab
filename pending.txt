@@ -1,13 +1,12 @@
 save in indexdb for transaction
-edit button for transactions
-create filter for category in home page transactions and app component filters
 create page to show area chart for expenditure based on categories
-chage dollor symbol to rupees on add transaction screen
 
 
 
 completed
 -------------
+edit button for transactions
+chage dollor symbol to rupees on add transaction screen
 select amount and description if single value present.
 select debit credit if present in messages "credited" or "debited"
 add in categories for "Vegetables in Food"

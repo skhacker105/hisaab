@@ -59,6 +59,11 @@
           &:hover {
             background-color: #bbdefb;
           }
+
+          &.selected-division {
+            background-color: #5572ff;
+            color: white;
+          }
         }
       }
     }

@@ -13,17 +13,18 @@ export class TransactionsService {
   constructor() {
     const saved = localStorage.getItem(this.storageKey);
     this.transactions = saved
-      ? JSON.parse(saved).map((t: any) => ({
-        ...t,
-        date: new Date(t.date),
-        messageDetails: t.messageDetails
-          ? {
-            ...t.messageDetails,
-            receivedAt: new Date(t.messageDetails.receivedAt)
-          }
-          : undefined
-      }))
+      ? JSON.parse(saved)
       : [];
+
+    this.updateBlankCategories()
+  }
+
+  updateBlankCategories() {
+    this.transactions.forEach(t => {
+      if (t.category) return;
+
+      t.category = 'Others';
+    });
   }
 
   getTransactions(): Transaction[] {
@@ -54,6 +55,15 @@ export class TransactionsService {
     if (index === -1) return;
 
     this.transactions.splice(index, 1);
+    this.transactionsChanged.next(this.transactions);
+    this.save();
+  }
+
+  updateTransaction(transactionData: Transaction) {
+    const index = this.transactions.findIndex(t => t.id === transactionData.id);
+    if (index === -1) return;
+
+    this.transactions[index] = transactionData;
     this.transactionsChanged.next(this.transactions);
     this.save();
   }

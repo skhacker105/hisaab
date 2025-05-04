@@ -162,3 +162,48 @@
   font-family: inherit;
     font-size: inherit;
 }
+
+.more-icon {
+  cursor: pointer;
+  color: #616161;
+}
+
+.drawer-overlay {
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 100%;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.3); /* translucent black */
+  z-index: 20;
+  display: flex;
+  justify-content: flex-end;
+  align-items: stretch;
+  border-radius: 6px;
+}
+
+.action-drawer {
+  background-color: #ffffff;
+  display: flex;
+  align-items: center;
+  border-radius: 6px 0 0 6px;
+  box-shadow: -2px 0 8px rgba(0,0,0,0.2);
+  height: 100%;
+}
+
+.action-btn {
+  color: #444;
+  background-color: transparent;
+  transition: background-color 0.2s;
+  border: none;
+  margin-right: 12px;
+  margin-left: 12px;
+}
+
+.action-btn.edit mat-icon {
+  color: #00796b; /* teal */
+}
+
+.action-btn.delete mat-icon {
+  color: #d32f2f; /* red */
+}

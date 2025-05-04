@@ -1,16 +1,28 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FilterService, SmsService, TransactionsService } from '../../services';
 import { MatDialog } from '@angular/material/dialog';
-import { SmsDetailsDialogComponent } from '../';
+import { AddTransactionDialogComponent, SmsDetailsDialogComponent } from '../';
 import { Transaction } from '../../interfaces';
 import { Subject, takeUntil } from 'rxjs';
 import { TransactionCategories } from '../../configs';
 import { sortTransactionsByDateDesc } from '../../utils';
+import { animate, style, transition, trigger } from '@angular/animations';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
-  styleUrl: './home.component.scss'
+  styleUrl: './home.component.scss',
+  animations: [
+    trigger('drawerAnimation', [
+      transition(':enter', [
+        style({ transform: 'translateX(100%)', opacity: 0 }),
+        animate('200ms ease-out', style({ transform: 'translateX(0)', opacity: 1 }))
+      ]),
+      transition(':leave', [
+        animate('150ms ease-in', style({ transform: 'translateX(100%)', opacity: 0 }))
+      ])
+    ])
+  ]
 })
 export class HomeComponent implements OnInit, OnDestroy {
   transactions: Transaction[] = [];
@@ -32,7 +44,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     private transactionService: TransactionsService,
     private filterService: FilterService,
     private dialog: MatDialog,
-    private sms: SmsService
+    private sms: SmsService,
   ) { }
 
   ngOnInit(): void {
@@ -91,6 +103,24 @@ export class HomeComponent implements OnInit, OnDestroy {
         width: '400px'
       });
     }
+  }
+
+  toggleDrawer(t: Transaction, event: MouseEvent) {
+    event.stopPropagation();
+    this.transactions.forEach(tx => tx.showDrawer = false);
+    t.showDrawer = true;
+  }
+
+  closeAllDrawers() {
+    this.transactions.forEach(tx => tx.showDrawer = false);
+  }
+  
+  editTransaction(t: Transaction) {
+    t.showDrawer = false;
+    this.dialog.open(AddTransactionDialogComponent, {
+      width: '400px',
+      data: t
+    });
   }
 
   deleteTransaction(transaction: Transaction) {

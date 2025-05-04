@@ -9,6 +9,6 @@ export interface Transaction {
     date: string;
     sourceMessageId?: string;
     source: 'manual' | 'phoneMessage';
-    tentative?: ITentativeTransaction
-
+    tentative?: ITentativeTransaction;
+    showDrawer?: boolean;
 }

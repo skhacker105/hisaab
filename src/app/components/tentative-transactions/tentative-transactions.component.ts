@@ -104,7 +104,6 @@ export class TentativeTransactionsComponent implements OnInit, OnDestroy {
       this.selectValue(t.id, 'category', 'Others');
 
     });
-    console.log('this.selectedValues = ', this.selectedValues)
   }
 
   selectValue(id: string, key: 'amount' | 'description' | 'type' | 'category', value: any) {
@@ -156,7 +155,6 @@ export class TentativeTransactionsComponent implements OnInit, OnDestroy {
     if (!confirmDelete) return;
 
     const focusNextTransaction = this.getNextTransactionToFocus(tentative);
-    console.log({ focusNextTransaction })
 
     this.sms.addDeletedMessageId(tentative.id);
     this.tentativeTransactions = this.filterByState(this.tentativeTransactions);

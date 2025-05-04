@@ -13,6 +13,7 @@
 
   <div class="transaction-list" *ngIf="!showTentativeTransaction">
     <mat-card *ngFor="let t of transactions" class="transaction-card">
+
       <div class="transaction-content">
         <div class="left-icon">
           <mat-icon>{{ getTransactionCategoryIcon(t) }}</mat-icon>
@@ -23,7 +24,7 @@
             <span class="amount" [ngClass]="{ credit: t.amount > 0, debit: t.amount < 0 }">
               ₹{{ t.amount | number:'1.2-2' }}
             </span>
-            <span class="date">{{ t.date | date: 'mediumDate' }}</span>
+            <span class="date">{{ t.date | date: 'MMM dd' }}</span>
           </div>
 
           <div class="description">{{ t.description }}</div>
@@ -33,12 +34,25 @@
           <div class="source-icon" *ngIf="t.source === 'phoneMessage'" (click)="showSmsSourceDetails(t)">
             <mat-icon>message</mat-icon>
           </div>
-          <div class="delete-icon" (click)="deleteTransaction(t)">
-            <mat-icon>delete</mat-icon>
+          <div class="more-icon" (click)="toggleDrawer(t, $event)">
+            <mat-icon>more_vert</mat-icon>
           </div>
         </div>
 
       </div>
+
+      <!-- Drawer Overlay -->
+      <div class="drawer-overlay" *ngIf="t.showDrawer" (click)="closeAllDrawers()">
+        <div class="action-drawer" (click)="$event.stopPropagation()" [@drawerAnimation]>
+          <button mat-icon-button class="action-btn edit" (click)="editTransaction(t)">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button mat-icon-button class="action-btn delete" (click)="deleteTransaction(t)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </div>
+      </div>
+
     </mat-card>
 
   </div>

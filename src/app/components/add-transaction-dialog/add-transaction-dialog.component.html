@@ -5,7 +5,7 @@
     <div class="form-field">
       <label for="amount">Amount</label>
       <div class="input-prefix-wrapper">
-        <span class="prefix">$</span>
+        <span class="prefix">₹</span>
         <input id="amount" type="number" [(ngModel)]="amount" placeholder="Enter amount" />
       </div>
     </div>
@@ -32,37 +32,14 @@
     </div>
 
     <div class="category-section">
-      <input type="text" [(ngModel)]="searchTerm" placeholder="Search category or division" class="search-input" />
-
-      <!-- Search results -->
-      <div *ngIf="searchTerm && filteredCategories.length > 0" class="search-results">
-        <div *ngFor="let cat of filteredCategories" class="search-category-block">
-          <div class="search-category-name">{{ cat.category }}</div>
-          <div class="division-group">
-            <button *ngFor="let div of cat.divisions" type="button" class="division-option"
-              [class.selected]="isSelected(div)" (click)="selectDivision(div)">
-              {{ div }}
-            </button>
-          </div>
-        </div>
-      </div>
-
-      <!-- Tabs when no search -->
-      <div *ngIf="!searchTerm">
-        <div class="tab-header">
-          <button *ngFor="let cat of categories; let i = index" type="button" class="tab-button"
-            [class.active]="i === selectedTabIndex" (click)="selectedTabIndex = i">
-            {{ cat.category }}
-          </button>
-        </div>
-
-        <div class="tab-content">
-          <div class="division-group">
-            <button *ngFor="let div of categories[selectedTabIndex].divisions" type="button" class="division-option"
-              [class.selected]="isSelected(div)" (click)="selectDivision(div)">
-              {{ div }}
-            </button>
-          </div>
+      <div class="category-section-label">Category</div>
+      <div class="division-select-inline">
+        <button class="division-select-button" (click)="openDivisionSelector()">
+          Choose
+        </button>
+        <div *ngIf="selectedDivision" class="selected-division">
+          {{ selectedDivision }}
+          <span class="clear-icon" (click)="selectedDivision = ''">×</span>
         </div>
       </div>
     </div>
