@@ -11,7 +11,8 @@ export const TransactionCategories: ITransactionCategory[] = [
       "Coffee & Tea",
       "Alcohol",
       "Snacks & Confectionery",
-      "Takeout & Delivery"
+      "Takeout & Delivery",
+      "Vegetables"
     ]
   },
   {
@@ -169,7 +170,8 @@ export const TransactionCategories: ITransactionCategory[] = [
       "Emergency Expenses",
       "Fines & Penalties",
       "Lost Items",
-      "Subscriptions"
+      "Subscriptions",
+      "Others"
     ]
   },
   {

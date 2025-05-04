@@ -52,7 +52,7 @@ export const tempTentativeTransaction: ITentativeTransaction[] = [
     },
     {
         id: '8',
-        date: new Date().toString(),
+        date: new Date('2025/02/05').toString(),
         body: 'Your account XXXXX1234 is credited with Rs. 2000 on 10-Jan-2025. Description: Cashback Offer',
         possibleAmounts: [2000],
         possibleDescriptions: ['Cashback', 'Promotional Credit']

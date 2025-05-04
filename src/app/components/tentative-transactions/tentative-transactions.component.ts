@@ -64,6 +64,7 @@ export class TentativeTransactionsComponent implements OnInit, OnDestroy {
       setTimeout(async () => {
         const tentativeTransactions = await this.sms.readMessages(dateRange.start, dateRange.end);
         this.tentativeTransactions = this.filterByState(tentativeTransactions);
+        this.selectByDefault();
         this.loggerService.log(this.tentativeTransactions.length);
         this.isLoaderActive = false;
       }, 100);
@@ -73,6 +74,7 @@ export class TentativeTransactionsComponent implements OnInit, OnDestroy {
       interval(1000).pipe(take(1))
         .subscribe(() => {
           this.tentativeTransactions = this.filterByState(tentativeTransactions);
+          this.selectByDefault();
 
           this.isLoaderActive = false;
         });
@@ -81,6 +83,28 @@ export class TentativeTransactionsComponent implements OnInit, OnDestroy {
 
   filterByState(tentativeTransactions: ITentativeTransaction[]): ITentativeTransaction[] {
     return tentativeTransactions.filter(t => !this.sms.confirmedMessageIds.has(t.id) && !this.sms.deletedMessagesIds.has(t.id))
+  }
+
+  selectByDefault() {
+    this.tentativeTransactions.forEach(t => {
+
+      // Select Amount
+      if (t.possibleAmounts.length === 1) this.selectValue(t.id, 'amount', t.possibleAmounts[0])
+
+      // Select Description
+      if (t.possibleDescriptions.length === 1) this.selectValue(t.id, 'description', t.possibleDescriptions[0])
+
+      // Select Type - Credit/Debit
+      if (t.body.indexOf('Sent') > -1 || t.body.indexOf('debited from') > -1)
+        this.selectValue(t.id, 'type', 'debit');
+      else if (t.body.indexOf('credited') > -1)
+        this.selectValue(t.id, 'type', 'credit');
+
+      // Select Category
+      this.selectValue(t.id, 'category', 'Others');
+
+    });
+    console.log('this.selectedValues = ', this.selectedValues)
   }
 
   selectValue(id: string, key: 'amount' | 'description' | 'type' | 'category', value: any) {
@@ -132,8 +156,8 @@ export class TentativeTransactionsComponent implements OnInit, OnDestroy {
     if (!confirmDelete) return;
 
     const focusNextTransaction = this.getNextTransactionToFocus(tentative);
-    console.log({focusNextTransaction})
-    
+    console.log({ focusNextTransaction })
+
     this.sms.addDeletedMessageId(tentative.id);
     this.tentativeTransactions = this.filterByState(this.tentativeTransactions);
     this.toastService.success(`SMS deleted`);
@@ -158,7 +182,7 @@ export class TentativeTransactionsComponent implements OnInit, OnDestroy {
       const el = document.getElementById('tentative-transaction-' + id);
       if (el) {
         el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    
+
         // Optional: Highlight briefly
         el.classList.add('highlight');
         setTimeout(() => el.classList.remove('highlight'), 2000);

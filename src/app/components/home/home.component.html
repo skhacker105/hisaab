@@ -11,7 +11,7 @@
     </mat-card>
   </div>
 
-  <div class="transaction-list">
+  <div class="transaction-list" *ngIf="!showTentativeTransaction">
     <mat-card *ngFor="let t of transactions" class="transaction-card">
       <div class="transaction-content">
         <div class="left-icon">
@@ -43,9 +43,7 @@
 
   </div>
 
-  <div class="transaction-list">
-    <ng-container *ngIf="showTentativeTransaction">
-      <app-tentative-transactions [hideTitile]="true"></app-tentative-transactions>
-    </ng-container>
+  <div class="transaction-list" *ngIf="showTentativeTransaction">
+    <app-tentative-transactions [hideTitile]="true"></app-tentative-transactions>
   </div>
 </div>
