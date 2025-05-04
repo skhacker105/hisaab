@@ -75,19 +75,21 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   loadTransactions(showHideTentativeTransactions = false) {
-    const allForMonth = this.transactionService.getTransactionsForMonth(this.year, this.month);
-    const allForYear = this.transactionService.getTransactionsForYear(this.year);
-
-    this.transactions = sortTransactionsByDateDesc(allForMonth);
-    if (showHideTentativeTransactions) this.showHideTentativeTransaction();
-
-    this.monthlyExpenditure = allForMonth
-      .filter(t => t.amount < 0)
-      .reduce((sum, t) => sum + Math.abs(t.amount), 0);
-
-    this.yearlyExpenditure = allForYear
-      .filter(t => t.amount < 0)
-      .reduce((sum, t) => sum + Math.abs(t.amount), 0);
+    setTimeout(() => {
+      const allForMonth = this.transactionService.getTransactionsForMonth(this.year, this.month);
+      const allForYear = this.transactionService.getTransactionsForYear(this.year);
+  
+      this.transactions = sortTransactionsByDateDesc(allForMonth);
+      if (showHideTentativeTransactions) this.showHideTentativeTransaction();
+  
+      this.monthlyExpenditure = allForMonth
+        .filter(t => t.amount < 0)
+        .reduce((sum, t) => sum + Math.abs(t.amount), 0);
+  
+      this.yearlyExpenditure = allForYear
+        .filter(t => t.amount < 0)
+        .reduce((sum, t) => sum + Math.abs(t.amount), 0);
+    }, 200);
   }
 
   showHideTentativeTransaction() {
