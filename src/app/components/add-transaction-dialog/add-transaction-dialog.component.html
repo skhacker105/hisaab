@@ -2,11 +2,18 @@
   <h2 class="dialog-title">Add Transaction</h2>
 
   <div class="dialog-content">
+
+    <div class="form-field date-field">
+      <label for="date">Date</label>
+      <input id="date" type="date" [(ngModel)]="date" [disabled]="dateDisabled" [max]="today" placeholder="Select date" />
+    </div>
+
+
     <div class="form-field">
       <label for="amount">Amount</label>
       <div class="input-prefix-wrapper">
         <span class="prefix">₹</span>
-        <input id="amount" type="number" [(ngModel)]="amount" placeholder="Enter amount" />
+        <input id="amount" autofocus type="number" [(ngModel)]="amount" placeholder="Enter amount" />
       </div>
     </div>
 

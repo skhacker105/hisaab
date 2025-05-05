@@ -25,6 +25,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
 import { NgChartsModule } from 'ng2-charts';
 import { SpendByCategoryChartComponent } from './components/spend-by-category-chart/spend-by-category-chart.component';
+import { DatePipe } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -61,7 +62,8 @@ import { SpendByCategoryChartComponent } from './components/spend-by-category-ch
   ],
   providers: [
     provideAnimationsAsync(),
-    AndroidPermissions
+    AndroidPermissions,
+    DatePipe
   ],
   bootstrap: [AppComponent]
 })

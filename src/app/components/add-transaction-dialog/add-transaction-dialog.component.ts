@@ -6,6 +6,7 @@ import { TransactionCategories } from '../../configs';
 import { generateHexId } from '../../utils';
 import { DivisionSelectorDialogComponent } from '../division-selector-dialog/division-selector-dialog.component';
 import { take } from 'rxjs';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-add-transaction-dialog',
@@ -16,14 +17,17 @@ export class AddTransactionDialogComponent implements OnInit {
 
   editTransaction?: Transaction;
 
+  date: string = new Date().toISOString().substring(0, 10); // Default today’s date (yyyy-mm-dd)
   amount!: number;
   description!: string;
   selectedDivision: string | undefined;
   transactionType: 'credit' | 'debit' = 'debit';
 
+  today: string = new Date().toISOString().substring(0, 10);
   categories: ITransactionCategory[] = TransactionCategories;
   selectedTabIndex: number = 0;
   searchTerm: string = '';
+  dateDisabled = false;
 
   get filteredCategories(): ITransactionCategory[] {
     if (!this.searchTerm.trim()) return [];
@@ -42,6 +46,7 @@ export class AddTransactionDialogComponent implements OnInit {
     private dialogRef: MatDialogRef<AddTransactionDialogComponent>,
     private transactionService: TransactionsService,
     private dialog: MatDialog,
+    private datePipe: DatePipe,
     @Optional() @Inject(MAT_DIALOG_DATA) public data?: Transaction
   ) {
     this.editTransaction = this.data;
@@ -54,10 +59,14 @@ export class AddTransactionDialogComponent implements OnInit {
   loadEditTransaction() {
     if (!this.editTransaction) return;
 
+    console.log('this.editTransaction.date = ', this.editTransaction.date)
+    this.date = this.datePipe.transform(this.editTransaction.date, 'yyyy-MM-dd') ?? new Date().toString();
     this.amount = Math.abs(this.editTransaction.amount);
     this.description = this.editTransaction.description;
     this.transactionType = this.editTransaction.transactionType;
     this.selectedDivision = this.editTransaction.category;
+
+    if (this.editTransaction.source === 'phoneMessage') this.dateDisabled = true;
   }
 
   selectDivision(division: string) {
@@ -87,8 +96,8 @@ export class AddTransactionDialogComponent implements OnInit {
   }
 
   save() {
-
-    if (this.amount && this.description && this.transactionType) {
+    console.log('this.date = ', this.date)
+    if (this.date && this.amount && this.description && this.transactionType) {
       if (!this.selectedDivision) this.selectedDivision = 'Others';
 
       if (!this.editTransaction)
@@ -105,7 +114,7 @@ export class AddTransactionDialogComponent implements OnInit {
       amount: this.transactionType === 'debit' ? -Math.abs(this.amount) : Math.abs(this.amount),
       description: this.description,
       transactionType: this.transactionType,
-      date: new Date().toString(),
+      date: new Date(this.date).toString(),
       id: generateHexId(),
       source: 'manual',
       category: this.selectedDivision
@@ -120,7 +129,8 @@ export class AddTransactionDialogComponent implements OnInit {
       amount: this.transactionType === 'debit' ? -Math.abs(this.amount) : Math.abs(this.amount),
       description: this.description,
       transactionType: this.transactionType,
-      category: this.selectedDivision
+      category: this.selectedDivision,
+      date: new Date(this.date).toString()
     });
   }
 

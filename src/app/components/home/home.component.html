@@ -12,9 +12,9 @@
   </div>
 
   <div class="transaction-list" *ngIf="!showTentativeTransaction">
-    <mat-card *ngFor="let t of transactions" class="transaction-card" (click)="showSmsSourceDetails(t)">
+    <mat-card *ngFor="let t of transactions" class="transaction-card">
 
-      <div class="transaction-content">
+      <div class="transaction-content" (click)="showSmsSourceDetails(t)">
         <div class="left-icon">
           <mat-icon>{{ getTransactionCategoryIcon(t) }}</mat-icon>
         </div>
