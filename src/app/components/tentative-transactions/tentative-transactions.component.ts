@@ -81,7 +81,7 @@ export class TentativeTransactionsComponent implements OnInit, OnDestroy {
       if (t.possibleDescriptions.length === 1) this.selectValue(t.id, 'description', t.possibleDescriptions[0])
 
       // Select Type - Credit/Debit
-      if (t.body.indexOf('Sent') > -1 || t.body.indexOf('debited from') > -1)
+      if (t.body.indexOf('Sent') > -1 || t.body.indexOf('debited from') > -1 || t.body.indexOf('deducted') > -1)
         this.selectValue(t.id, 'type', 'debit');
       else if (t.body.indexOf('credited') > -1)
         this.selectValue(t.id, 'type', 'credit');
