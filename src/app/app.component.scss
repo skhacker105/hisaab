@@ -1,78 +1,76 @@
-@media (max-width: 600px) {
-  .app-wrapper {
+.app-wrapper {
     display: flex;
     flex-direction: column;
     height: 100vh;
     background-color: #ffffff;
     color: #000000;
     font-family: 'Roboto', sans-serif;
-  }
+}
 
-  .toolbar {
+.toolbar {
     display: flex;
     align-items: center;
-    padding: 0 8px;
+    padding: 30px 8px 0;
     height: 56px;
     min-height: 56px;
     background-color: #e3f2fd;
     color: #000000;
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-    padding-top: 30px;
-  }
+}
 
-  .title {
+.title {
     font-size: 20px;
     font-weight: 600;
     color: #1565c0;
     white-space: nowrap;
-  }
+}
 
-  .spacer {
+.spacer {
     flex: 1 1 auto;
-  }
+}
 
-  .custom-select-wrapper {
+.custom-select-wrapper {
     display: flex;
     flex-direction: column;
     margin: 0 4px;
     width: 90px;
 
     label {
-      font-size: 11px;
-      color: #1565c0;
-      margin-bottom: 2px;
-      text-align: left;
+        font-size: 11px;
+        color: #1565c0;
+        margin-bottom: 2px;
+        text-align: left;
     }
 
     select {
-      font-size: 13px;
-      padding: 6px 8px;
-      border: 1px solid #bbdefb;
-      border-radius: 4px;
-      background-color: #ffffff;
-      color: #1565c0;
-      appearance: none;
-      -webkit-appearance: none;
-      -moz-appearance: none;
-      background-image: url("data:image/svg+xml;utf8,<svg fill='%231565c0' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>");
-      background-repeat: no-repeat;
-      background-position: right 6px center;
-      background-size: 18px 18px;
+        font-size: 13px;
+        padding: 6px 8px;
+        border: 1px solid #bbdefb;
+        border-radius: 4px;
+        background-color: #ffffff;
+        color: #1565c0;
+        appearance: none;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        background-image: url("data:image/svg+xml;utf8, <svg fill='%231565c0' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>");
+        background-repeat: no-repeat;
+        background-position: right 6px center;
+        background-size: 18px 18px;
     }
 
     select:focus {
-      outline: none;
-      border-color: #1565c0;
-      box-shadow: 0 0 2px #1565c0;
+        outline: none;
+        border-color: #1565c0;
+        box-shadow: 0 0 2px #1565c0;
     }
-  }
+}
 
-  .body-wrapper {
+.body-wrapper {
     flex: 1 1 auto;
     overflow-y: auto;
-  }
+}
 
-  .footer {
+.footer {
     display: flex;
     justify-content: flex-end;
     align-items: center;
@@ -81,9 +79,9 @@
     padding: 0 16px;
     background-color: #e3f2fd;
     box-shadow: 0 -1px 2px rgba(0, 0, 0, 0.1);
-  }
+}
 
-  .fab-button {
+.fab-button {
     background-color: #4c4daf;
     color: white;
     width: 40px;
@@ -98,20 +96,20 @@
     transition: background-color 0.2s ease;
 
     .material-icons {
-      font-size: 20px;
-      line-height: 20px;
+        font-size: 20px;
+        line-height: 20px;
     }
 
     &:hover {
-      background-color: #43a047;
+        background-color: #43a047;
     }
 
     &:active {
-      background-color: #388e3c;
+        background-color: #388e3c;
     }
-  }
+}
 
-  button {
+button {
     font-family: 'Roboto', sans-serif;
     font-size: 14px;
     padding: 8px 16px;
@@ -123,43 +121,40 @@
     transition: background-color 0.2s ease;
 
     &:hover {
-      background-color: #0d47a1;
+        background-color: #0d47a1;
     }
 
     &:active {
-      background-color: #0b3c91;
+        background-color: #0b3c91;
     }
 
     &:disabled {
-      background-color: #bbdefb;
-      color: #90caf9;
-      cursor: not-allowed;
+        background-color: #bbdefb;
+        color: #90caf9;
+        cursor: not-allowed;
     }
-  }
+}
 
-  .current-year {
+.current-year {
     background-color: #dbeeff;
     font-weight: bold;
     border: 1px solid #90caf9;
-  }
-  
-  .current-month {
+}
+
+.current-month {
     background-color: #c8e6c9;
     font-weight: bold;
     border: 1px solid #81c784;
-  }
-
-  .fab-button.tentative-button {
-    background-color: #ff9800;
-  }
-  
-  .fab-button.tentative-button:hover {
-    background-color: #fb8c00;
-  }
-  
-  .fab-button.tentative-button:active {
-    background-color: #ef6c00;
-  }
-  
 }
 
+.fab-button.tentative-button {
+    background-color: #ff9800;
+}
+
+.fab-button.tentative-button:hover {
+    background-color: #fb8c00;
+}
+
+.fab-button.tentative-button:active {
+    background-color: #ef6c00;
+}

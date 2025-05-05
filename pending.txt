@@ -1,4 +1,3 @@
-save in indexdb for transaction
 create page to show area chart for expenditure based on categories
 
 
@@ -11,3 +10,4 @@ select amount and description if single value present.
 select debit credit if present in messages "credited" or "debited"
 add in categories for "Vegetables in Food"
 change color of plus button for add transaction as its matching with tick of tentative transaction confirm button
+save in indexdb for transaction
