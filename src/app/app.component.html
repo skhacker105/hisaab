@@ -26,21 +26,27 @@
     <router-outlet></router-outlet>
   </div>
 
-  <div class="footer">
+  <div class="footer" [ngClass]="{'justify-center': !isHomeRoute}">
 
-    <button *ngIf="isHomeRoute" class="fab-button tentative-button" (click)="goToTentative()" [title]="'Tentative Transactions'">
-      <span class="material-icons">pending_actions</span>
-    </button>
+    <ng-container *ngIf="isHomeRoute">
+      <button class="fab-button" (click)="goToTentative()" [title]="'Tentative Transactions'">
+        <span class="material-icons">pending_actions</span>
+      </button>
+
+      <button class="fab-button" (click)="gotoCharts()">
+        <span class="material-icons">insert_chart</span>
+      </button>
+
+      <button class="fab-button" (click)="gotoCharts()">
+        <span class="material-icons">view_module</span>
+      </button>
+    </ng-container>
 
     <button *ngIf="!isHomeRoute" class="fab-button" (click)="goToHome()">
       <span class="material-icons">home</span>
     </button>
 
-    <button *ngIf="isHomeRoute" class="fab-button" (click)="gotoCharts()">
-      <span class="material-icons">insert_chart</span>
-    </button>
-
-    <span class="spacer"></span>
+    <!-- <span class="spacer"></span> -->
 
     <button *ngIf="isHomeRoute" class="fab-button" (click)="openAddTransactionDialog()">
       <span class="material-icons">add</span>
