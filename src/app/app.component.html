@@ -11,7 +11,7 @@
       </select>
     </div>
 
-    <div class="custom-select-wrapper">
+    <div class="custom-select-wrapper" *ngIf="!isChartRoute">
       <select id="month-select" [(ngModel)]="month" (change)="onFilterChange()">
         <option *ngFor="let m of filterService.months" [value]="m.value" [ngClass]="{
                   'current-month': m.value === currentMonth && year == currentYear

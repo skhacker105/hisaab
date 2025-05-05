@@ -1,7 +1,5 @@
-move message icon to small icon and make whole row clickable.
 add page to see and edit/add categories and divisions
-hide month drop down on graph page
-
+add date in add edit screen. while editting a transaction having tentative transaction
 
 
 completed
@@ -14,3 +12,5 @@ add in categories for "Vegetables in Food"
 change color of plus button for add transaction as its matching with tick of tentative transaction confirm button
 save in indexdb for transaction
 create page to show area chart for expenditure based on categories
+move message icon to small icon and make whole row clickable.
+hide month drop down on graph page

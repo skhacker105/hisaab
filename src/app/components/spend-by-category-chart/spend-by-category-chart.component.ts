@@ -77,7 +77,7 @@ export class SpendByCategoryChartComponent implements OnInit {
   constructor(private transactionService: TransactionsService, private filterService: FilterService, private loggerService: LoggerService) { }
 
   ngOnInit(): void {
-    merge(this.filterService.year$, this.filterService.month$)
+    merge(this.filterService.year$, this.transactionService.transactionsChanged)
       .pipe(takeUntil(this.isComponentActive))
       .subscribe(() => {
         this.loadTransactionAndLoadChart();

@@ -100,11 +100,7 @@ export class TransactionsService {
     await this.dbService.put(transactionData);
   }
 
-  getMessageDetailsByTransactionId(transactionId: string): Transaction | undefined {
+  getTransactionById(transactionId: string): Transaction | undefined {
     return this.transactions.find(t => t.id === transactionId && !!t.tentative);
-  }
-
-  private save(): void {
-    localStorage.setItem(this.storageKey, JSON.stringify(this.transactions));
   }
 }

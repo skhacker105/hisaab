@@ -12,7 +12,7 @@
   </div>
 
   <div class="transaction-list" *ngIf="!showTentativeTransaction">
-    <mat-card *ngFor="let t of transactions" class="transaction-card">
+    <mat-card *ngFor="let t of transactions" class="transaction-card" (click)="showSmsSourceDetails(t)">
 
       <div class="transaction-content">
         <div class="left-icon">
@@ -23,6 +23,8 @@
           <div class="transaction-header">
             <span class="amount" [ngClass]="{ credit: t.amount > 0, debit: t.amount < 0 }">
               ₹{{ t.amount | number:'1.2-2' }}
+
+              <mat-icon class="message-icon" *ngIf="t.source === 'phoneMessage'">message</mat-icon>
             </span>
             <span class="date">{{ t.date | date: 'MMM dd' }}</span>
           </div>
@@ -31,9 +33,6 @@
         </div>
 
         <div class="right-icon">
-          <div class="source-icon" *ngIf="t.source === 'phoneMessage'" (click)="showSmsSourceDetails(t)">
-            <mat-icon>message</mat-icon>
-          </div>
           <div class="more-icon" (click)="toggleDrawer(t, $event)">
             <mat-icon>more_vert</mat-icon>
           </div>

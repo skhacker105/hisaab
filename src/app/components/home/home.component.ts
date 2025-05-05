@@ -98,7 +98,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   showSmsSourceDetails(transaction: Transaction) {
-    const smsDetails = this.transactionService.getMessageDetailsByTransactionId(transaction.id);
+    const smsDetails = this.transactionService.getTransactionById(transaction.id);
     if (smsDetails) {
       this.dialog.open(SmsDetailsDialogComponent, {
         data: smsDetails,

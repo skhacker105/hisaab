@@ -20,6 +20,7 @@ export class AppComponent {
   currentMonth = new Date().getMonth() + 1; // assuming your month values are 1-indexed
 
   isHomeRoute: boolean = true;
+  isChartRoute = false;
 
   constructor(
     public filterService: FilterService,
@@ -30,6 +31,7 @@ export class AppComponent {
       .pipe(filter(event => event instanceof NavigationEnd))
       .subscribe((event: any) => {
         this.isHomeRoute = event.urlAfterRedirects === '/' || event.urlAfterRedirects === '/home';
+        this.isChartRoute = event.urlAfterRedirects === '/charts';
       });
   }
 
