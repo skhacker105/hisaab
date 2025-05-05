@@ -1,0 +1,16 @@
+.cart-container {
+    display: flex;
+    height: 100%;
+
+    canvas {
+        margin: auto;
+        width: 100% !important;
+        height: 100% !important;
+    }
+    ::ng-deep .chartjs-legend ul {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 1rem;
+    }
+}
