@@ -23,6 +23,8 @@ import { AndroidPermissions } from '@awesome-cordova-plugins/android-permissions
 import { DivisionSelectorDialogComponent } from './components/division-selector-dialog/division-selector-dialog.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
+import { NgChartsModule } from 'ng2-charts';
+import { SpendByCategoryChartComponent } from './components/spend-by-category-chart/spend-by-category-chart.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +33,8 @@ import { ToastrModule } from 'ngx-toastr';
     TentativeTransactionsComponent,
     AddTransactionDialogComponent,
     SmsDetailsDialogComponent,
-    DivisionSelectorDialogComponent
+    DivisionSelectorDialogComponent,
+    SpendByCategoryChartComponent
   ],
   imports: [
     FormsModule,
@@ -49,6 +52,7 @@ import { ToastrModule } from 'ngx-toastr';
     MatTabsModule,
     MatProgressSpinnerModule,
     BrowserAnimationsModule,
+    NgChartsModule,
     ToastrModule.forRoot({
       positionClass: 'toast-bottom-center',
       timeOut: 1500,

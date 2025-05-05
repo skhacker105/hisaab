@@ -60,4 +60,8 @@ export class AppComponent {
   goToTentative() {
     this.router.navigate(['/tentative']);
   }
+
+  gotoCharts() {
+    this.router.navigate(['/charts']);
+  }
 }

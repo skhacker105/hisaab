@@ -36,6 +36,10 @@
       <span class="material-icons">home</span>
     </button>
 
+    <button *ngIf="isHomeRoute" class="fab-button" (click)="gotoCharts()">
+      <span class="material-icons">insert_chart</span>
+    </button>
+
     <span class="spacer"></span>
 
     <button *ngIf="isHomeRoute" class="fab-button" (click)="openAddTransactionDialog()">
