@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FilterService, SmsService, TransactionsService } from '../../services';
 import { MatDialog } from '@angular/material/dialog';
 import { AddTransactionDialogComponent, SmsDetailsDialogComponent } from '../';
-import { Transaction } from '../../interfaces';
+import { ITransactionCategorySummary, Transaction } from '../../interfaces';
 import { Subject, takeUntil } from 'rxjs';
 import { TransactionCategories } from '../../configs';
 import { sortTransactionsByDateDesc } from '../../utils';
@@ -35,6 +35,9 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   isComponentActive = new Subject<boolean>();
   showTentativeTransaction = false;
+
+  categorySummaries: ITransactionCategorySummary[] = [];
+  selectedCategory: ITransactionCategorySummary | undefined;
 
   get monthName(): string {
     return this.filterService.months.find(m => m.value == this.month)?.name ?? '';
@@ -80,6 +83,7 @@ export class HomeComponent implements OnInit, OnDestroy {
       const allForYear = this.transactionService.getTransactionsForYear(this.year);
   
       this.transactions = sortTransactionsByDateDesc(allForMonth);
+      this.calculateCategoryTotals();
       if (showHideTentativeTransactions) this.showHideTentativeTransaction();
   
       this.monthlyExpenditure = allForMonth
@@ -90,6 +94,20 @@ export class HomeComponent implements OnInit, OnDestroy {
         .filter(t => t.amount < 0)
         .reduce((sum, t) => sum + Math.abs(t.amount), 0);
     }, 200);
+  }
+
+  calculateCategoryTotals() {
+    this.categorySummaries = this.transactionCategories.map(cat => {
+      const total = this.transactions
+        .filter(t => t.amount < 0 && cat.divisions.includes((t.category ?? '')))
+        .reduce((sum, t) => sum + t.amount, 0);
+
+      return {
+        icon: cat.matIcon,
+        name: cat.category,
+        total
+      };
+    }).filter(summary => summary.total !== 0); // optional: hide zero total categories
   }
 
   showHideTentativeTransaction() {
@@ -141,5 +159,17 @@ export class HomeComponent implements OnInit, OnDestroy {
     if (!category) return;
 
     return category.matIcon;
+  }
+
+  selectDelectTransactions(category: ITransactionCategorySummary) {
+    if (this.selectedCategory && this.selectedCategory.name === category.name) this.selectedCategory = undefined;
+    else this.selectedCategory = category;
+  }
+
+  transactionInSelectedCategory(t: Transaction): boolean {
+    if (!this.selectedCategory) return true;
+
+    const cat =  this.transactionCategories.find(c => c.divisions.includes((t.category ?? '')));
+    return cat && cat.category === this.selectedCategory.name ? true : false;
   }
 }

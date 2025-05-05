@@ -1,4 +1,5 @@
-add page to see and edit/add categories and divisions
+add page for add/edit categories
+add multi selection on home page
 
 
 completed
@@ -14,3 +15,4 @@ create page to show area chart for expenditure based on categories
 move message icon to small icon and make whole row clickable.
 hide month drop down on graph page
 add date in add edit screen. while editting a transaction having tentative transaction
+add category wise row in home page with total and acting as filter
