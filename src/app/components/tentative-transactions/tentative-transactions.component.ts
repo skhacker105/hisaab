@@ -1,12 +1,10 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FilterService, LoggerService, SmsService, ToastService, TransactionsService } from '../../services';
 import { ITentativeTransaction, Transaction } from '../../interfaces';
-import { Capacitor } from '@capacitor/core';
 import { generateHexId } from '../../utils';
 import { MatDialog } from '@angular/material/dialog';
 import { DivisionSelectorDialogComponent } from '../division-selector-dialog/division-selector-dialog.component';
-import { Subject, interval, merge, take, takeUntil } from 'rxjs';
-import { tempTentativeTransaction } from '../../configs';
+import { Subject, merge, take, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-tentative-transactions',
@@ -59,26 +57,14 @@ export class TentativeTransactionsComponent implements OnInit, OnDestroy {
 
   loadTentative() {
     this.isLoaderActive = true;
-    if (Capacitor.getPlatform() !== 'web') {
-      const dateRange = this.getMonthTimestamps(this.filterService.getCurrentYear(), this.filterService.getCurrentMonth())
-      setTimeout(async () => {
-        const tentativeTransactions = await this.sms.readMessages(dateRange.start, dateRange.end);
-        this.tentativeTransactions = this.filterByState(tentativeTransactions);
-        this.selectByDefault();
-        this.loggerService.log(this.tentativeTransactions.length);
-        this.isLoaderActive = false;
-      }, 100);
-    }
-    else {
-      const tentativeTransactions: ITentativeTransaction[] = tempTentativeTransaction;
-      interval(1000).pipe(take(1))
-        .subscribe(() => {
-          this.tentativeTransactions = this.filterByState(tentativeTransactions);
-          this.selectByDefault();
-
-          this.isLoaderActive = false;
-        });
-    }
+    const dateRange = this.getMonthTimestamps(this.filterService.getCurrentYear(), this.filterService.getCurrentMonth())
+    setTimeout(async () => {
+      const tentativeTransactions = await this.sms.readMessages(dateRange.start, dateRange.end);
+      this.tentativeTransactions = this.filterByState(tentativeTransactions);
+      this.selectByDefault();
+      this.loggerService.log(this.tentativeTransactions.length);
+      this.isLoaderActive = false;
+    }, 100);
   }
 
   filterByState(tentativeTransactions: ITentativeTransaction[]): ITentativeTransaction[] {
