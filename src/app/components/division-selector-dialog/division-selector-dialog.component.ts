@@ -1,7 +1,8 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { TransactionCategories } from '../../configs';
+// import { TransactionCategories } from '../../configs';
 import { ITransactionCategory } from '../../interfaces';
+import { CategoryService } from '../../services';
 
 @Component({
   selector: 'app-division-selector-dialog',
@@ -9,16 +10,17 @@ import { ITransactionCategory } from '../../interfaces';
   styleUrls: ['./division-selector-dialog.component.scss']
 })
 export class DivisionSelectorDialogComponent implements OnInit {
-  categories = TransactionCategories; // Replace with your actual list
+  categories: ITransactionCategory[] = []; // Replace with your actual list
   searchText = '';
   filteredCategories: ITransactionCategory[] = [];
 
   constructor(
-    public dialogRef: MatDialogRef<DivisionSelectorDialogComponent>,
+    public dialogRef: MatDialogRef<DivisionSelectorDialogComponent>,private categoryService: CategoryService,
     @Inject(MAT_DIALOG_DATA) public data: { selected: string }
   ) {}
 
   ngOnInit(): void {
+    this.categories = this.categoryService.allCategories;
     this.filter();
   }
 

@@ -1,1 +1,10 @@
+// Pending
+adding favorites in category/divisions
+give provision to add categories and division from choose screen
+
+
+
+
+
+// Completed
 add page for add/edit categories

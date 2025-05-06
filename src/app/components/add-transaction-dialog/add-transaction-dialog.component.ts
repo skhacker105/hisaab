@@ -1,8 +1,8 @@
 import { Component, Inject, OnInit, Optional } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { TransactionsService } from '../../services';
+import { CategoryService, TransactionsService } from '../../services';
 import { ITransactionCategory, Transaction } from '../../interfaces';
-import { TransactionCategories } from '../../configs';
+// import { TransactionCategories } from '../../configs';
 import { generateHexId } from '../../utils';
 import { DivisionSelectorDialogComponent } from '../';
 import { take } from 'rxjs';
@@ -24,7 +24,7 @@ export class AddTransactionDialogComponent implements OnInit {
   transactionType: 'credit' | 'debit' = 'debit';
 
   today: string = new Date().toISOString().substring(0, 10);
-  categories: ITransactionCategory[] = TransactionCategories;
+  categories: ITransactionCategory[] = [];
   selectedTabIndex: number = 0;
   searchTerm: string = '';
   dateDisabled = false;
@@ -47,6 +47,7 @@ export class AddTransactionDialogComponent implements OnInit {
     private transactionService: TransactionsService,
     private dialog: MatDialog,
     private datePipe: DatePipe,
+    private categoryService: CategoryService,
     @Optional() @Inject(MAT_DIALOG_DATA) public data?: Transaction
   ) {
     this.editTransaction = this.data;
@@ -54,12 +55,12 @@ export class AddTransactionDialogComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.editTransaction) this.loadEditTransaction();
+    this.categories = this.categoryService.allCategories;
   }
 
   loadEditTransaction() {
     if (!this.editTransaction) return;
 
-    console.log('this.editTransaction.date = ', this.editTransaction.date)
     this.date = this.datePipe.transform(this.editTransaction.date, 'yyyy-MM-dd') ?? new Date().toString();
     this.amount = Math.abs(this.editTransaction.amount);
     this.description = this.editTransaction.description;
@@ -96,7 +97,6 @@ export class AddTransactionDialogComponent implements OnInit {
   }
 
   save() {
-    console.log('this.date = ', this.date)
     if (this.date && this.amount && this.description && this.transactionType) {
       if (!this.selectedDivision) this.selectedDivision = 'Others';
 

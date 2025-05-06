@@ -1,10 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FilterService, SmsService, TransactionsService } from '../../services';
+import { CategoryService, FilterService, SmsService, TransactionsService } from '../../services';
 import { MatDialog } from '@angular/material/dialog';
 import { AddTransactionDialogComponent, SmsDetailsDialogComponent } from '../';
-import { ITransactionCategorySummary, Transaction } from '../../interfaces';
+import { ITransactionCategory, ITransactionCategorySummary, Transaction } from '../../interfaces';
 import { Subject, takeUntil } from 'rxjs';
-import { TransactionCategories } from '../../configs';
+// import { TransactionCategories } from '../../configs';
 import { sortTransactionsByDateDesc } from '../../utils';
 import { animate, style, transition, trigger } from '@angular/animations';
 import { MatCheckboxChange } from '@angular/material/checkbox';
@@ -32,7 +32,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   year!: number;
   month!: number;
 
-  transactionCategories = TransactionCategories;
+  transactionCategories: ITransactionCategory[] = [];
 
   isComponentActive = new Subject<boolean>();
   showTentativeTransaction = false;
@@ -57,9 +57,11 @@ export class HomeComponent implements OnInit, OnDestroy {
     private filterService: FilterService,
     private dialog: MatDialog,
     private sms: SmsService,
+    private categoryService: CategoryService
   ) { }
 
   ngOnInit(): void {
+    this.transactionCategories = this.categoryService.allCategories;
     this.filterService.year$
       .pipe(takeUntil(this.isComponentActive))
       .subscribe(year => {

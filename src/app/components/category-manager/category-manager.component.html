@@ -31,21 +31,32 @@
 
 
             <div *ngIf="cat.staticDivisions.length > 0">
-                <h4>Static Divisions</h4>
-                <ul>
-                    <li *ngFor="let div of cat.staticDivisions" class="readonly-division">{{ div }}</li>
-                </ul>
+                <h4 class="section-header" (click)="toggleStaticDivisions()">
+                    Default
+                    <span class="toggle-icon">{{ staticDivisionsCollapsed ? '▼' : '▲' }}</span>
+                </h4>
+                <div [@expandCollapse]="staticDivisionsCollapsed ? 'collapsed' : 'expanded'" class="chip-container">
+                    <div class="chip chip-static" *ngFor="let div of cat.staticDivisions">
+                        {{ div }}
+                    </div>
+                </div>
+
             </div>
 
 
-            <h4>Dynamic Divisions</h4>
-            <ul>
-                <li *ngFor="let div of cat.dynamicDivisions; let j = index" class="editable-division">
+            <h4 class="section-header" (click)="toggleDynamicDivisions()">
+                Custom
+                <span class="toggle-icon">{{ dynamicDivisionsCollapsed ? '▼' : '▲' }}</span>
+            </h4>
+            <div [@expandCollapse]="dynamicDivisionsCollapsed ? 'collapsed' : 'expanded'" class="chip-container">
+                <div class="chip chip-dynamic" *ngFor="let div of cat.dynamicDivisions; let j = index"
+                    (click)="editDivision(activeTabIndex, j)">
                     {{ div }}
-                    <mat-icon class="icon-button" (click)="editDivision(activeTabIndex, j)">edit</mat-icon>
-                    <mat-icon class="icon-button" (click)="deleteDivision(activeTabIndex, j)">delete</mat-icon>
-                </li>
-            </ul>
+                    <span class="chip-close"
+                        (click)="deleteDivision(activeTabIndex, j); $event.stopPropagation()">×</span>
+                </div>
+            </div>
+
 
         </ng-container>
 
@@ -55,11 +66,9 @@
     </div>
 
     <div class="footer-buttons">
-        <button class="soft-btn" (click)="addDivision(activeTabIndex)">+ Add Division</button>
-
+        
         <div class="spacer"></div>
 
-        <button class="soft-btn" [disabled]="!pendingChanges" (click)="resetChanges()">Reset</button>
-        <button class="soft-btn" [disabled]="!pendingChanges" (click)="saveChanges()">Save</button>
+        <button class="soft-btn" (click)="addDivision(activeTabIndex)">+ Add Division</button>
     </div>
 </div>

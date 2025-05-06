@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ChartDataset, ChartOptions } from 'chart.js';
-import { FilterService, LoggerService, TransactionsService } from '../../services';
-import { Transaction } from '../../interfaces';
-import { ChartTransactions, TransactionCategories } from '../../configs';
+import { CategoryService, FilterService, TransactionsService } from '../../services';
+import { ITransactionCategory, Transaction } from '../../interfaces';
+import { ChartTransactions } from '../../configs';
 import { Subject, merge, takeUntil } from 'rxjs';
 import 'chartjs-adapter-date-fns'; // Make sure this adapter is installed
 import { Capacitor } from '@capacitor/core';
@@ -15,7 +15,7 @@ import { Capacitor } from '@capacitor/core';
 export class SpendByCategoryChartComponent implements OnInit {
 
   transactions: Transaction[] = [];
-  transactionCategories = TransactionCategories;
+  transactionCategories: ITransactionCategory[] = [];
 
   isComponentActive = new Subject<boolean>();
 
@@ -74,9 +74,11 @@ export class SpendByCategoryChartComponent implements OnInit {
 
   };
 
-  constructor(private transactionService: TransactionsService, private filterService: FilterService, private loggerService: LoggerService) { }
+  constructor(private transactionService: TransactionsService, 
+    private filterService: FilterService, private categoryService: CategoryService) { }
 
   ngOnInit(): void {
+    this.transactionCategories = this.categoryService.allCategories;
     merge(this.filterService.year$, this.transactionService.transactionsChanged)
       .pipe(takeUntil(this.isComponentActive))
       .subscribe(() => {
