@@ -3,7 +3,7 @@ import { FilterService, LoggerService, SmsService, ToastService, TransactionsSer
 import { ITentativeTransaction, Transaction } from '../../interfaces';
 import { generateHexId } from '../../utils';
 import { MatDialog } from '@angular/material/dialog';
-import { DivisionSelectorDialogComponent } from '../division-selector-dialog/division-selector-dialog.component';
+import { DivisionSelectorDialogComponent } from '../';
 import { Subject, merge, take, takeUntil } from 'rxjs';
 
 @Component({

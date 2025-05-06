@@ -66,4 +66,8 @@ export class AppComponent {
   gotoCharts() {
     this.router.navigate(['/charts']);
   }
+
+  gotoCategory() {
+    this.router.navigate(['/categories']);
+  }
 }

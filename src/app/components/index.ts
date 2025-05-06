@@ -1,4 +1,5 @@
 export * from './add-transaction-dialog/add-transaction-dialog.component';
+export * from './category-manager/category-manager.component';
 export * from './devloper-option/devloper-option.component';
 export * from './division-selector-dialog/division-selector-dialog.component';
 export * from './home/home.component';

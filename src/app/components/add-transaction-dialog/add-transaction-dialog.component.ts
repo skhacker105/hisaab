@@ -4,7 +4,7 @@ import { TransactionsService } from '../../services';
 import { ITransactionCategory, Transaction } from '../../interfaces';
 import { TransactionCategories } from '../../configs';
 import { generateHexId } from '../../utils';
-import { DivisionSelectorDialogComponent } from '../division-selector-dialog/division-selector-dialog.component';
+import { DivisionSelectorDialogComponent } from '../';
 import { take } from 'rxjs';
 import { DatePipe } from '@angular/common';
 

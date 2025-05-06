@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { HomeComponent, TentativeTransactionsComponent, AddTransactionDialogComponent, SmsDetailsDialogComponent } from './components';
+import { HomeComponent, TentativeTransactionsComponent, AddTransactionDialogComponent, SmsDetailsDialogComponent, DivisionSelectorDialogComponent, SpendByCategoryChartComponent, CategoryManagerComponent } from './components';
 
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -23,11 +23,9 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { AndroidPermissions } from '@awesome-cordova-plugins/android-permissions/ngx';
-import { DivisionSelectorDialogComponent } from './components/division-selector-dialog/division-selector-dialog.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
 import { NgChartsModule } from 'ng2-charts';
-import { SpendByCategoryChartComponent } from './components/spend-by-category-chart/spend-by-category-chart.component';
 import { DatePipe } from '@angular/common';
 import { SwipeDirective } from './directives/swipe.directive';
 
@@ -40,7 +38,8 @@ import { SwipeDirective } from './directives/swipe.directive';
     SmsDetailsDialogComponent,
     DivisionSelectorDialogComponent,
     SpendByCategoryChartComponent,
-    SwipeDirective
+    SwipeDirective,
+    CategoryManagerComponent
   ],
   imports: [
     FormsModule,

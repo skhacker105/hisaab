@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { MatTabsModule } from '@angular/material/tabs';
-import { LocalStorageComponent } from '../local-storage/local-storage.component';
-import { LogsComponent } from '../logs/logs.component';
+import { LocalStorageComponent, LogsComponent } from '../';
 import { MatIconModule } from '@angular/material/icon';
 import { LoggerService } from '../../services/logger.service';
 

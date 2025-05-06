@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { DevloperOptionComponent } from '../components/devloper-option/devloper-option.component';
+import { DevloperOptionComponent } from '../components/';
 import { DefaultPasswordHashing } from '../classes';
 import { environment } from '../../environments/environment';
 

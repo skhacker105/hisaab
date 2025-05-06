@@ -1,0 +1,57 @@
+<div class="home-container">
+    <div class="header">
+      <h2>Category</h2>
+      <button class="icon-button" (click)="addNewCategory()">
+        ➕
+      </button>
+    </div>
+  
+    <div class="tab-bar">
+      <div
+        class="tab-item"
+        *ngFor="let cat of categories; let i = index"
+        [class.active]="i === activeTabIndex"
+        (click)="activeTabIndex = i"
+      >
+        {{ cat.category }}
+      </div>
+    </div>
+  
+    <div class="tab-content">
+      <ng-container *ngIf="categories[activeTabIndex] as cat; else noTab">
+        <div class="category-name-edit">
+          <label>Category Name:</label>
+          <input [(ngModel)]="cat.category" (ngModelChange)="pendingChanges = true" />
+        </div>
+  
+        <h4>Static Divisions</h4>
+        <ul>
+          <li *ngFor="let div of cat.staticDivisions" class="readonly-division">{{ div }}</li>
+        </ul>
+  
+        <h4>Dynamic Divisions</h4>
+        <ul>
+          <li *ngFor="let div of cat.dynamicDivisions; let j = index" class="editable-division">
+            {{ div }}
+            <button class="icon-button" (click)="editDivision(activeTabIndex, j)">✏️</button>
+            <button class="icon-button" (click)="deleteDivision(activeTabIndex, j)">🗑️</button>
+          </li>
+        </ul>
+  
+      </ng-container>
+  
+      <ng-template #noTab>
+        <p>No categories available.</p>
+      </ng-template>
+    </div>
+  
+    <div class="footer-buttons">      
+      <button class="soft-btn" (click)="addDivision(activeTabIndex)">+ Add Division</button>
+
+      <div class="spacer"></div>
+
+      <button class="soft-btn" [disabled]="!pendingChanges" (click)="resetChanges()">Reset</button>
+      <button class="soft-btn" [disabled]="!pendingChanges" (click)="saveChanges()">Save</button>
+    </div>
+  </div>
+  
