@@ -299,6 +299,7 @@
     gap: 12px;
     margin-bottom: 16px;
     min-height: 60px;
+    max-height: 60px;
 
     // Optional: hide scrollbar on WebKit browsers
     &::-webkit-scrollbar {
