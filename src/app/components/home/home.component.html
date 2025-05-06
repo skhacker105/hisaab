@@ -33,6 +33,7 @@
 
   <div class="category-scroll-container" *ngIf="selectionMode">
     <div class="header" *ngIf="selectionMode">
+      <mat-checkbox id="selectAll" (change)="toggleSelectAll($event)"></mat-checkbox>
       <button class="soft-btn" (click)="deleteSelected()" [disabled]="!selectedCount">
         Delete {{ selectedCount > 0 ? selectedCount : '' }} Selected
       </button>

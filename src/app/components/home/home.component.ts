@@ -7,6 +7,7 @@ import { Subject, takeUntil } from 'rxjs';
 import { TransactionCategories } from '../../configs';
 import { sortTransactionsByDateDesc } from '../../utils';
 import { animate, style, transition, trigger } from '@angular/animations';
+import { MatCheckboxChange } from '@angular/material/checkbox';
 
 @Component({
   selector: 'app-home',
@@ -190,6 +191,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   onSwipeRight() {
     this.selectionMode = true;
+    this.closeAllDrawers();
   }
 
   onSwipeLeft() {
@@ -217,5 +219,15 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   isSelected(id: string): boolean {
     return this.selectedIds.has(id);
+  }
+
+  toggleSelectAll(event: MatCheckboxChange) {
+    if (event.checked) {
+      this.transactions
+        .filter(t => !this.selectedCategory || this.transactionInSelectedCategory(t))
+        .forEach(t => this.selectedIds.add(t.id));
+    } else {
+      this.selectedIds.clear();
+    }
   }
 }

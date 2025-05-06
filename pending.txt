@@ -1,4 +1,5 @@
 add page for add/edit categories
+add select all in selection mode
 
 
 completed
