@@ -245,6 +245,11 @@
 .more-icon {
     cursor: pointer;
     color: #616161;
+
+    &.disabled {
+        color: #efefef;
+        pointer-events: none;
+    }
 }
 
 .drawer-overlay {

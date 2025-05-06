@@ -74,7 +74,7 @@
           </div>
 
           <div class="right-icon">
-            <div class="more-icon" (click)="toggleDrawer(t, $event)">
+            <div class="more-icon" (click)="toggleDrawer(t, $event)" [class.disabled]="selectionMode">
               <mat-icon>more_vert</mat-icon>
             </div>
           </div>
