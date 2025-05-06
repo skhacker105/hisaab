@@ -1,36 +1,42 @@
 <div class="home-container">
     <div class="header">
         <h2>Category</h2>
-        <button class="icon-button" (click)="addNewCategory()">
-            ➕
-        </button>
+        <mat-icon class="clickable-icon" (click)="addNewCategory()">add</mat-icon>
     </div>
 
     <div class="tab-bar">
-        <div class="tab-item" *ngFor="let cat of categories; let i = index" [class.active]="i === activeTabIndex"
-            (click)="activeTabIndex = i">
-            <mat-icon>{{ cat.matIcon || 'category' }}</mat-icon>
-            {{ cat.category }}
+        <div class="tab-item" *ngFor="let cat of categories; let i = index" #tabItem
+            [class.active]="i === activeTabIndex">
+            <div (click)="activeTabIndex = i" class="tab-label">
+                <mat-icon>{{ cat.matIcon || 'category' }}</mat-icon>
+                {{ cat.category }}
+            </div>
+            <mat-icon *ngIf="!isDefaultCategory(i)" class="delete-icon" (click)="deleteCategory(i)">close</mat-icon>
         </div>
-
     </div>
+
 
     <div class="tab-content">
         <ng-container *ngIf="categories[activeTabIndex] as cat; else noTab">
             <div class="category-name-edit">
                 <label>Category:</label>
-                <input [(ngModel)]="cat.category" (ngModelChange)="onCategoryChange()" />
-              
-                <button class="icon-button" (click)="openIconPicker()">
-                  <mat-icon>{{ cat.matIcon || 'category' }}</mat-icon>
-                </button>
-              </div>
-              
+                <input [(ngModel)]="cat.category" (ngModelChange)="updateCategoryName(activeTabIndex, $event)"
+                    [readonly]="isDefaultCategory(activeTabIndex)" />
 
-            <h4>Static Divisions</h4>
-            <ul>
-                <li *ngFor="let div of cat.staticDivisions" class="readonly-division">{{ div }}</li>
-            </ul>
+
+                <button class="icon-button" (click)="openIconPicker()">
+                    <mat-icon>{{ cat.matIcon || 'category' }}</mat-icon>
+                </button>
+            </div>
+
+
+            <div *ngIf="cat.staticDivisions.length > 0">
+                <h4>Static Divisions</h4>
+                <ul>
+                    <li *ngFor="let div of cat.staticDivisions" class="readonly-division">{{ div }}</li>
+                </ul>
+            </div>
+
 
             <h4>Dynamic Divisions</h4>
             <ul>
