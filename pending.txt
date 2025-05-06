@@ -1,5 +1,4 @@
 add page for add/edit categories
-add select all in selection mode
 
 
 completed
@@ -17,3 +16,4 @@ hide month drop down on graph page
 add date in add edit screen. while editting a transaction having tentative transaction
 add category wise row in home page with total and acting as filter
 add multi selection on home page
+add select all in selection mode
