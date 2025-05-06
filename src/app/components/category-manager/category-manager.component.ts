@@ -1,30 +1,32 @@
 import { Component, HostListener, OnInit } from '@angular/core';
-import { ITransactionCategory, ITransactionCategoryCrudEnabled } from '../../interfaces';
-import { TransactionCategories } from '../../configs';
+import { MatDialog } from '@angular/material/dialog';
+import { ITransactionCategoryCrudEnabled, ITransactionCategory } from '../../interfaces';
+import { IconPickerDialogComponent } from '../';
+import { CategoryService } from '../../services';
+import { take } from 'rxjs';
 
 @Component({
   selector: 'app-category-manager',
   templateUrl: './category-manager.component.html',
   styleUrl: './category-manager.component.scss'
 })
-export class CategoryManagerComponent  implements OnInit {
-  localStorageKey = 'userCategories';
-  defaultCategories: ITransactionCategory[] = TransactionCategories;
-
+export class CategoryManagerComponent implements OnInit {
   categories: ITransactionCategoryCrudEnabled[] = [];
   originalState: string = '';
   activeTabIndex = 0;
   pendingChanges = false;
+
+  constructor(private dialog: MatDialog, private categoryService: CategoryService) { }
 
   ngOnInit() {
     this.loadCategories();
   }
 
   loadCategories() {
-    const saved = localStorage.getItem(this.localStorageKey);
-    const parsed: ITransactionCategory[] = saved ? JSON.parse(saved) : this.defaultCategories;
+    const all = this.categoryService.getAllCategoriesCopy();
 
-    this.categories = parsed.map(c => ({
+    // divide divisions between static and dynamic from c.divisions compared to this.categoryService.defaultCategories
+    this.categories = all.map(c => ({
       category: c.category,
       staticDivisions: c.divisions,
       matIcon: c.matIcon,
@@ -35,12 +37,13 @@ export class CategoryManagerComponent  implements OnInit {
   }
 
   saveChanges() {
-    const toSave = this.categories.map(c => ({
+    const toSave: ITransactionCategory[] = this.categories.map(c => ({
       category: c.category,
       divisions: [...c.staticDivisions, ...c.dynamicDivisions],
       matIcon: c.matIcon
     }));
-    localStorage.setItem(this.localStorageKey, JSON.stringify(toSave));
+
+    this.categoryService.saveCategories(toSave);
     this.pendingChanges = false;
     this.originalState = JSON.stringify(this.categories);
   }
@@ -48,6 +51,21 @@ export class CategoryManagerComponent  implements OnInit {
   resetChanges() {
     this.loadCategories();
     this.pendingChanges = false;
+  }
+
+  openIconPicker() {
+    const dialogRef = this.dialog.open(IconPickerDialogComponent, { width: '95%', height: '95%' });
+
+    dialogRef.afterClosed().pipe(take(1)).subscribe(selectedIcon => {
+      if (selectedIcon) {
+        this.categories[this.activeTabIndex].matIcon = selectedIcon;
+        this.pendingChanges = true;
+      }
+    });
+  }
+
+  onCategoryChange() {
+    this.pendingChanges = true;
   }
 
   addNewCategory() {
@@ -77,6 +95,7 @@ export class CategoryManagerComponent  implements OnInit {
     this.categories[index].category = newName;
     this.pendingChanges = true;
   }
+
 
   addDivision(index: number) {
     const name = prompt('Enter new division name:');

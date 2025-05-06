@@ -6,6 +6,7 @@
     max-height: calc(100% - 32px);
     height: calc(100% - 32px);
     overflow-y: hidden;
+    background-color: #f9fbfd;
 }
 
 .header {
@@ -15,18 +16,21 @@
 
     h2 {
         margin: 0;
+        font-size: 24px;
+        color: #1565c0;
     }
 
     .icon-button {
-        background: none;
+        background: #e0f2ff;
         border: none;
         font-size: 20px;
         cursor: pointer;
         padding: 4px 8px;
         border-radius: 8px;
+        color: #1a73e8;
 
         &:hover {
-            background: #f0f0f0;
+            background: #cbe8ff;
         }
     }
 }
@@ -48,20 +52,30 @@
         padding: 8px 16px;
         cursor: pointer;
         white-space: nowrap;
-        background: #f5f5f5;
+        background: #e3f2fd;
         border-radius: 10px 10px 0 0;
         margin-right: 4px;
         transition: background 0.2s;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        color: #0d47a1;
 
         &.active {
             background: #ffffff;
-            border: 1px solid #ccc;
+            border: 1px solid #90caf9;
             border-bottom: none;
             font-weight: bold;
         }
 
         &:hover {
-            background: #eeeeee;
+            background: #bbdefb;
+        }
+
+        mat-icon {
+            font-size: 18px;
+            height: 18px;
+            width: 18px;
         }
     }
 }
@@ -88,11 +102,12 @@
         padding: 6px 12px;
         border: 1px solid #ccc;
         border-radius: 6px;
+        background-color: #f3faff;
     }
 }
 
 .readonly-division {
-    color: gray;
+    color: #666;
     font-style: italic;
     margin-left: 20px;
     list-style-type: disc;
@@ -104,6 +119,7 @@
     gap: 8px;
     margin-left: 20px;
     margin-bottom: 4px;
+    color: #333;
 }
 
 .icon-button {
@@ -112,22 +128,24 @@
     font-size: 16px;
     cursor: pointer;
     border-radius: 6px;
+    color: #1565c0;
 
     &:hover {
-        background: #eee;
+        background: #e3f2fd;
     }
 }
 
 .soft-btn {
     padding: 8px 16px;
-    background: #f0f0f0;
-    border: 1px solid #ccc;
+    background: #e3f2fd;
+    border: 1px solid #90caf9;
     border-radius: 12px;
     cursor: pointer;
     transition: background 0.2s ease;
+    color: #0d47a1;
 
     &:hover {
-        background: #e4e4e4;
+        background: #bbdefb;
     }
 
     &:disabled {

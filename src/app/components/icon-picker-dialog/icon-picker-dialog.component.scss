@@ -1,0 +1,35 @@
+.color-picker-container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+
+    h2 {
+        font-size: 20px;
+        font-weight: 600;
+        color: #1565c0;
+        margin-bottom: 12px;
+    }
+
+    .search-container {
+        display: flex;
+        justify-content: center;
+        padding: 0px 24px;
+
+        input {
+            width: 100%;
+            padding: 5px;
+            border-radius: 5px;
+            border-color: #afb1d3;
+        }
+    }
+
+    .icon-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, 40px);
+        gap: 8px;
+        height: 100%;
+        width: 100%;
+        overflow: auto;
+        flex: 1 auto;
+    }
+}

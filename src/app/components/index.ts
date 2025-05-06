@@ -3,6 +3,7 @@ export * from './category-manager/category-manager.component';
 export * from './devloper-option/devloper-option.component';
 export * from './division-selector-dialog/division-selector-dialog.component';
 export * from './home/home.component';
+export * from './icon-picker-dialog/icon-picker-dialog.component'
 export * from './local-storage/local-storage.component';
 export * from './logs/logs.component';
 export * from './sms-details-dialog/sms-details-dialog.component';

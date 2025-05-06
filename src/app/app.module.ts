@@ -4,7 +4,10 @@ import { FormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { HomeComponent, TentativeTransactionsComponent, AddTransactionDialogComponent, SmsDetailsDialogComponent, DivisionSelectorDialogComponent, SpendByCategoryChartComponent, CategoryManagerComponent } from './components';
+import {
+  HomeComponent, TentativeTransactionsComponent, AddTransactionDialogComponent, SmsDetailsDialogComponent, DivisionSelectorDialogComponent,
+  SpendByCategoryChartComponent, CategoryManagerComponent, IconPickerDialogComponent
+} from './components';
 
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -39,7 +42,8 @@ import { SwipeDirective } from './directives/swipe.directive';
     DivisionSelectorDialogComponent,
     SpendByCategoryChartComponent,
     SwipeDirective,
-    CategoryManagerComponent
+    CategoryManagerComponent,
+    IconPickerDialogComponent
   ],
   imports: [
     FormsModule,
