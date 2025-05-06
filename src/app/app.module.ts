@@ -17,6 +17,8 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTabsModule } from '@angular/material/tabs';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatButtonModule } from '@angular/material/button';
 
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { AndroidPermissions } from '@awesome-cordova-plugins/android-permissions/ngx';
@@ -26,6 +28,7 @@ import { ToastrModule } from 'ngx-toastr';
 import { NgChartsModule } from 'ng2-charts';
 import { SpendByCategoryChartComponent } from './components/spend-by-category-chart/spend-by-category-chart.component';
 import { DatePipe } from '@angular/common';
+import { SwipeDirective } from './directives/swipe.directive';
 
 @NgModule({
   declarations: [
@@ -35,7 +38,8 @@ import { DatePipe } from '@angular/common';
     AddTransactionDialogComponent,
     SmsDetailsDialogComponent,
     DivisionSelectorDialogComponent,
-    SpendByCategoryChartComponent
+    SpendByCategoryChartComponent,
+    SwipeDirective
   ],
   imports: [
     FormsModule,
@@ -54,6 +58,8 @@ import { DatePipe } from '@angular/common';
     MatProgressSpinnerModule,
     BrowserAnimationsModule,
     NgChartsModule,
+    MatRadioModule,
+    MatButtonModule,
     ToastrModule.forRoot({
       positionClass: 'toast-bottom-center',
       timeOut: 1500,

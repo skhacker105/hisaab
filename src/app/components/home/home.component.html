@@ -12,7 +12,7 @@
     </mat-card>
   </div>
 
-  <div class="category-scroll-container" *ngIf="categorySummaries.length > 0">
+  <div class="category-scroll-container" *ngIf="categorySummaries.length > 0 && !selectionMode">
     <div class="category-summary" *ngFor="let c of categorySummaries" (click)="selectDelectTransactions(c)" [ngClass]="{
       'selected-category': selectedCategory?.name === c.name
     }">
@@ -31,14 +31,31 @@
     </div>
   </div>
 
+  <div class="category-scroll-container" *ngIf="selectionMode">
+    <div class="header" *ngIf="selectionMode">
+      <button class="soft-btn" (click)="deleteSelected()" [disabled]="!selectedCount">
+        Delete {{ selectedCount > 0 ? selectedCount : '' }} Selected
+      </button>
+      <mat-icon class="soft-btn-close" (click)="onSwipeLeft()">close</mat-icon>
+    </div>
+  </div>
 
-  <div class="transaction-list" *ngIf="!showTentativeTransaction">
+
+  <div class="transaction-list" *ngIf="!showTentativeTransaction" appSwipe (swipeRight)="onSwipeRight()"
+    (swipeLeft)="onSwipeLeft()">
+
     <ng-container *ngFor="let t of transactions">
       <mat-card class="transaction-card" *ngIf="!selectedCategory || transactionInSelectedCategory(t)">
 
         <div class="transaction-content" (click)="showSmsSourceDetails(t)">
-          <div class="left-icon">
+
+          <div class="left-icon-wrapper fade-slide" [class.hide]="selectionMode && !isSelected(t.id)"
+            *ngIf="!selectionMode">
             <mat-icon>{{ getTransactionCategoryIcon(t) }}</mat-icon>
+          </div>
+          <div class="left-icon-wrapper fade-slide" [class.hide]="selectionMode && !isSelected(t.id)"
+            *ngIf="selectionMode">
+            <mat-radio-button [checked]="isSelected(t.id)" (click)="toggleSelection(t.id)"></mat-radio-button>
           </div>
 
           <div class="right-details">

@@ -39,8 +39,16 @@ export class HomeComponent implements OnInit, OnDestroy {
   categorySummaries: ITransactionCategorySummary[] = [];
   selectedCategory: ITransactionCategorySummary | undefined;
 
+  selectionMode = false;
+  selectedIds = new Set<string>();
+
+
   get monthName(): string {
     return this.filterService.months.find(m => m.value == this.month)?.name ?? '';
+  }
+
+  get selectedCount(): number {
+    return this.selectedIds.size;
   }
 
   constructor(
@@ -81,15 +89,15 @@ export class HomeComponent implements OnInit, OnDestroy {
     setTimeout(() => {
       const allForMonth = this.transactionService.getTransactionsForMonth(this.year, this.month);
       const allForYear = this.transactionService.getTransactionsForYear(this.year);
-  
+
       this.transactions = sortTransactionsByDateDesc(allForMonth);
       this.calculateCategoryTotals();
       if (showHideTentativeTransactions) this.showHideTentativeTransaction();
-  
+
       this.monthlyExpenditure = allForMonth
         .filter(t => t.amount < 0)
         .reduce((sum, t) => sum + Math.abs(t.amount), 0);
-  
+
       this.yearlyExpenditure = allForYear
         .filter(t => t.amount < 0)
         .reduce((sum, t) => sum + Math.abs(t.amount), 0);
@@ -134,7 +142,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   closeAllDrawers() {
     this.transactions.forEach(tx => tx.showDrawer = false);
   }
-  
+
   editTransaction(t: Transaction) {
     t.showDrawer = false;
     this.dialog.open(AddTransactionDialogComponent, {
@@ -169,7 +177,44 @@ export class HomeComponent implements OnInit, OnDestroy {
   transactionInSelectedCategory(t: Transaction): boolean {
     if (!this.selectedCategory) return true;
 
-    const cat =  this.transactionCategories.find(c => c.divisions.includes((t.category ?? '')));
+    const cat = this.transactionCategories.find(c => c.divisions.includes((t.category ?? '')));
     return cat && cat.category === this.selectedCategory.name ? true : false;
+  }
+
+  toggleSelection(id: string) {
+    this.selectedIds.has(id)
+      ? this.selectedIds.delete(id)
+      : this.selectedIds.add(id);
+  }
+
+  onSwipeRight() {
+    this.selectionMode = true;
+  }
+
+  onSwipeLeft() {
+    this.selectionMode = false;
+    this.selectedIds.clear();
+  }
+
+  deleteSelected() {
+    if (this.selectedCount === 0) return;
+
+    const confirmDelete = confirm(`Are you sure to delete ${this.selectedCount} transaction?`);
+    if (!confirmDelete) return;
+
+    this.transactions.forEach(t => {
+      if (!this.selectedIds.has(t.id)) return;
+
+      this.transactionService.removeTransaction(t);
+      if (t.tentative)
+        this.sms.removeConfirmedMessageId(t.tentative.id);
+      
+    });
+    this.selectedIds.clear();
+    this.selectionMode = false;
+  }
+
+  isSelected(id: string): boolean {
+    return this.selectedIds.has(id);
   }
 }
