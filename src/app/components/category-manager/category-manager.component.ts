@@ -24,17 +24,34 @@ export class CategoryManagerComponent implements OnInit {
 
   loadCategories() {
     const all = this.categoryService.getAllCategoriesCopy();
-
-    // divide divisions between static and dynamic from c.divisions compared to this.categoryService.defaultCategories
-    this.categories = all.map(c => ({
-      category: c.category,
-      staticDivisions: c.divisions,
-      matIcon: c.matIcon,
-      dynamicDivisions: []
-    }));
-
+    const defaults = this.categoryService.defaultCategories;
+  
+    this.categories = all.map(c => {
+      const defaultCategory = defaults.find(def => def.category.toLowerCase() === c.category.toLowerCase());
+      const defaultDivisions = defaultCategory?.divisions || [];
+  
+      const staticDivisions: string[] = [];
+      const dynamicDivisions: string[] = [];
+  
+      for (const div of c.divisions) {
+        if (defaultDivisions.includes(div)) {
+          staticDivisions.push(div);
+        } else {
+          dynamicDivisions.push(div);
+        }
+      }
+  
+      return {
+        category: c.category,
+        matIcon: c.matIcon,
+        staticDivisions,
+        dynamicDivisions
+      };
+    });
+  
     this.originalState = JSON.stringify(this.categories);
   }
+  
 
   saveChanges() {
     const toSave: ITransactionCategory[] = this.categories.map(c => ({
