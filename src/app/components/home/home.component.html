@@ -49,14 +49,15 @@
 
         <div class="transaction-content" (click)="showSmsSourceDetails(t)">
 
-          <div class="left-icon-wrapper fade-slide" [class.hide]="selectionMode && !isSelected(t.id)"
-            *ngIf="!selectionMode">
-            <mat-icon>{{ getTransactionCategoryIcon(t) }}</mat-icon>
+          <div class="left-icon-wrapper">
+            <div class="icon-layer fade-slide" [class.hide]="selectionMode">
+              <mat-icon>{{ getTransactionCategoryIcon(t) }}</mat-icon>
+            </div>
+            <div class="radio-layer fade-slide" [class.hide]="!selectionMode">
+              <mat-checkbox [checked]="isSelected(t.id)" (change)="toggleSelection(t.id)"></mat-checkbox>
+            </div>
           </div>
-          <div class="left-icon-wrapper fade-slide" [class.hide]="selectionMode && !isSelected(t.id)"
-            *ngIf="selectionMode">
-            <mat-radio-button [checked]="isSelected(t.id)" (click)="toggleSelection(t.id)"></mat-radio-button>
-          </div>
+
 
           <div class="right-details">
             <div class="transaction-header">

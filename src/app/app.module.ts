@@ -19,6 +19,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatButtonModule } from '@angular/material/button';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { AndroidPermissions } from '@awesome-cordova-plugins/android-permissions/ngx';
@@ -60,6 +61,7 @@ import { SwipeDirective } from './directives/swipe.directive';
     NgChartsModule,
     MatRadioModule,
     MatButtonModule,
+    MatCheckboxModule,
     ToastrModule.forRoot({
       positionClass: 'toast-bottom-center',
       timeOut: 1500,

@@ -44,15 +44,6 @@
     transition: transform 0.3s ease;
 }
 
-.fade-slide {
-    transition: opacity 0.3s ease, transform 0.3s ease;
-}
-
-.fade-slide.hide {
-    opacity: 0;
-    transform: translateX(-20px);
-}
-
 .header {
     display: flex;
     justify-content: space-between;
@@ -93,19 +84,33 @@
 
 .left-icon-wrapper {
     width: 40px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    transition: all 0.3s ease;
     height: 100%;
-
-    mat-icon {
-        font-size: 15px;
-        margin: auto;
-        width: 15px;
-        height: 15px;
-    }
+    position: relative; /* Key to stack layers */
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
+
+/* Layered positioning */
+.icon-layer,
+.radio-layer {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+/* Shared animation */
+.fade-slide {
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.fade-slide.hide {
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(-10px);
+}
+
 
 .transaction-header {
     display: flex;

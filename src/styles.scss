@@ -43,3 +43,7 @@ body {
 .toast-message {
   font-size: 14px;
 }
+
+.no-pointer {
+  pointer-events: none;
+}

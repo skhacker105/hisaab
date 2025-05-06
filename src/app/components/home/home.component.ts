@@ -124,6 +124,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   showSmsSourceDetails(transaction: Transaction) {
+    if (this.selectionMode) return;
     const smsDetails = this.transactionService.getTransactionById(transaction.id);
     if (smsDetails) {
       this.dialog.open(SmsDetailsDialogComponent, {
@@ -208,7 +209,7 @@ export class HomeComponent implements OnInit, OnDestroy {
       this.transactionService.removeTransaction(t);
       if (t.tentative)
         this.sms.removeConfirmedMessageId(t.tentative.id);
-      
+
     });
     this.selectedIds.clear();
     this.selectionMode = false;
