@@ -103,7 +103,7 @@ export class CategoryManagerComponent implements OnInit, CanComponentDeactivate 
   }
 
   addNewCategory() {
-    const name = prompt('Enter new category name:');
+    const name = prompt('Enter new Category:');
     if (!name || name.trim() === '') return;
 
     if (this.categories.some(c => c.category.toLowerCase() === name.toLowerCase())) {
@@ -136,7 +136,7 @@ export class CategoryManagerComponent implements OnInit, CanComponentDeactivate 
     }
 
     if (this.categories.some((c, i) => i !== index && c.category.toLowerCase() === newName.toLowerCase())) {
-      alert('Category name already exists!');
+      alert('Category already exists!');
       return;
     }
 
@@ -160,18 +160,25 @@ export class CategoryManagerComponent implements OnInit, CanComponentDeactivate 
         this.saveChanges();
       }
     } else {
-      alert('Default categories cannot be deleted.');
+      alert('Default Categories cannot be deleted.');
     }
   }
 
 
-  addDivision(index: number) {
+  addDivision(index: number, e: any) {
+    e.stopPropagation();
     const name = prompt('Enter new division name:');
-    if (name) {
-      this.categories[index].dynamicDivisions.push(name);
-      // this.pendingChanges = true;
-      this.saveChanges();
+    if (!name) return;
+
+    const alreadAvailable = this.categories.find(c => c.staticDivisions.includes(name) || c.dynamicDivisions.includes(name));
+    if (alreadAvailable) {
+      alert(`${name} already exists under ${alreadAvailable.category}.`);
+      return;
     }
+
+    this.categories[index].dynamicDivisions.push(name);
+    // this.pendingChanges = true;
+    this.saveChanges();
   }
 
   editDivision(index: number, divisionIndex: number) {
@@ -184,7 +191,8 @@ export class CategoryManagerComponent implements OnInit, CanComponentDeactivate 
   }
 
   deleteDivision(index: number, divisionIndex: number) {
-    if (confirm('Are you sure you want to delete this division?')) {
+    const divisionToDelete = this.categories[index].dynamicDivisions[divisionIndex];
+    if (confirm(`Are you sure you want to delete "${divisionToDelete}"?`)) {
       this.categories[index].dynamicDivisions.splice(divisionIndex, 1);
       // this.pendingChanges = true;
       this.saveChanges();

@@ -1,10 +1,14 @@
 // Pending
 adding favorites in category/divisions
 give provision to add categories and division from choose screen
-
+fix message read for debit or credit sent by Nidhi
 
 
 
 
 // Completed
 add page for add/edit categories
+fix message while adding and deleting category and divisions
+update "Add Dynamic Division" to "Add Custom"
+move add category icon atbend of tabs
+fix textbox length while editing categories

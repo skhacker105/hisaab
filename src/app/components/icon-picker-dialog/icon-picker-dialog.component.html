@@ -1,13 +1,13 @@
 <div class="color-picker-container">
     <h2 mat-dialog-title>Select an Icon</h2>
     <div class="search-container">
-        <input type="text" [(ngModel)]="seachText" />
+        <input type="text" [(ngModel)]="searchText" />
     </div>
     <mat-dialog-content>
         <div class="icon-grid">
             <ng-container *ngFor="let icon of allIcons">
                 <button mat-icon-button (click)="selectIcon(icon)" *ngIf="isIconMatching(icon)">
-                    <mat-icon>{{ icon }}</mat-icon>
+                    <mat-icon>{{ icon.ligature }}</mat-icon>
                 </button>
             </ng-container>
         </div>

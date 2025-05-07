@@ -1,17 +1,23 @@
 <div class="home-container">
     <div class="header">
         <h2>Category</h2>
-        <mat-icon class="clickable-icon" (click)="addNewCategory()">add</mat-icon>
     </div>
 
-    <div class="tab-bar">
-        <div class="tab-item" *ngFor="let cat of categories; let i = index" #tabItem
-            [class.active]="i === activeTabIndex">
-            <div (click)="activeTabIndex = i" class="tab-label">
-                <mat-icon>{{ cat.matIcon || 'category' }}</mat-icon>
-                {{ cat.category }}
+    <div class="tab-bar-container">
+
+        <div class="tab-bar">
+            <div class="tab-item" *ngFor="let cat of categories; let i = index" #tabItem
+                [class.active]="i === activeTabIndex">
+                <div (click)="activeTabIndex = i" class="tab-label">
+                    <mat-icon>{{ cat.matIcon || 'category' }}</mat-icon>
+                    {{ cat.category }}
+                </div>
+                <mat-icon *ngIf="!isDefaultCategory(i)" class="delete-icon" (click)="deleteCategory(i)">close</mat-icon>
             </div>
-            <mat-icon *ngIf="!isDefaultCategory(i)" class="delete-icon" (click)="deleteCategory(i)">close</mat-icon>
+        </div>
+
+        <div class="add-cat-icon">
+            <mat-icon (click)="addNewCategory()">add</mat-icon>
         </div>
     </div>
 
@@ -19,9 +25,8 @@
     <div class="tab-content">
         <ng-container *ngIf="categories[activeTabIndex] as cat; else noTab">
             <div class="category-name-edit">
-                <label>Category:</label>
                 <input [(ngModel)]="cat.category" (ngModelChange)="updateCategoryName(activeTabIndex, $event)"
-                    [readonly]="isDefaultCategory(activeTabIndex)" />
+                    [disabled]="isDefaultCategory(activeTabIndex)" />
 
 
                 <button class="icon-button" (click)="openIconPicker()">
@@ -33,6 +38,7 @@
             <div *ngIf="cat.staticDivisions.length > 0">
                 <h4 class="section-header" (click)="toggleStaticDivisions()">
                     Default
+                    <div class="spacer"></div>
                     <span class="toggle-icon">{{ staticDivisionsCollapsed ? '▼' : '▲' }}</span>
                 </h4>
                 <div [@expandCollapse]="staticDivisionsCollapsed ? 'collapsed' : 'expanded'" class="chip-container">
@@ -46,14 +52,17 @@
 
             <h4 class="section-header" (click)="toggleDynamicDivisions()">
                 Custom
+                <div class="spacer"></div>
+                <span class="add-icon" (click)="addDivision(activeTabIndex, $event)">+</span>
                 <span class="toggle-icon">{{ dynamicDivisionsCollapsed ? '▼' : '▲' }}</span>
             </h4>
             <div [@expandCollapse]="dynamicDivisionsCollapsed ? 'collapsed' : 'expanded'" class="chip-container">
                 <div class="chip chip-dynamic" *ngFor="let div of cat.dynamicDivisions; let j = index"
                     (click)="editDivision(activeTabIndex, j)">
                     {{ div }}
-                    <span class="chip-close"
-                        (click)="deleteDivision(activeTabIndex, j); $event.stopPropagation()">×</span>
+                    <span class="chip-close" (click)="deleteDivision(activeTabIndex, j); $event.stopPropagation()">
+                        ×
+                    </span>
                 </div>
             </div>
 
@@ -63,12 +72,5 @@
         <ng-template #noTab>
             <p>No categories available.</p>
         </ng-template>
-    </div>
-
-    <div class="footer-buttons">
-        
-        <div class="spacer"></div>
-
-        <button class="soft-btn" (click)="addDivision(activeTabIndex)">+ Add Division</button>
     </div>
 </div>

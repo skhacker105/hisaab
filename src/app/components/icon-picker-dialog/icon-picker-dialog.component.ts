@@ -1,6 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { allMaterialIcons } from '../../configs';
+import { IMaterialIcon } from '../../interfaces';
 
 @Component({
   selector: 'app-icon-picker-dialog',
@@ -9,22 +10,37 @@ import { allMaterialIcons } from '../../configs';
 })
 export class IconPickerDialogComponent {
 
-  allIcons = allMaterialIcons;
-  seachText = '';
+  allIcons: IMaterialIcon[] = allMaterialIcons;
+  searchText = '';
 
   constructor(
     public dialogRef: MatDialogRef<IconPickerDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {}
 
-  selectIcon(icon: string) {
-    this.dialogRef.close(icon);
+  selectIcon(icon: IMaterialIcon) {
+    this.dialogRef.close(icon.ligature);
   }
 
-  isIconMatching(icon: string): boolean {
-    if (!this.seachText) return true;
-
-    return icon.indexOf(this.seachText) >= 0;
+  isIconMatching(icon: IMaterialIcon): boolean {
+    if (!this.searchText) return true;
+  
+    const search = this.searchText.toLowerCase();
+  
+    for (const key in icon) {
+      const value = icon[key as keyof IMaterialIcon];
+  
+      if (typeof value === 'string' && value.toLowerCase().includes(search)) {
+        return true;
+      }
+  
+      if (Array.isArray(value) && value.some(item => item.toLowerCase().includes(search))) {
+        return true;
+      }
+    }
+  
+    return false;
   }
+  
   
 }

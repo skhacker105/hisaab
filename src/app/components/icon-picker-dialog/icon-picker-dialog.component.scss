@@ -24,9 +24,6 @@
     }
 
     .icon-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, 40px);
-        gap: 8px;
         height: 100%;
         width: 100%;
         overflow: auto;
