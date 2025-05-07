@@ -23,6 +23,8 @@ export class CategoryManagerComponent implements OnInit, CanComponentDeactivate 
 
   categories: ITransactionCategoryCrudEnabled[] = [];
   originalState: string = '';
+
+  favoritesTabLoaded = false;
   activeTabIndex = 0;
   pendingChanges = false;
 
@@ -32,6 +34,10 @@ export class CategoryManagerComponent implements OnInit, CanComponentDeactivate 
   @ViewChildren('tabItem') tabItems!: QueryList<ElementRef>;
 
   constructor(private dialog: MatDialog, private categoryService: CategoryService) { }
+
+  get favoriteDivisions(): string[] {
+    return Array.from(this.categoryService.favoritesDivisions.keys());
+  }
 
   ngOnInit() {
     this.loadCategories();
@@ -164,6 +170,7 @@ export class CategoryManagerComponent implements OnInit, CanComponentDeactivate 
     if (confirm(`Are you sure you want to delete "${divisionToDelete}"?`)) {
       this.categories[index].dynamicDivisions.splice(divisionIndex, 1);
       // this.pendingChanges = true;
+      this.categoryService.removeFavoriteDivision(divisionToDelete);
       this.saveChanges();
     }
   }
@@ -174,6 +181,22 @@ export class CategoryManagerComponent implements OnInit, CanComponentDeactivate 
 
   toggleDynamicDivisions() {
     this.dynamicDivisionsCollapsed = !this.dynamicDivisionsCollapsed;
+  }
+
+  isDivisionSelected(division: string): boolean {
+    return this.categoryService.favoritesDivisions.has(division);
+  }
+
+  toggleFavoriteDivision(division: string, e: any) {
+    e.stopPropagation();
+    const existingFav = this.categoryService.favoritesDivisions.get(division);
+    const existingCategory = this.categories.find(c => c.staticDivisions.includes(division) || c.dynamicDivisions.includes(division));
+    if (!existingCategory) return;
+
+    if (!existingFav)
+      this.categoryService.addFavoriteDivision(existingCategory.category, division, 'selectedAsFavorite');
+    else
+      this.categoryService.removeFavoriteDivision(division);
   }
 
   canDeactivate(): boolean {

@@ -228,6 +228,17 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+
+    .mat-icon {
+        font-size: 18px;
+        height: 18px;
+        width: 18px;
+        padding: 5px;
+
+        &.selected {
+            color: red
+        }
+    }
 }
 
 .chip-static {

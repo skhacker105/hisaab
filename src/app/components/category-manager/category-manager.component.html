@@ -6,9 +6,15 @@
     <div class="tab-bar-container">
 
         <div class="tab-bar">
+            <div class="tab-item" [class.active]="favoritesTabLoaded">
+                <div (click)="favoritesTabLoaded = true" class="tab-label">
+                    <mat-icon>favorite</mat-icon>
+                    Favorite
+                </div>
+            </div>
             <div class="tab-item" *ngFor="let cat of categories; let i = index" #tabItem
                 [class.active]="i === activeTabIndex">
-                <div (click)="activeTabIndex = i" class="tab-label">
+                <div (click)="activeTabIndex = i; favoritesTabLoaded = false" class="tab-label">
                     <mat-icon>{{ cat.matIcon || 'category' }}</mat-icon>
                     {{ cat.category }}
                 </div>
@@ -23,54 +29,71 @@
 
 
     <div class="tab-content">
-        <ng-container *ngIf="categories[activeTabIndex] as cat; else noTab">
-            <div class="category-name-edit">
-                <input [(ngModel)]="cat.category" (ngModelChange)="updateCategoryName(activeTabIndex, $event)"
-                    [disabled]="isDefaultCategory(activeTabIndex)" />
 
-
-                <button class="icon-button" (click)="openIconPicker()">
-                    <mat-icon>{{ cat.matIcon || 'category' }}</mat-icon>
-                </button>
+        <ng-container *ngIf="favoritesTabLoaded">
+            <div class="chip-container">
+                <div class="chip chip-static" *ngFor="let div of favoriteDivisions">
+                    <mat-icon [class.selected]="isDivisionSelected(div)"
+                        (click)="toggleFavoriteDivision(div, $event)">favorite</mat-icon>
+                    {{ div }}
+                </div>
             </div>
+        </ng-container>
+
+        <ng-container *ngIf="!favoritesTabLoaded">
+            <ng-container *ngIf="categories[activeTabIndex] as cat; else noTab">
+                <div class="category-name-edit">
+                    <input [(ngModel)]="cat.category" (ngModelChange)="updateCategoryName(activeTabIndex, $event)"
+                        [disabled]="isDefaultCategory(activeTabIndex)" />
 
 
-            <div *ngIf="cat.staticDivisions.length > 0">
-                <h4 class="section-header" (click)="toggleStaticDivisions()">
-                    Default
+                    <button class="icon-button" (click)="openIconPicker()">
+                        <mat-icon>{{ cat.matIcon || 'category' }}</mat-icon>
+                    </button>
+                </div>
+
+
+                <div *ngIf="cat.staticDivisions.length > 0">
+                    <h4 class="section-header" (click)="toggleStaticDivisions()">
+                        Default
+                        <div class="spacer"></div>
+                        <span class="toggle-icon">{{ staticDivisionsCollapsed ? '▼' : '▲' }}</span>
+                    </h4>
+                    <div [@expandCollapse]="staticDivisionsCollapsed ? 'collapsed' : 'expanded'" class="chip-container">
+                        <div class="chip chip-static" *ngFor="let div of cat.staticDivisions">
+                            <mat-icon [class.selected]="isDivisionSelected(div)"
+                                (click)="toggleFavoriteDivision(div, $event)">favorite</mat-icon>
+                            {{ div }}
+                        </div>
+                    </div>
+
+                </div>
+
+
+                <h4 class="section-header" (click)="toggleDynamicDivisions()">
+                    Custom
                     <div class="spacer"></div>
-                    <span class="toggle-icon">{{ staticDivisionsCollapsed ? '▼' : '▲' }}</span>
+                    <span class="add-icon" (click)="addDivision(activeTabIndex, $event)">+</span>
+                    <span class="toggle-icon">{{ dynamicDivisionsCollapsed ? '▼' : '▲' }}</span>
                 </h4>
-                <div [@expandCollapse]="staticDivisionsCollapsed ? 'collapsed' : 'expanded'" class="chip-container">
-                    <div class="chip chip-static" *ngFor="let div of cat.staticDivisions">
+                <div [@expandCollapse]="dynamicDivisionsCollapsed ? 'collapsed' : 'expanded'" class="chip-container">
+                    <div class="chip chip-dynamic" *ngFor="let div of cat.dynamicDivisions; let j = index"
+                        (click)="editDivision(activeTabIndex, j)">
+                        <mat-icon [class.selected]="isDivisionSelected(div)"
+                            (click)="toggleFavoriteDivision(div, $event)">favorite</mat-icon>
                         {{ div }}
+                        <span class="chip-close" (click)="deleteDivision(activeTabIndex, j); $event.stopPropagation()">
+                            ×
+                        </span>
                     </div>
                 </div>
 
-            </div>
 
+            </ng-container>
 
-            <h4 class="section-header" (click)="toggleDynamicDivisions()">
-                Custom
-                <div class="spacer"></div>
-                <span class="add-icon" (click)="addDivision(activeTabIndex, $event)">+</span>
-                <span class="toggle-icon">{{ dynamicDivisionsCollapsed ? '▼' : '▲' }}</span>
-            </h4>
-            <div [@expandCollapse]="dynamicDivisionsCollapsed ? 'collapsed' : 'expanded'" class="chip-container">
-                <div class="chip chip-dynamic" *ngFor="let div of cat.dynamicDivisions; let j = index"
-                    (click)="editDivision(activeTabIndex, j)">
-                    {{ div }}
-                    <span class="chip-close" (click)="deleteDivision(activeTabIndex, j); $event.stopPropagation()">
-                        ×
-                    </span>
-                </div>
-            </div>
-
-
+            <ng-template #noTab>
+                <p>No Data available.</p>
+            </ng-template>
         </ng-container>
-
-        <ng-template #noTab>
-            <p>No categories available.</p>
-        </ng-template>
     </div>
 </div>
