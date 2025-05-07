@@ -1,7 +1,7 @@
 import { Component, Inject, OnInit, Optional } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { CategoryService, TransactionsService } from '../../services';
-import { ITransactionCategory, Transaction } from '../../interfaces';
+import { ITransactionCategoryCrudEnabled, Transaction } from '../../interfaces';
 // import { TransactionCategories } from '../../configs';
 import { generateHexId } from '../../utils';
 import { DivisionSelectorDialogComponent } from '../';
@@ -24,22 +24,23 @@ export class AddTransactionDialogComponent implements OnInit {
   transactionType: 'credit' | 'debit' = 'debit';
 
   today: string = new Date().toISOString().substring(0, 10);
-  categories: ITransactionCategory[] = [];
+  categories: ITransactionCategoryCrudEnabled[] = [];
   selectedTabIndex: number = 0;
   searchTerm: string = '';
   dateDisabled = false;
 
-  get filteredCategories(): ITransactionCategory[] {
+  get filteredCategories(): ITransactionCategoryCrudEnabled[] {
     if (!this.searchTerm.trim()) return [];
 
     const lower = this.searchTerm.toLowerCase();
     return this.categories
       .map(c => ({
         category: c.category,
-        divisions: c.divisions.filter(d => d.toLowerCase().includes(lower) || c.category.toLowerCase().includes(lower)),
+        staticDivisions: c.staticDivisions.filter(d => d.toLowerCase().includes(lower) || c.category.toLowerCase().includes(lower)),
+        dynamicDivisions: c.dynamicDivisions.filter(d => d.toLowerCase().includes(lower) || c.category.toLowerCase().includes(lower)),
         matIcon: c.matIcon
       }))
-      .filter(c => c.divisions.length > 0);
+      .filter(c => c.staticDivisions.length > 0 || c.dynamicDivisions.length > 0);
   }
 
   constructor(

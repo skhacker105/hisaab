@@ -1,6 +1,6 @@
 import { Component, HostListener, OnInit, ViewChildren, QueryList, ElementRef } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { ITransactionCategoryCrudEnabled, ITransactionCategory } from '../../interfaces';
+import { ITransactionCategoryCrudEnabled } from '../../interfaces';
 import { IconPickerDialogComponent } from '../';
 import { CategoryService } from '../../services';
 import { take } from 'rxjs';
@@ -38,44 +38,13 @@ export class CategoryManagerComponent implements OnInit, CanComponentDeactivate 
   }
 
   loadCategories() {
-    const all = this.categoryService.getAllCategoriesCopy();
-    const defaults = this.categoryService.defaultCategories;
-
-    this.categories = all.map(c => {
-      const defaultCategory = defaults.find(def => def.category.toLowerCase() === c.category.toLowerCase());
-      const defaultDivisions = defaultCategory?.divisions || [];
-
-      const staticDivisions: string[] = [];
-      const dynamicDivisions: string[] = [];
-
-      for (const div of c.divisions) {
-        if (defaultDivisions.includes(div)) {
-          staticDivisions.push(div);
-        } else {
-          dynamicDivisions.push(div);
-        }
-      }
-
-      return {
-        category: c.category,
-        matIcon: c.matIcon,
-        staticDivisions,
-        dynamicDivisions
-      };
-    });
-
+    this.categories = this.categoryService.getAllCategoriesCopy();
     this.originalState = JSON.stringify(this.categories);
   }
 
 
   saveChanges() {
-    const toSave: ITransactionCategory[] = this.categories.map(c => ({
-      category: c.category,
-      divisions: [...c.staticDivisions, ...c.dynamicDivisions],
-      matIcon: c.matIcon
-    }));
-
-    this.categoryService.saveCategories(toSave);
+    this.categoryService.saveCategories(this.categories);
     this.pendingChanges = false;
     this.originalState = JSON.stringify(this.categories);
   }

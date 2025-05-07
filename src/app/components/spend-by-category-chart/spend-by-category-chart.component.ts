@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ChartDataset, ChartOptions } from 'chart.js';
 import { CategoryService, FilterService, TransactionsService } from '../../services';
-import { ITransactionCategory, Transaction } from '../../interfaces';
+import { ITransactionCategoryCrudEnabled, Transaction } from '../../interfaces';
 import { ChartTransactions } from '../../configs';
 import { Subject, merge, takeUntil } from 'rxjs';
 import 'chartjs-adapter-date-fns'; // Make sure this adapter is installed
@@ -15,7 +15,7 @@ import { Capacitor } from '@capacitor/core';
 export class SpendByCategoryChartComponent implements OnInit {
 
   transactions: Transaction[] = [];
-  transactionCategories: ITransactionCategory[] = [];
+  transactionCategories: ITransactionCategoryCrudEnabled[] = [];
 
   isComponentActive = new Subject<boolean>();
 
@@ -106,7 +106,7 @@ export class SpendByCategoryChartComponent implements OnInit {
     this.transactions.forEach(t => {
       if (!t.category) return;
 
-      const category = this.transactionCategories.find(tc => t.category && (tc.divisions.includes(t.category) || tc.category === t.category));
+      const category = this.transactionCategories.find(tc => t.category && (tc.staticDivisions.includes(t.category) || tc.dynamicDivisions.includes(t.category) || tc.category === t.category));
 
       if (!category) t.category = 'Miscellaneous';
       else t.category = category.category;

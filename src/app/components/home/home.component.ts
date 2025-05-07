@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CategoryService, FilterService, SmsService, TransactionsService } from '../../services';
 import { MatDialog } from '@angular/material/dialog';
 import { AddTransactionDialogComponent, SmsDetailsDialogComponent } from '../';
-import { ITransactionCategory, ITransactionCategorySummary, Transaction } from '../../interfaces';
+import { ITransactionCategoryCrudEnabled, ITransactionCategorySummary, Transaction } from '../../interfaces';
 import { Subject, takeUntil } from 'rxjs';
 // import { TransactionCategories } from '../../configs';
 import { sortTransactionsByDateDesc } from '../../utils';
@@ -32,7 +32,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   year!: number;
   month!: number;
 
-  transactionCategories: ITransactionCategory[] = [];
+  transactionCategories: ITransactionCategoryCrudEnabled[] = [];
 
   isComponentActive = new Subject<boolean>();
   showTentativeTransaction = false;
@@ -110,7 +110,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   calculateCategoryTotals() {
     this.categorySummaries = this.transactionCategories.map(cat => {
       const total = this.transactions
-        .filter(t => t.amount < 0 && cat.divisions.includes((t.category ?? '')))
+        .filter(t => t.amount < 0 && (cat.staticDivisions.includes((t.category ?? '')) || cat.dynamicDivisions.includes((t.category ?? ''))))
         .reduce((sum, t) => sum + t.amount, 0);
 
       return {
@@ -167,7 +167,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   getTransactionCategoryIcon(transaction: Transaction): string | undefined {
     if (!transaction.category) return;
 
-    const category = this.transactionCategories.find(t => transaction.category && t.divisions.includes(transaction.category));
+    const category = this.transactionCategories.find(t => transaction.category && (t.staticDivisions.includes(transaction.category) || t.dynamicDivisions.includes(transaction.category)));
     if (!category) return;
 
     return category.matIcon;
@@ -181,7 +181,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   transactionInSelectedCategory(t: Transaction): boolean {
     if (!this.selectedCategory) return true;
 
-    const cat = this.transactionCategories.find(c => c.divisions.includes((t.category ?? '')));
+    const cat = this.transactionCategories.find(c => c.staticDivisions.includes((t.category ?? '')) || c.dynamicDivisions.includes((t.category ?? '')));
     return cat && cat.category === this.selectedCategory.name ? true : false;
   }
 

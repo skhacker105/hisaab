@@ -1,7 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 // import { TransactionCategories } from '../../configs';
-import { ITransactionCategory } from '../../interfaces';
+import { ITransactionCategoryCrudEnabled } from '../../interfaces';
 import { CategoryService } from '../../services';
 
 @Component({
@@ -10,9 +10,9 @@ import { CategoryService } from '../../services';
   styleUrls: ['./division-selector-dialog.component.scss']
 })
 export class DivisionSelectorDialogComponent implements OnInit {
-  categories: ITransactionCategory[] = []; // Replace with your actual list
+  categories: ITransactionCategoryCrudEnabled[] = []; // Replace with your actual list
   searchText = '';
-  filteredCategories: ITransactionCategory[] = [];
+  filteredCategories: ITransactionCategoryCrudEnabled[] = [];
 
   constructor(
     public dialogRef: MatDialogRef<DivisionSelectorDialogComponent>,private categoryService: CategoryService,
@@ -29,12 +29,16 @@ export class DivisionSelectorDialogComponent implements OnInit {
     this.filteredCategories = this.categories
       .map(cat => ({
         ...cat,
-        divisions: cat.divisions.filter(div =>
+        staticDivisions: cat.staticDivisions.filter(div =>
+          div.toLowerCase().includes(text) ||
+          cat.category.toLowerCase().includes(text)
+        ),
+        dynamicDivisions: cat.dynamicDivisions.filter(div =>
           div.toLowerCase().includes(text) ||
           cat.category.toLowerCase().includes(text)
         )
       }))
-      .filter(cat => cat.divisions.length > 0);
+      .filter(cat => cat.staticDivisions.length > 0 || cat.dynamicDivisions.length > 0);
   }
 
   select(name: string) {

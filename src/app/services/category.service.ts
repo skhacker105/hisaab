@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ITransactionCategory } from '../interfaces';
+import { ITransactionCategoryCrudEnabled } from '../interfaces';
 import { TransactionCategories } from '../configs';
 
 @Injectable({
@@ -8,9 +8,9 @@ import { TransactionCategories } from '../configs';
 export class CategoryService {
 
   private localStorageKey = 'userCategories';
-  defaultCategories: ITransactionCategory[] = TransactionCategories;
+  defaultCategories: ITransactionCategoryCrudEnabled[] = TransactionCategories;
   favoritesDivisions: string[] = [];
-  allCategories: ITransactionCategory[] = [];
+  allCategories: ITransactionCategoryCrudEnabled[] = [];
 
   constructor() {
     this.loadCategories();
@@ -21,11 +21,11 @@ export class CategoryService {
     this.allCategories = saved ? JSON.parse(saved) : this.defaultCategories;
   }
 
-  getAllCategoriesCopy(): ITransactionCategory[] {
+  getAllCategoriesCopy(): ITransactionCategoryCrudEnabled[] {
     return JSON.parse(JSON.stringify(this.allCategories)); // deep copy
   }
 
-  saveCategories(edited: ITransactionCategory[]): void {
+  saveCategories(edited: ITransactionCategoryCrudEnabled[]): void {
     this.allCategories = edited;
     localStorage.setItem(this.localStorageKey, JSON.stringify(edited));
   }

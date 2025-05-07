@@ -1,10 +1,10 @@
-import { ITransactionCategory } from "../interfaces";
+import { ITransactionCategoryCrudEnabled } from "../interfaces";
 
-export const TransactionCategories: ITransactionCategory[] = [
+export const TransactionCategories: ITransactionCategoryCrudEnabled[] = [
   {
-    "category": "Food & Dining",
-    "matIcon": "restaurant",
-    "divisions": [
+    category: "Food & Dining",
+    matIcon: "restaurant",
+    staticDivisions: [
       "Groceries",
       "Restaurants",
       "Fast Food",
@@ -13,12 +13,13 @@ export const TransactionCategories: ITransactionCategory[] = [
       "Snacks & Confectionery",
       "Takeout & Delivery",
       "Vegetables"
-    ]
+    ],
+    dynamicDivisions: []
   },
   {
-    "category": "Housing & Utilities",
-    "matIcon": "home",
-    "divisions": [
+    category: "Housing & Utilities",
+    matIcon: "home",
+    staticDivisions: [
       "Rent",
       "Mortgage",
       "Property Taxes",
@@ -31,12 +32,13 @@ export const TransactionCategories: ITransactionCategory[] = [
       "Internet",
       "Phone (Landline)",
       "Garbage & Sewer"
-    ]
+    ],
+    dynamicDivisions: []
   },
   {
-    "category": "Transportation",
-    "matIcon": "directions_car",
-    "divisions": [
+    category: "Transportation",
+    matIcon: "directions_car",
+    staticDivisions: [
       "Fuel",
       "Public Transit",
       "Taxi / Ride-Sharing",
@@ -46,12 +48,13 @@ export const TransactionCategories: ITransactionCategory[] = [
       "Parking",
       "Vehicle Registration",
       "Bicycle Maintenance"
-    ]
+    ],
+    dynamicDivisions: []
   },
   {
-    "category": "Health & Medical",
-    "matIcon": "medical_services",
-    "divisions": [
+    category: "Health & Medical",
+    matIcon: "medical_services",
+    staticDivisions: [
       "Health Insurance",
       "Doctor Visits",
       "Dental Care",
@@ -60,12 +63,13 @@ export const TransactionCategories: ITransactionCategory[] = [
       "Therapy & Counseling",
       "Medical Equipment",
       "Alternative Medicine"
-    ]
+    ],
+    dynamicDivisions: []
   },
   {
-    "category": "Personal Care",
-    "matIcon": "spa",
-    "divisions": [
+    category: "Personal Care",
+    matIcon: "spa",
+    staticDivisions: [
       "Haircuts & Salons",
       "Skincare & Cosmetics",
       "Spa & Massage",
@@ -74,12 +78,13 @@ export const TransactionCategories: ITransactionCategory[] = [
       "Clothing & Accessories",
       "Dress",
       "Laundry & Dry Cleaning"
-    ]
+    ],
+    dynamicDivisions: []
   },
   {
-    "category": "Children & Education",
-    "matIcon": "school",
-    "divisions": [
+    category: "Children & Education",
+    matIcon: "school",
+    staticDivisions: [
       "School Tuition",
       "Books & Supplies",
       "School Uniforms",
@@ -87,12 +92,13 @@ export const TransactionCategories: ITransactionCategory[] = [
       "Toys & Games",
       "Extracurricular Activities",
       "College Savings"
-    ]
+    ],
+    dynamicDivisions: []
   },
   {
-    "category": "Entertainment & Leisure",
-    "matIcon": "sports_esports",
-    "divisions": [
+    category: "Entertainment & Leisure",
+    matIcon: "sports_esports",
+    staticDivisions: [
       "Movies & Shows",
       "Concerts & Events",
       "Streaming Services",
@@ -100,12 +106,13 @@ export const TransactionCategories: ITransactionCategory[] = [
       "Books & Magazines",
       "Gaming",
       "Nightlife & Clubs"
-    ]
+    ],
+    dynamicDivisions: []
   },
   {
-    "category": "Travel",
-    "matIcon": "flight",
-    "divisions": [
+    category: "Travel",
+    matIcon: "flight",
+    staticDivisions: [
       "Flights",
       "Hotels & Accommodation",
       "Travel Insurance",
@@ -113,24 +120,26 @@ export const TransactionCategories: ITransactionCategory[] = [
       "Food During Travel",
       "Tour Packages",
       "Souvenirs"
-    ]
+    ],
+    dynamicDivisions: []
   },
   {
-    "category": "Work & Office",
-    "matIcon": "work",
-    "divisions": [
+    category: "Work & Office",
+    matIcon: "work",
+    staticDivisions: [
       "Office Supplies",
       "Professional Subscriptions",
       "Coworking Space",
       "Business Travel",
       "Online Tools / Software",
       "Training & Courses"
-    ]
+    ],
+    dynamicDivisions: []
   },
   {
-    "category": "Financial",
-    "matIcon": "account_balance_wallet",
-    "divisions": [
+    category: "Financial",
+    matIcon: "account_balance_wallet",
+    staticDivisions: [
       "Loan Payments",
       "Credit Card Payments",
       "Investments",
@@ -139,61 +148,67 @@ export const TransactionCategories: ITransactionCategory[] = [
       "Insurance",
       "Banking Fees",
       "Retirement Contributions"
-    ]
+    ],
+    dynamicDivisions: []
   },
   {
-    "category": "Gifts & Donations",
-    "matIcon": "volunteer_activism",
-    "divisions": [
+    category: "Gifts & Donations",
+    matIcon: "volunteer_activism",
+    staticDivisions: [
       "Charity & Donations",
       "Religious Offerings",
       "Gifts",
       "Greeting Cards & Wrapping"
-    ]
+    ],
+    dynamicDivisions: []
   },
   {
-    "category": "Pets",
-    "matIcon": "pets",
-    "divisions": [
+    category: "Pets",
+    matIcon: "pets",
+    staticDivisions: [
       "Pet Food",
       "Vet Visits",
       "Pet Insurance",
       "Pet Grooming",
       "Pet Toys & Supplies"
-    ]
+    ],
+    dynamicDivisions: []
   },
   {
-    "category": "Miscellaneous",
-    "matIcon": "category",
-    "divisions": [
+    category: "Miscellaneous",
+    matIcon: "category",
+    staticDivisions: [
       "Unplanned Purchases",
       "Emergency Expenses",
       "Fines & Penalties",
       "Lost Items",
       "Subscriptions",
       "Others"
-    ]
+    ],
+    dynamicDivisions: []
   },
   {
-    "category": "Technology & Gadgets",
-    "matIcon": "devices",
-    "divisions": [
+    category: "Technology & Gadgets",
+    matIcon: "devices",
+    staticDivisions: [
       "Mobile Devices",
       "Computers / Laptops",
       "Software & Apps",
       "Accessories",
       "Repairs & Servicing"
-    ]
+    ],
+    dynamicDivisions: []
   },
   {
-    "category": "Social & Community",
-    "matIcon": "groups",
-    "divisions": [
+    category: "Social & Community",
+    matIcon: "groups",
+    staticDivisions: [
       "Community Fees",
       "Social Clubs",
       "Political Contributions",
       "Cultural Events"
-    ]
+    ],
+    dynamicDivisions: []
   }
 ]
 ;
