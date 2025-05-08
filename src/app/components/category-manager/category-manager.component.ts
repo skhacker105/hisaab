@@ -33,11 +33,7 @@ export class CategoryManagerComponent implements OnInit, CanComponentDeactivate 
 
   @ViewChildren('tabItem') tabItems!: QueryList<ElementRef>;
 
-  constructor(private dialog: MatDialog, private categoryService: CategoryService) { }
-
-  get favoriteDivisions(): string[] {
-    return Array.from(this.categoryService.favoritesDivisions.keys());
-  }
+  constructor(private dialog: MatDialog, public categoryService: CategoryService) { }
 
   ngOnInit() {
     this.loadCategories();

@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Transaction } from '../interfaces';
 import { Subject } from 'rxjs';
-import { IndexedDbService } from './indexed-db.service';
-import { LoggerService } from './logger.service';
+import { LoggerService, CategoryService, IndexedDbService } from './';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +11,7 @@ export class TransactionsService {
   private transactions: Transaction[] = [];
   transactionsChanged = new Subject<Transaction[]>();
 
-  constructor(private dbService: IndexedDbService, private loggerService: LoggerService) {
+  constructor(private dbService: IndexedDbService, private loggerService: LoggerService, private categoryService: CategoryService) {
     setTimeout(() => {
       this.migrateFromLocalStorage().then(() => this.loadTransactions());
     }, 100);
@@ -79,6 +78,9 @@ export class TransactionsService {
       this.transactions.push(transactionData);
       this.transactionsChanged.next(this.transactions);
       await this.dbService.put(transactionData);
+
+      // Add to favorites do selected divison and category
+      this.addTransactionCategoryToFavorites(transactionData);
     }
   }
 
@@ -97,10 +99,23 @@ export class TransactionsService {
 
     this.transactions[index] = transactionData;
     this.transactionsChanged.next(this.transactions);
+
+    // Add to favorites do selected divison and category
+    this.addTransactionCategoryToFavorites(transactionData);
+
+    
     await this.dbService.put(transactionData);
   }
 
   getTransactionById(transactionId: string): Transaction | undefined {
     return this.transactions.find(t => t.id === transactionId && !!t.tentative);
+  }
+
+  addTransactionCategoryToFavorites(transactionData: Transaction) {
+    if (!transactionData.category) return;
+
+    const category = this.categoryService.getCategoryFromDivision(transactionData.category);
+    this.categoryService.addFavoriteDivision(category, transactionData.category, 'usedForTransaction');
+
   }
 }

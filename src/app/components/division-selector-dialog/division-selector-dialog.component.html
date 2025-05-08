@@ -14,10 +14,18 @@
         <div class="category-block" *ngFor="let cat of filteredCategories">
             <div class="category-name">{{ cat.category }}</div>
             <div class="division-options">
-                <div class="division-chip" *ngFor="let div of cat.staticDivisions" (click)="select(div)" [ngClass]="{ 'selected-division': data.selected === div }">
-                    {{ div }}
+                <div class="division-chip" *ngFor="let div of cat.staticDivisions" (click)="select(div)"
+                    [ngClass]="{ 'selected-division': data.selected === div }">
+                    <div class="chip-container">
+                        <mat-icon [class.selected]="isDivisionSelected(div)"
+                            (click)="toggleFavoriteDivision(div, $event)">favorite</mat-icon>
+                        {{ div }}
+                    </div>
                 </div>
-                <div class="division-chip" *ngFor="let div of cat.dynamicDivisions" (click)="select(div)" [ngClass]="{ 'selected-division': data.selected === div }">
+                <div class="division-chip" *ngFor="let div of cat.dynamicDivisions" (click)="select(div)"
+                    [ngClass]="{ 'selected-division': data.selected === div }">
+                    <mat-icon [class.selected]="isDivisionSelected(div)"
+                        (click)="toggleFavoriteDivision(div, $event)">favorite</mat-icon>
                     {{ div }}
                 </div>
             </div>

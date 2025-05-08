@@ -13,7 +13,7 @@
                 </div>
             </div>
             <div class="tab-item" *ngFor="let cat of categories; let i = index" #tabItem
-                [class.active]="i === activeTabIndex">
+                [class.active]="i === activeTabIndex && !favoritesTabLoaded">
                 <div (click)="activeTabIndex = i; favoritesTabLoaded = false" class="tab-label">
                     <mat-icon>{{ cat.matIcon || 'category' }}</mat-icon>
                     {{ cat.category }}
@@ -32,7 +32,7 @@
 
         <ng-container *ngIf="favoritesTabLoaded">
             <div class="chip-container">
-                <div class="chip chip-static" *ngFor="let div of favoriteDivisions">
+                <div class="chip chip-static" *ngFor="let div of categoryService.favoriteDivisions">
                     <mat-icon [class.selected]="isDivisionSelected(div)"
                         (click)="toggleFavoriteDivision(div, $event)">favorite</mat-icon>
                     {{ div }}

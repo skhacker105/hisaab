@@ -41,6 +41,15 @@ export class DivisionSelectorDialogComponent implements OnInit {
       .filter(cat => cat.staticDivisions.length > 0 || cat.dynamicDivisions.length > 0);
   }
 
+  isDivisionSelected(division: string): boolean {
+    return this.categoryService.favoritesDivisions.has(division);
+  }
+
+  toggleFavoriteDivision(division: string, e: any) {
+    e.stopPropagation();
+    this.categoryService.toggleFavoriteDivision(division);
+  }
+
   select(name: string) {
     this.dialogRef.close(name);
   }

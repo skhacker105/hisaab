@@ -122,16 +122,25 @@ export class AddTransactionDialogComponent implements OnInit {
     });
   }
 
+  hasDateBeenEdited(): boolean { // only used for edit functionality
+    if (!this.editTransaction) return false;
+
+    const dt1 = new Date(this.editTransaction.date);
+    const dt2 = new Date(this.date);
+    return dt1.getFullYear() !== dt2.getFullYear() || dt1.getMonth() !== dt2.getMonth() || dt1.getDate() !== dt2.getDate();
+  }
+
   updateTransaction() {
     if (!this.editTransaction) return;
 
+    const dateToSave = !this.hasDateBeenEdited() ? this.editTransaction.date : new Date(this.date).toString();
     this.transactionService.updateTransaction({
       ...this.editTransaction,
       amount: this.transactionType === 'debit' ? -Math.abs(this.amount) : Math.abs(this.amount),
       description: this.description,
       transactionType: this.transactionType,
       category: this.selectedDivision,
-      date: new Date(this.date).toString()
+      date: dateToSave
     });
   }
 

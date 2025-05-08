@@ -38,6 +38,7 @@
 
 .tab-bar-container {
     display: flex;
+    font-size: 11px;
 
     .tab-bar {
         flex: 1 auto;
@@ -73,14 +74,10 @@
                 font-weight: bold;
             }
 
-            &:hover {
-                background: #bbdefb;
-            }
-
             mat-icon {
-                font-size: 18px;
-                height: 18px;
-                width: 18px;
+                font-size: 12px;
+                height: 12px;
+                width: 12px;
             }
 
             .tab-label {

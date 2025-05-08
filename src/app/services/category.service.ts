@@ -15,6 +15,19 @@ export class CategoryService {
   favoritesDivisions = new Map<string, IFavoriteDivision>();
   allCategories: ITransactionCategoryCrudEnabled[] = [];
 
+  get favoriteDivisions(): string[] {
+    return Array.from(this.favoritesDivisions.keys())
+      .reduce((arr, f) => {
+        const fd = this.favoritesDivisions.get(f);
+        if (!fd) return arr;
+
+        arr.push(fd);
+        return arr;
+      }, [] as IFavoriteDivision[])
+      .sort((a, b) => (b?.usedCounts ?? 0) - (a?.usedCounts ?? 0))
+      .map(fd => fd?.division);
+  }
+
   constructor() {
     this.loadFavoriteDivisions();
     this.loadCategories();
@@ -47,6 +60,10 @@ export class CategoryService {
     localStorage.setItem(this.favoritesStorageKey, JSON.stringify(fav));
   }
 
+  getCategoryFromDivision(division: string): string {
+    return this.allCategories.find(c => c.staticDivisions.includes(division) || c.dynamicDivisions.includes(division))?.category ?? ''
+  }
+
   addFavoriteDivision(category: string, division: string, source: 'usedForTransaction' | 'selectedAsFavorite'): void {
     const existingDivision = this.favoritesDivisions.get(division);
     if (existingDivision) {
@@ -60,7 +77,7 @@ export class CategoryService {
         addedOn: new Date().toString(),
         usedCounts: source === 'usedForTransaction' ? 1 : 0
       });
-      this.saveFavoritesDivisions();
+    this.saveFavoritesDivisions();
   }
 
   removeFavoriteDivision(division: string) {
