@@ -67,4 +67,15 @@ export class CategoryService {
     this.favoritesDivisions.delete(division);
     this.saveFavoritesDivisions();
   }
+
+  toggleFavoriteDivision(division: string) {
+    const existingFav = this.favoritesDivisions.get(division);
+    const existingCategory = this.allCategories.find(c => c.staticDivisions.includes(division) || c.dynamicDivisions.includes(division));
+    if (!existingCategory) return;
+
+    if (!existingFav)
+      this.addFavoriteDivision(existingCategory.category, division, 'selectedAsFavorite');
+    else
+      this.removeFavoriteDivision(division);
+  }
 }

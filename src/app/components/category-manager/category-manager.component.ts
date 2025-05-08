@@ -189,14 +189,7 @@ export class CategoryManagerComponent implements OnInit, CanComponentDeactivate 
 
   toggleFavoriteDivision(division: string, e: any) {
     e.stopPropagation();
-    const existingFav = this.categoryService.favoritesDivisions.get(division);
-    const existingCategory = this.categories.find(c => c.staticDivisions.includes(division) || c.dynamicDivisions.includes(division));
-    if (!existingCategory) return;
-
-    if (!existingFav)
-      this.categoryService.addFavoriteDivision(existingCategory.category, division, 'selectedAsFavorite');
-    else
-      this.categoryService.removeFavoriteDivision(division);
+    this.categoryService.toggleFavoriteDivision(division);
   }
 
   canDeactivate(): boolean {
