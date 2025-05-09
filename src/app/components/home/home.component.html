@@ -70,7 +70,10 @@
               <span class="date">{{ t.date | date: 'MMM dd' }}</span>
             </div>
 
-            <div class="description">{{ t.description }}</div>
+            <div class="description">
+              <b *ngIf="t.category"> {{t.category}} </b>
+              {{ t.description }}
+            </div>
           </div>
 
           <div class="right-icon">

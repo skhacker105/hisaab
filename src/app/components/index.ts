@@ -9,3 +9,4 @@ export * from './logs/logs.component';
 export * from './sms-details-dialog/sms-details-dialog.component';
 export * from './spend-by-category-chart/spend-by-category-chart.component';
 export * from './tentative-transactions/tentative-transactions.component';
+export * from './welcome-screen/welcome-screen.component';

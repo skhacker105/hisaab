@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { ITentativeTransaction } from '../interfaces';
 import { LoggerService } from './';
 import { GetMessageFilterInput, MessageObject, MessageReader } from '@solimanware/capacitor-message-reader';
-import { AndroidPermissions } from '@awesome-cordova-plugins/android-permissions/ngx';
+import { AndroidPermissionResponse, AndroidPermissions } from '@awesome-cordova-plugins/android-permissions/ngx';
 import { Capacitor } from '@capacitor/core';
 import { tempTentativeTransaction } from '../configs';
 
@@ -14,6 +14,8 @@ export class SmsService {
   smsStateStorageKey = 'SMSStateStorage';
   confirmedMessageIds = new Set<string>();
   deletedMessagesIds = new Set<string>();
+
+  messageReadPermission?: boolean;
 
   constructor(private loggerService: LoggerService, private androidPermissions: AndroidPermissions) {
     this.loadSmsStateFromStarage();
@@ -41,19 +43,20 @@ export class SmsService {
     localStorage.setItem(this.smsStateStorageKey, JSON.stringify(state));
   }
 
-  async checkReadSmsPermission() {
+  async checkReadSmsPermission(): Promise<boolean> {
     const READ_SMS = this.androidPermissions.PERMISSION.READ_SMS;
 
     const result = await this.androidPermissions.checkPermission(READ_SMS);
-    if (!result?.hasPermission) {
-      await this.requestReadSmsPermission();
-    }
+    if (result && result.hasPermission) return true;
+
+    const perm = await this.requestReadSmsPermission();
+    return perm.hasPermission;
   }
 
-  async requestReadSmsPermission() {
+  async requestReadSmsPermission(): Promise<AndroidPermissionResponse> {
     const READ_SMS = this.androidPermissions.PERMISSION.READ_SMS;
 
-    const result = await this.androidPermissions.requestPermission(READ_SMS)
+    return await this.androidPermissions.requestPermission(READ_SMS)
   }
 
 
@@ -65,13 +68,14 @@ export class SmsService {
 
     try {
 
-      if (!isWeb)
-        await this.checkReadSmsPermission();
+      if (!isWeb && !(await this.checkReadSmsPermission())) {
+        this.messageReadPermission = false;
+        return [];
+      }
 
       const result = !isWeb ? await MessageReader.getMessages(filter) : tempTentativeTransaction;
 
       const messages: MessageObject[] = result.messages || [];
-      this.loggerService.log('total messages = ' + messages.length);
 
       return messages.reduce((arr, msg: any) => {
         const data = this.extractTransaction(msg);
@@ -133,9 +137,9 @@ export class SmsService {
       String.raw`(?:(?:₹|\$|€|£|¥|Rs\.?|INR|USD|EUR|GBP|JPY|CAD|AUD|rupees?|dollars?|euros?|pounds?)\s?([0-9][0-9,]*(?:\.\d{1,2})?))|(?:([0-9][0-9,]*(?:\.\d{1,2})?)\s?(?:₹|\$|€|£|¥|Rs\.?|INR|USD|EUR|GBP|JPY|CAD|AUD|rupees?|dollars?|euros?|pounds?))`,
       'gi'
     );
-  
+
     const matches = [...content.matchAll(currencyRegex)];
-  
+
     return matches
       .map(m => {
         const numStr = m[1] || m[2];
@@ -146,7 +150,7 @@ export class SmsService {
       })
       .filter(n => !isNaN(n));
   }
-  
+
 
   private extractDescription(content: string): string {
     const keywords = [

@@ -607,6 +607,16 @@ export const allMaterialIcons: IMaterialIcon[] = [
         "codepoint": "E87D"
     },
     {
+        "id": "ic_sport",
+        "name": "game_control",
+        "group_id": "game",
+        "keywords": [
+            "game, sports, entertainment"
+        ],
+        "ligature": "sports_esports",
+        "codepoint": "E87D"
+    },
+    {
         "id": "ic_favorite_border",
         "name": "favorite border",
         "group_id": "action",
@@ -614,6 +624,16 @@ export const allMaterialIcons: IMaterialIcon[] = [
             "action, favorite, border"
         ],
         "ligature": "favorite_border",
+        "codepoint": "E87E"
+    },
+    {
+        "id": "calendar_month",
+        "name": "month calendar",
+        "group_id": "calendar",
+        "keywords": [
+            "calendar, month"
+        ],
+        "ligature": "calendar_month",
         "codepoint": "E87E"
     },
     {

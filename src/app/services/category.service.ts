@@ -8,7 +8,7 @@ import { LoggerService } from './logger.service';
 })
 export class CategoryService {
 
-  private localStorageKey = 'savedCategories';
+  private localStorageKey = 'allCategories';
   private favoritesStorageKey = 'favoriteCategories';
 
   defaultCategories: ITransactionCategoryCrudEnabled[] = TransactionCategories;
@@ -31,6 +31,7 @@ export class CategoryService {
 
   constructor(private loggerService: LoggerService) {
     localStorage.removeItem('userCategories'); // removing previous garbage data
+    localStorage.removeItem('savedCategories'); // removing previous garbage data
     this.loadFavoriteDivisions();
     this.loadCategories();
   }

@@ -5,6 +5,7 @@ import { generateHexId } from '../../utils';
 import { MatDialog } from '@angular/material/dialog';
 import { DivisionSelectorDialogComponent } from '../';
 import { Subject, merge, take, takeUntil } from 'rxjs';
+import { App } from '@capacitor/app';
 
 @Component({
   selector: 'app-tentative-transactions',
@@ -199,4 +200,7 @@ export class TentativeTransactionsComponent implements OnInit, OnDestroy {
     }
   }
 
+  async openAppSetting() {
+    // App.;
+  }
 }

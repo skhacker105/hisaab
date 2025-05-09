@@ -6,7 +6,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import {
   HomeComponent, TentativeTransactionsComponent, AddTransactionDialogComponent, SmsDetailsDialogComponent, DivisionSelectorDialogComponent,
-  SpendByCategoryChartComponent, CategoryManagerComponent, IconPickerDialogComponent, LocalStorageComponent, LogsComponent, DevloperOptionComponent
+  SpendByCategoryChartComponent, CategoryManagerComponent, IconPickerDialogComponent, LocalStorageComponent, LogsComponent, DevloperOptionComponent,
+  WelcomeScreenComponent
 } from './components';
 
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -50,7 +51,8 @@ import { LongPressDirective } from './directives/long-press.directive';
     LongPressDirective,
     LocalStorageComponent,
     LogsComponent,
-    DevloperOptionComponent
+    DevloperOptionComponent,
+    WelcomeScreenComponent
   ],
   imports: [
     FormsModule,

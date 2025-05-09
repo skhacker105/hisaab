@@ -11,6 +11,9 @@ import { filter } from 'rxjs';
   styleUrl: './app.component.scss'
 })
 export class AppComponent {
+  
+  showWelcome = true;
+  
   year!: number;
   month!: number;
   years: number[] = [];
@@ -55,6 +58,10 @@ export class AppComponent {
     this.month = +this.month;
     this.filterService.setYear(this.year);
     this.filterService.setMonth(this.month);
+  }
+
+  onWelcomeFinished() {
+    this.showWelcome = false;
   }
 
   openAddTransactionDialog() {

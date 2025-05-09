@@ -1,3 +1,5 @@
+<app-welcome-screen *ngIf="showWelcome" (finished)="onWelcomeFinished()"></app-welcome-screen>
+
 <div class="app-wrapper" appLongPress (longPressTriggered)="openLocalStorage()">
   <div class="toolbar">
     <span class="title">Hisaab</span>
@@ -26,29 +28,30 @@
     <router-outlet></router-outlet>
   </div>
 
-  <div class="footer" [ngClass]="{'justify-center': !isHomeRoute}">
+  <div class="footer">
 
-    <ng-container *ngIf="isHomeRoute">
-      <button class="fab-button" (click)="goToTentative()" [title]="'Tentative Transactions'">
-        <span class="material-icons">pending_actions</span>
-      </button>
+    <!-- <ng-container *ngIf="isHomeRoute"> -->
 
-      <button class="fab-button" (click)="gotoCharts()">
-        <span class="material-icons">insert_chart</span>
-      </button>
-
-      <button class="fab-button" (click)="gotoCategory()">
-        <span class="material-icons">interests</span>
-      </button>
-    </ng-container>
-
-    <button *ngIf="!isHomeRoute" class="fab-button" (click)="goToHome()">
+    <button class="fab-button" (click)="goToHome()">
       <span class="material-icons">home</span>
     </button>
+    
+    <button class="fab-button" (click)="goToTentative()" [title]="'Tentative Transactions'">
+      <span class="material-icons">pending_actions</span>
+    </button>
+
+    <button class="fab-button" (click)="gotoCharts()">
+      <span class="material-icons">insert_chart</span>
+    </button>
+
+    <button class="fab-button" (click)="gotoCategory()">
+      <span class="material-icons">interests</span>
+    </button>
+    <!-- </ng-container> -->
 
     <!-- <span class="spacer"></span> -->
 
-    <button *ngIf="isHomeRoute" class="fab-button" (click)="openAddTransactionDialog()">
+    <button class="fab-button" (click)="openAddTransactionDialog()">
       <span class="material-icons">add</span>
     </button>
   </div>

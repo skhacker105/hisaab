@@ -5,6 +5,12 @@
     No tentative transactions found.
   </div>
 
+  <div *ngIf="sms.messageReadPermission === false && tentativeTransactions.length === 0 && !isLoaderActive" class="empty-state">
+    SMS Read permission is needed. <br><br>
+    Goto <i>Settings</i> -> <i>Permission Manager</i> -> <i>SMS</i> -> <i>Allow SMS permisssion to "Hissab" app.</i>
+    <!-- <button class="request-permission" (click)="openAppSetting()">Open App Settings</button> -->
+  </div>
+
   <div class="transaction-container">
     <ng-container *ngFor="let t of tentativeTransactions; let i = index;">
 

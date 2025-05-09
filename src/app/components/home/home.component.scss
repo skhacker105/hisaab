@@ -1,16 +1,16 @@
 .home-container {
-    padding: 16px;
+    padding: 10px;
     display: flex;
     flex-direction: column;
     overflow: hidden;
-    height: calc(100% - 32px);
+    height: calc(100% - 20px);
 }
 
 .summary-row {
     display: flex;
     flex-wrap: wrap; // Allows wrapping on small screens
     gap: 16px;
-    margin-bottom: 16px;
+    margin-bottom: 10px;
 }
 
 .summary-card {
@@ -190,6 +190,7 @@
         display: flex;
         align-items: flex-start;
         position: relative;
+        padding: 5px;
 
     }
 
@@ -297,7 +298,7 @@
     display: flex;
     overflow-x: auto;
     gap: 12px;
-    margin-bottom: 16px;
+    margin-bottom: 10px;
     min-height: 60px;
     max-height: 60px;
 
