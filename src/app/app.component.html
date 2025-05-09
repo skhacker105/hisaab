@@ -1,58 +1,64 @@
+<ng-container *ngIf="isWebProdVersion; else mainApp">
+  <app-prod-web-home-page></app-prod-web-home-page>
+</ng-container>
+
 <app-welcome-screen *ngIf="showWelcome" (finished)="onWelcomeFinished()"></app-welcome-screen>
 
-<div class="app-wrapper" appLongPress (longPressTriggered)="openLocalStorage()">
-  <div class="toolbar">
-    <span class="title">Hisaab</span>
-    <span class="spacer"></span>
+<ng-template #mainApp>
+  <div class="app-wrapper" appLongPress (longPressTriggered)="openLocalStorage()">
+    <div class="toolbar">
+      <span class="title">Hisaab</span>
+      <span class="spacer"></span>
 
-    <div class="custom-select-wrapper">
-      <select id="year-select" [(ngModel)]="year" (change)="onFilterChange()">
-        <option *ngFor="let y of years" [value]="+y" [ngClass]="{ 'current-year': y == currentYear }">
-          {{ y }}
-        </option>
-      </select>
-    </div>
+      <div class="custom-select-wrapper">
+        <select id="year-select" [(ngModel)]="year" (change)="onFilterChange()">
+          <option *ngFor="let y of years" [value]="+y" [ngClass]="{ 'current-year': y == currentYear }">
+            {{ y }}
+          </option>
+        </select>
+      </div>
 
-    <div class="custom-select-wrapper" *ngIf="!isChartRoute">
-      <select id="month-select" [(ngModel)]="month" (change)="onFilterChange()">
-        <option *ngFor="let m of filterService.months" [value]="m.value" [ngClass]="{
+      <div class="custom-select-wrapper" *ngIf="!isChartRoute">
+        <select id="month-select" [(ngModel)]="month" (change)="onFilterChange()">
+          <option *ngFor="let m of filterService.months" [value]="m.value" [ngClass]="{
                   'current-month': m.value === currentMonth && year == currentYear
                 }">
-          {{ m.name }}
-        </option>
-      </select>
+            {{ m.name }}
+          </option>
+        </select>
+      </div>
+    </div>
+
+    <div class="body-wrapper">
+      <router-outlet></router-outlet>
+    </div>
+
+    <div class="footer">
+
+      <!-- <ng-container *ngIf="isHomeRoute"> -->
+
+      <button class="fab-button" (click)="goToHome()">
+        <span class="material-icons">home</span>
+      </button>
+
+      <button class="fab-button" (click)="goToTentative()" [title]="'Tentative Transactions'">
+        <span class="material-icons">pending_actions</span>
+      </button>
+
+      <button class="fab-button" (click)="gotoCharts()">
+        <span class="material-icons">insert_chart</span>
+      </button>
+
+      <button class="fab-button" (click)="gotoCategory()">
+        <span class="material-icons">interests</span>
+      </button>
+      <!-- </ng-container> -->
+
+      <!-- <span class="spacer"></span> -->
+
+      <button class="fab-button" (click)="openAddTransactionDialog()">
+        <span class="material-icons">add</span>
+      </button>
     </div>
   </div>
-
-  <div class="body-wrapper">
-    <router-outlet></router-outlet>
-  </div>
-
-  <div class="footer">
-
-    <!-- <ng-container *ngIf="isHomeRoute"> -->
-
-    <button class="fab-button" (click)="goToHome()">
-      <span class="material-icons">home</span>
-    </button>
-    
-    <button class="fab-button" (click)="goToTentative()" [title]="'Tentative Transactions'">
-      <span class="material-icons">pending_actions</span>
-    </button>
-
-    <button class="fab-button" (click)="gotoCharts()">
-      <span class="material-icons">insert_chart</span>
-    </button>
-
-    <button class="fab-button" (click)="gotoCategory()">
-      <span class="material-icons">interests</span>
-    </button>
-    <!-- </ng-container> -->
-
-    <!-- <span class="spacer"></span> -->
-
-    <button class="fab-button" (click)="openAddTransactionDialog()">
-      <span class="material-icons">add</span>
-    </button>
-  </div>
-</div>
+</ng-template>

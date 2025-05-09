@@ -4,6 +4,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { AddTransactionDialogComponent } from './components';
 import { NavigationEnd, Router } from '@angular/router';
 import { filter } from 'rxjs';
+import { Capacitor } from '@capacitor/core';
+import { environment } from '../environments/environment';
 
 @Component({
   selector: 'app-root',
@@ -11,19 +13,20 @@ import { filter } from 'rxjs';
   styleUrl: './app.component.scss'
 })
 export class AppComponent {
-  
+
   showWelcome = true;
-  
+
   year!: number;
   month!: number;
   years: number[] = [];
-  
+
 
   currentYear = new Date().getFullYear();
   currentMonth = new Date().getMonth() + 1; // assuming your month values are 1-indexed
 
   isHomeRoute: boolean = true;
   isChartRoute = false;
+  isWebProdVersion = true;
 
   constructor(
     public filterService: FilterService,
@@ -31,6 +34,9 @@ export class AppComponent {
     private router: Router,
     private loggerService: LoggerService
   ) {
+    if (environment.production)
+      this.isWebProdVersion = Capacitor.getPlatform() === 'web' && environment.production
+    
     this.router.events
       .pipe(filter(event => event instanceof NavigationEnd))
       .subscribe((event: any) => {

@@ -1,8 +1,9 @@
 // Pending
-create home screen
-remove popup open when no permission came for message read
+get user a functionality to download and reupload data in other machine
 
 
 
 // Completed
 give provision to add categories and division from choose screen
+create home screen
+remove popup open when no permission came for message read

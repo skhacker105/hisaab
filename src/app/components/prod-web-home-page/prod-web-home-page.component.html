@@ -1,0 +1,31 @@
+<section>
+    <h2>How to Install</h2>
+    <div class="step" *ngFor="let step of installSteps; let i = index">
+      <div class="step-number">Step {{ i + 1 }}</div>
+      <p>{{ step.text }}</p>
+  
+      <!-- Show image if available -->
+      <img *ngIf="step.img" [src]="'../../../assets/howTo/' + step.img" [alt]="step.text" />
+  
+      <!-- Show download box if file exists -->
+      <div class="download-box" *ngIf="step.file">
+        <img class="file-icon" [src]="'../../../assets/icons/' + step.file.type + '.png'" [alt]="step.file.type + ' file'" />
+        <div class="file-info">
+          <div class="file-name">{{ step.file.src }}.{{ step.file.type }}</div>
+          <a class="download-link" [href]="'../../../assets/files/' + step.file.src + '.' + step.file.type" download>
+            Download
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <section>
+    <h2>How to Use</h2>
+    <div class="step" *ngFor="let step of usageSteps; let i = index">
+      <div class="step-number">Step {{ i + 1 }}</div>
+      <p>{{ step.text }}</p>
+      <img *ngIf="step.img" [src]="'assets/howTo/' + step.img" [alt]="step.text" />
+    </div>
+  </section>
+  

@@ -88,7 +88,6 @@ export class SmsService {
     } catch (err) {
 
       this.loggerService.log(err);
-      this.loggerService.setShowLogs('123');
       return [];
     }
   }
