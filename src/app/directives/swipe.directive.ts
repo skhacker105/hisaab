@@ -20,8 +20,8 @@ export class SwipeDirective {
     const endX = event.changedTouches[0].clientX;
     const diff = endX - this.touchStartX;
 
-    if (diff > 50) this.swipeRight.emit();
-    else if (diff < -50) this.swipeLeft.emit();
+    if (diff > 100) this.swipeRight.emit();
+    else if (diff < -100) this.swipeLeft.emit();
   }
 
 }
