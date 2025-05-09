@@ -10,8 +10,6 @@ interface Item {
 
 @Component({
   selector: 'app-local-storage',
-  standalone: true,
-  imports: [FormsModule, CommonModule],
   templateUrl: './local-storage.component.html',
   styleUrl: './local-storage.component.scss'
 })

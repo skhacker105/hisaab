@@ -15,9 +15,9 @@ export class DivisionSelectorDialogComponent implements OnInit {
   filteredCategories: ITransactionCategoryCrudEnabled[] = [];
 
   constructor(
-    public dialogRef: MatDialogRef<DivisionSelectorDialogComponent>,private categoryService: CategoryService,
+    public dialogRef: MatDialogRef<DivisionSelectorDialogComponent>, private categoryService: CategoryService,
     @Inject(MAT_DIALOG_DATA) public data: { selected: string }
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.categories = this.categoryService.allCategories;
@@ -27,18 +27,32 @@ export class DivisionSelectorDialogComponent implements OnInit {
   filter() {
     const text = this.searchText.toLowerCase();
     this.filteredCategories = this.categories
-      .map(cat => ({
-        ...cat,
-        staticDivisions: cat.staticDivisions.filter(div =>
-          div.toLowerCase().includes(text) ||
-          cat.category.toLowerCase().includes(text)
-        ),
-        dynamicDivisions: cat.dynamicDivisions.filter(div =>
-          div.toLowerCase().includes(text) ||
-          cat.category.toLowerCase().includes(text)
-        )
-      }))
-      .filter(cat => cat.staticDivisions.length > 0 || cat.dynamicDivisions.length > 0);
+      .map(cat => {
+        const categoryMatch = cat.category.toLowerCase().includes(text);
+
+        if (categoryMatch) {
+          return { ...cat };
+        }
+
+        const filteredStatic = cat.staticDivisions.filter(div =>
+          div.toLowerCase().includes(text)
+        );
+        const filteredDynamic = cat.dynamicDivisions.filter(div =>
+          div.toLowerCase().includes(text)
+        );
+
+        if (filteredStatic.length > 0 || filteredDynamic.length > 0) {
+          return {
+            ...cat,
+            staticDivisions: filteredStatic,
+            dynamicDivisions: filteredDynamic
+          };
+        }
+
+        return undefined;
+      })
+      .filter((cat): cat is ITransactionCategoryCrudEnabled => cat !== undefined);
+
   }
 
   isDivisionSelected(division: string): boolean {

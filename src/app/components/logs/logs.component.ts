@@ -6,8 +6,6 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-logs',
-  standalone: true,
-  imports: [MatIconModule, CommonModule, MatTooltipModule],
   templateUrl: './logs.component.html',
   styleUrl: './logs.component.scss'
 })

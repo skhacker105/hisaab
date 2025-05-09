@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core';
 import { IFavoriteDivision, ITransactionCategoryCrudEnabled } from '../interfaces';
 import { TransactionCategories } from '../configs';
+import { LoggerService } from './logger.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CategoryService {
 
-  private localStorageKey = 'userCategories';
+  private localStorageKey = 'savedCategories';
   private favoritesStorageKey = 'favoriteCategories';
 
   defaultCategories: ITransactionCategoryCrudEnabled[] = TransactionCategories;
@@ -28,14 +29,16 @@ export class CategoryService {
       .map(fd => fd?.division);
   }
 
-  constructor() {
+  constructor(private loggerService: LoggerService) {
+    localStorage.removeItem('userCategories'); // removing previous garbage data
     this.loadFavoriteDivisions();
     this.loadCategories();
   }
 
   private loadCategories(): void {
     const saved = localStorage.getItem(this.localStorageKey);
-    this.allCategories = saved ? JSON.parse(saved) : this.defaultCategories;
+    const parsed = saved ? JSON.parse(saved) : undefined;
+    this.allCategories = parsed ?? this.defaultCategories;
   }
 
   private loadFavoriteDivisions(): void {

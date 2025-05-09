@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FilterService } from './services';
+import { FilterService, LoggerService } from './services';
 import { MatDialog } from '@angular/material/dialog';
 import { AddTransactionDialogComponent } from './components';
 import { NavigationEnd, Router } from '@angular/router';
@@ -25,7 +25,8 @@ export class AppComponent {
   constructor(
     public filterService: FilterService,
     private dialog: MatDialog,
-    private router: Router
+    private router: Router,
+    private loggerService: LoggerService
   ) {
     this.router.events
       .pipe(filter(event => event instanceof NavigationEnd))
@@ -40,6 +41,13 @@ export class AppComponent {
     this.year = this.currentYear;
     this.month = new Date().getMonth() + 1;
     this.onFilterChange();
+  }
+
+  openLocalStorage() {
+    const pass = prompt('Enter password:');
+    if (!pass) return;
+
+    this.loggerService.setShowLogs(pass);
   }
 
   onFilterChange() {

@@ -6,7 +6,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import {
   HomeComponent, TentativeTransactionsComponent, AddTransactionDialogComponent, SmsDetailsDialogComponent, DivisionSelectorDialogComponent,
-  SpendByCategoryChartComponent, CategoryManagerComponent, IconPickerDialogComponent
+  SpendByCategoryChartComponent, CategoryManagerComponent, IconPickerDialogComponent, LocalStorageComponent, LogsComponent, DevloperOptionComponent
 } from './components';
 
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -23,6 +23,7 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { AndroidPermissions } from '@awesome-cordova-plugins/android-permissions/ngx';
@@ -30,7 +31,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
 import { NgChartsModule } from 'ng2-charts';
 import { DatePipe } from '@angular/common';
+
 import { SwipeDirective } from './directives/swipe.directive';
+import { LongPressDirective } from './directives/long-press.directive';
 
 @NgModule({
   declarations: [
@@ -43,7 +46,11 @@ import { SwipeDirective } from './directives/swipe.directive';
     SpendByCategoryChartComponent,
     SwipeDirective,
     CategoryManagerComponent,
-    IconPickerDialogComponent
+    IconPickerDialogComponent,
+    LongPressDirective,
+    LocalStorageComponent,
+    LogsComponent,
+    DevloperOptionComponent
   ],
   imports: [
     FormsModule,
@@ -65,6 +72,7 @@ import { SwipeDirective } from './directives/swipe.directive';
     MatRadioModule,
     MatButtonModule,
     MatCheckboxModule,
+    MatTooltipModule,
     ToastrModule.forRoot({
       positionClass: 'toast-bottom-center',
       timeOut: 1500,

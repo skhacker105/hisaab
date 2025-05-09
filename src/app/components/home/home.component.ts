@@ -61,26 +61,28 @@ export class HomeComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
-    this.transactionCategories = this.categoryService.allCategories;
-    this.filterService.year$
-      .pipe(takeUntil(this.isComponentActive))
-      .subscribe(year => {
-        this.year = year;
-        this.loadTransactions(true);
-      });
+    setTimeout(() => {
+      this.transactionCategories = this.categoryService.allCategories;
+      this.filterService.year$
+        .pipe(takeUntil(this.isComponentActive))
+        .subscribe(year => {
+          this.year = year;
+          this.loadTransactions(true);
+        });
 
-    this.filterService.month$
-      .pipe(takeUntil(this.isComponentActive))
-      .subscribe(month => {
-        this.month = month;
-        this.loadTransactions(true);
-      });
+      this.filterService.month$
+        .pipe(takeUntil(this.isComponentActive))
+        .subscribe(month => {
+          this.month = month;
+          this.loadTransactions(true);
+        });
 
-    this.transactionService.transactionsChanged
-      .pipe(takeUntil(this.isComponentActive))
-      .subscribe(transactions => {
-        this.loadTransactions();
-      });
+      this.transactionService.transactionsChanged
+        .pipe(takeUntil(this.isComponentActive))
+        .subscribe(transactions => {
+          this.loadTransactions();
+        });
+    }, 200);
   }
 
   ngOnDestroy(): void {

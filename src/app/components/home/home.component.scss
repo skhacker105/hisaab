@@ -309,6 +309,7 @@
 
 .category-summary {
     min-width: 140px;
+    max-width: 140px;
     background-color: #e3f2fd;
     border-radius: 8px;
     text-align: center;
@@ -316,6 +317,7 @@
     display: flex;
     align-items: center;
     padding: 10px;
+    overflow: hidden;
 
     &.selected-category {
         background-color: #01348b;
@@ -335,6 +337,7 @@
     display: flex;
     flex-direction: column;
     flex: 1 auto;
+    overflow: hidden;
 }
 
 .category-icon {
@@ -343,6 +346,7 @@
     font-size: 15px;
     height: 15px;
     width: 15px;
+    min-width: 15px;
     padding: 5px;
 }
 
@@ -351,6 +355,8 @@
     white-space: nowrap;
     font-size: small;
     color: gray;
+    text-overflow: ellipsis;
+    overflow: hidden;
 }
 
 .category-total {

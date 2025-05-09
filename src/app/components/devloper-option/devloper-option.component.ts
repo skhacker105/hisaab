@@ -6,14 +6,14 @@ import { LoggerService } from '../../services/logger.service';
 
 @Component({
   selector: 'app-devloper-option',
-  standalone: true,
-  imports: [MatTabsModule, LocalStorageComponent, LogsComponent, MatIconModule],
   templateUrl: './devloper-option.component.html',
   styleUrl: './devloper-option.component.scss'
 })
 export class DevloperOptionComponent {
 
-  constructor(public loggerService: LoggerService) { }
+  constructor(public loggerService: LoggerService) {
+    console.log('DevloperOptionComponent')
+  }
 
 
   hideLogs() {
