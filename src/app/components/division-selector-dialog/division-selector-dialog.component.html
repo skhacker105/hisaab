@@ -1,6 +1,6 @@
 <div class="category-container">
     <div class="flex">
-        <h3>Select Division</h3>
+        <h3>Select Category</h3>
         <div class="spacer"></div>
         <mat-icon (click)="dialogRef.close()">
             close
@@ -12,7 +12,10 @@
 
     <div class="category-list" *ngIf="filteredCategories.length > 0">
         <div class="category-block" *ngFor="let cat of filteredCategories">
-            <div class="category-name">{{ cat.category }}</div>
+            <div class="category-name">
+                {{ cat.category }}
+                <mat-icon *ngIf="cat.category !== 'Favorites'" (click)="addNewDivision(cat.category)">add</mat-icon>
+            </div>
             <div class="division-options">
                 <div class="division-chip" *ngFor="let div of cat.staticDivisions" (click)="select(div)"
                     [ngClass]="{ 'selected-division': data.selected === div }">
@@ -33,6 +36,6 @@
     </div>
 
     <div class="no-results" *ngIf="filteredCategories.length === 0">
-        No matching divisions.
+        No matching Categories.
     </div>
 </div>

@@ -21,16 +21,18 @@ export class DivisionSelectorDialogComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    setTimeout(() => {
-      this.categories = this.categoryService.allCategories;
-      this.favoriteCategories = [{
-        category: 'Favorites',
-        matIcon: 'favorite',
-        staticDivisions: [],
-        dynamicDivisions: Array.from(this.categoryService.favoriteDivisions.values())
-      }];
-      this.filter();
-    }, 200);
+    setTimeout(() => this.initialLoad(), 200);
+  }
+
+  initialLoad() {
+    this.categories = this.categoryService.allCategories;
+    this.favoriteCategories = [{
+      category: 'Favorites',
+      matIcon: 'favorite',
+      staticDivisions: [],
+      dynamicDivisions: Array.from(this.categoryService.favoriteDivisions.values())
+    }];
+    this.filter();
   }
 
   filter() {
@@ -71,6 +73,24 @@ export class DivisionSelectorDialogComponent implements OnInit {
   toggleFavoriteDivision(division: string, e: any) {
     e.stopPropagation();
     this.categoryService.toggleFavoriteDivision(division);
+  }
+
+  addNewDivision(categoryName: string) {
+    const name = prompt('Enter new division name:');
+    if (!name) return;
+
+    const alreadAvailable = this.categories.find(c => c.staticDivisions.includes(name) || c.dynamicDivisions.includes(name));
+    if (alreadAvailable) {
+      alert(`${name} already exists under ${alreadAvailable.category}.`);
+      return;
+    }
+
+    const index = this.categories.findIndex(c => c.category === categoryName);
+    if (index < 0) return;
+
+    this.categories[index].dynamicDivisions.push(name);
+    this.categoryService.saveCategories(this.categories);
+    this.select(name);
   }
 
   select(name: string) {
