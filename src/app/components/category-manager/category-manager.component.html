@@ -9,7 +9,7 @@
             <div class="tab-item" [class.active]="favoritesTabLoaded">
                 <div (click)="favoritesTabLoaded = true" class="tab-label">
                     <mat-icon>favorite</mat-icon>
-                    Favorite
+                    Favorites
                 </div>
             </div>
             <div class="tab-item" *ngFor="let cat of categories; let i = index" #tabItem

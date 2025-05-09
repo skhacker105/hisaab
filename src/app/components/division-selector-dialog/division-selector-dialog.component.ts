@@ -13,6 +13,7 @@ export class DivisionSelectorDialogComponent implements OnInit {
   categories: ITransactionCategoryCrudEnabled[] = []; // Replace with your actual list
   searchText = '';
   filteredCategories: ITransactionCategoryCrudEnabled[] = [];
+  favoriteCategories: ITransactionCategoryCrudEnabled[] = [];
 
   constructor(
     public dialogRef: MatDialogRef<DivisionSelectorDialogComponent>, private categoryService: CategoryService,
@@ -20,13 +21,21 @@ export class DivisionSelectorDialogComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.categories = this.categoryService.allCategories;
-    this.filter();
+    setTimeout(() => {
+      this.categories = this.categoryService.allCategories;
+      this.favoriteCategories = [{
+        category: 'Favorites',
+        matIcon: 'favorite',
+        staticDivisions: [],
+        dynamicDivisions: Array.from(this.categoryService.favoriteDivisions.values())
+      }];
+      this.filter();
+    }, 200);
   }
 
   filter() {
     const text = this.searchText.toLowerCase();
-    this.filteredCategories = this.categories
+    this.filteredCategories = [...this.favoriteCategories, ...this.categories]
       .map(cat => {
         const categoryMatch = cat.category.toLowerCase().includes(text);
 
