@@ -1,31 +1,44 @@
-<section>
-    <h2>How to Install</h2>
-    <div class="step" *ngFor="let step of installSteps; let i = index">
-      <div class="step-number">Step {{ i + 1 }}</div>
-      <p>{{ step.text }}</p>
+<div class="tab-container">
+    <div class="tab-buttons">
+      <button [class.active]="activeTab === 'install'" (click)="activeTab = 'install'">📥 How to Install</button>
+      <button [class.active]="activeTab === 'usage'" (click)="activeTab = 'usage'">💡 How to Use</button>
+      <button [class.active]="activeTab === 'about'" (click)="activeTab = 'about'">👨‍💻 About Me</button>
+    </div>
   
-      <!-- Show image if available -->
-      <img *ngIf="step.img" [src]="'../../../assets/howTo/' + step.img" [alt]="step.text" />
+    <div class="tab-content" *ngIf="activeTab === 'install'">
+      <h2>How to Install</h2>
+      <div class="step" *ngFor="let step of installSteps; let i = index">
+        <div class="step-number">Step {{ i + 1 }}</div>
+        <p>{{ step.text }}</p>
   
-      <!-- Show download box if file exists -->
-      <div class="download-box" *ngIf="step.file">
-        <img class="file-icon" [src]="'../../../assets/icons/' + step.file.type + '.png'" [alt]="step.file.type + ' file'" />
-        <div class="file-info">
-          <div class="file-name">{{ step.file.src }}.{{ step.file.type }}</div>
-          <a class="download-link" [href]="'../../../assets/files/' + step.file.src + '.' + step.file.type" download>
-            Download
-          </a>
+        <img *ngIf="step.img" [src]="'../../../assets/info/' + step.img" [alt]="step.text" />
+  
+        <div class="download-box" *ngIf="step.file">
+          <img class="file-icon" [src]="'../../../assets/icons/' + step.file.type + '.png'" [alt]="step.file.type + ' file'" />
+          <div class="file-info">
+            <div class="file-name">{{ step.file.src }}.{{ step.file.type }}</div>
+            <a class="download-link" [href]="'../../../assets/files/' + step.file.src + '.' + step.file.type" download>
+              Download
+            </a>
+          </div>
         </div>
       </div>
     </div>
-  </section>
   
-  <section>
-    <h2>How to Use</h2>
-    <div class="step" *ngFor="let step of usageSteps; let i = index">
-      <div class="step-number">Step {{ i + 1 }}</div>
-      <p>{{ step.text }}</p>
-      <img *ngIf="step.img" [src]="'assets/howTo/' + step.img" [alt]="step.text" />
+    <div class="tab-content" *ngIf="activeTab === 'usage'">
+      <h2>How to Use</h2>
+      <div class="step" *ngFor="let step of usageSteps; let i = index">
+        <div class="step-number">Step {{ i + 1 }}</div>
+        <p>{{ step.text }}</p>
+        <img *ngIf="step.img" [src]="'../../../assets/info/' + step.img" [alt]="step.text" />
+      </div>
     </div>
-  </section>
+  
+    <div class="tab-content" *ngIf="activeTab === 'about'">
+      <h2>About Me</h2>
+      <p>I'm the developer of this app, created to help users track finances with complete privacy.</p>
+      <p>All data stays on your device and is never uploaded.</p>
+      <p>Thank you for supporting this project!</p>
+    </div>
+  </div>
   

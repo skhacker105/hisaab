@@ -7,6 +7,7 @@ import { Component } from '@angular/core';
 })
 export class ProdWebHomePageComponent {
   currentTab: 'app' | 'me' = 'app';
+  activeTab: 'install' | 'usage' | 'about' = 'install';
 
   installSteps = [
     { text: 'Open Play Store', img: '' },
