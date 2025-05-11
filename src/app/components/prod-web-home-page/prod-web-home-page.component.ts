@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { ImageDialogComponent } from '../';
 
 @Component({
   selector: 'app-prod-web-home-page',
@@ -8,6 +10,8 @@ import { Component } from '@angular/core';
 export class ProdWebHomePageComponent {
   currentTab: 'app' | 'me' = 'app';
   activeTab: 'install' | 'usage' | 'about' = 'install';
+  installStepIndex = 0;
+  usageStepIndex = 0;
 
   installSteps = [
     { text: 'Open Play Store', img: '1.jpeg' },
@@ -16,7 +20,7 @@ export class ProdWebHomePageComponent {
     { text: 'Click settings (top-right)', img: '4.jpeg' },
     { text: 'Disable both toggles', img: '5.jpeg' },
     { text: '', img: '6.jpeg' },
-    { text: 'Download the app and click Install', img: '', file: {type: 'apk', src: 'app-debug'} },
+    { text: 'Download the app and click Install', img: '', file: { type: 'apk', src: 'app-debug' } },
     { text: 'Re-enable both Play Protect toggles', img: '5.jpeg' },
     { text: 'Open the "Hisaab" app and allow SMS read permission', img: '7.jpeg' }
   ];
@@ -28,6 +32,36 @@ export class ProdWebHomePageComponent {
     { text: '', img: 'use4.png' },
     { text: '', img: 'use5.png' }
   ];
+
+  constructor(private dialog: MatDialog) {}
+
+  nextStep(type: 'install' | 'usage') {
+    if (type === 'install' && this.installStepIndex < this.installSteps.length - 1) {
+      this.installStepIndex++;
+    } else if (type === 'usage' && this.usageStepIndex < this.usageSteps.length - 1) {
+      this.usageStepIndex++;
+    }
+  }
+
+  prevStep(type: 'install' | 'usage') {
+    if (type === 'install' && this.installStepIndex > 0) {
+      this.installStepIndex--;
+    } else if (type === 'usage' && this.usageStepIndex > 0) {
+      this.usageStepIndex--;
+    }
+  }
+
+  goToStep(type: 'install' | 'usage', index: number) {
+    if (type === 'install') this.installStepIndex = index;
+    else this.usageStepIndex = index;
+  }
+
+  openImageDialog(imgPath: string): void {
+    this.dialog.open(ImageDialogComponent, {
+      data: { imgPath },
+      panelClass: 'custom-dialog-container'
+    });
+  }
 
   setTab(tab: 'app' | 'me') {
     this.currentTab = tab;

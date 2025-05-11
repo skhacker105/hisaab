@@ -7,7 +7,7 @@ import { AppComponent } from './app.component';
 import {
   HomeComponent, TentativeTransactionsComponent, AddTransactionDialogComponent, SmsDetailsDialogComponent, DivisionSelectorDialogComponent,
   SpendByCategoryChartComponent, CategoryManagerComponent, IconPickerDialogComponent, LocalStorageComponent, LogsComponent, DevloperOptionComponent,
-  WelcomeScreenComponent, ProdWebHomePageComponent
+  WelcomeScreenComponent, ProdWebHomePageComponent, ImageDialogComponent
 } from './components';
 
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -53,7 +53,8 @@ import { LongPressDirective } from './directives/long-press.directive';
     LogsComponent,
     DevloperOptionComponent,
     WelcomeScreenComponent,
-    ProdWebHomePageComponent
+    ProdWebHomePageComponent,
+    ImageDialogComponent
   ],
   imports: [
     FormsModule,

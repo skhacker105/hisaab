@@ -3,10 +3,11 @@ export * from './category-manager/category-manager.component';
 export * from './devloper-option/devloper-option.component';
 export * from './division-selector-dialog/division-selector-dialog.component';
 export * from './home/home.component';
+export * from './image-dialog/image-dialog.component';
 export * from './icon-picker-dialog/icon-picker-dialog.component'
 export * from './local-storage/local-storage.component';
 export * from './logs/logs.component';
-export * from './prod-web-home-page/prod-web-home-page.component'
+export * from './prod-web-home-page/prod-web-home-page.component';
 export * from './sms-details-dialog/sms-details-dialog.component';
 export * from './spend-by-category-chart/spend-by-category-chart.component';
 export * from './tentative-transactions/tentative-transactions.component';

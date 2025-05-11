@@ -52,6 +52,8 @@
     flex-direction: column;
     max-height: calc(100% - 60px);
     overflow: auto;
+    display: flex;
+    flex: 1 auto;
 }
 
 
@@ -72,11 +74,21 @@ h2 {
 
 /* Step block */
 .step {
-    margin-bottom: 1.5rem;
     padding: 1rem;
     border-left: 4px solid #4caf50;
     border-radius: 0.5rem;
     background-color: #f9f9f9;
+    flex: 1 auto;
+    display: flex;
+    flex-direction: column;
+
+    p {
+        flex: 1 auto;
+        display: flex;
+        justify-content: center;
+        padding-top: 20px;
+        font-size: 20px;
+    }
 }
 
 .step-number {
@@ -174,4 +186,49 @@ h2 {
 
 .file-icon {
     width: 30px;
+}
+
+
+.wizard {
+    text-align: center;
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+.wizard img {
+    margin: 0 auto;
+    cursor: pointer;
+    max-width: 90%;
+    max-height: 40vh;
+    border-radius: 1rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.nav-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.step-indicators {
+    margin-top: 1rem;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.step-indicators button {
+    width: 32px;
+    height: 32px;
+    border: none;
+    border-radius: 50%;
+    background-color: #e0e0e0;
+    color: #333;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.step-indicators button.active {
+    background-color: #4caf50;
+    color: white;
 }
