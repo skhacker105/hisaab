@@ -1,6 +1,18 @@
 .image-popup {
     text-align: center;
     padding: 1rem;
+    display: flex;
+    flex-direction: column;
+
+    .header {
+        display: flex;
+
+        mat-icon {
+            margin-left: auto;
+            padding: 5px;
+            cursor: pointer;
+        }
+    }
 }
 .image-popup img {
     max-width: 100%;

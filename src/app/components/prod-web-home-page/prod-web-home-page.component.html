@@ -1,4 +1,4 @@
-<div class="tab-container">
+<div class="tab-container" appSwipe (swipeRight)="prevStep(activeTab)" (swipeLeft)="nextStep(activeTab)">
   <div class="tab-buttons">
     <button [class.active]="activeTab === 'install'" (click)="activeTab = 'install'">📥 How to Install</button>
     <button [class.active]="activeTab === 'usage'" (click)="activeTab = 'usage'">💡 How to Use</button>
@@ -43,10 +43,28 @@
 
   <div class="tab-content" *ngIf="activeTab === 'usage'">
     <h2>How to Use</h2>
-    <div class="step" *ngFor="let step of usageSteps; let i = index">
-      <div class="step-number">Step {{ i + 1 }}</div>
-      <p>{{ step.text }}</p>
-      <img *ngIf="step.img" [src]="'../../../assets/howTo/' + step.img" [alt]="step.text" />
+    <div class="step wizard" [@fadeIn]>
+      <img *ngIf="usageSteps[usageStepIndex].img"
+        [src]="'../../../assets/howTo/' + usageSteps[usageStepIndex].img"
+        (click)="openImageDialog('../../../assets/howTo/' + usageSteps[usageStepIndex].img)" />
+
+      <p>{{ usageSteps[usageStepIndex].text }}</p>
+
+      <div class="nav-buttons">
+        <button mat-icon-button (click)="prevStep('usage')" [disabled]="usageStepIndex === 0">
+          <mat-icon>navigate_before</mat-icon>
+        </button>
+        <button mat-icon-button (click)="nextStep('usage')" [disabled]="usageStepIndex === usageSteps.length - 1">
+          <mat-icon>navigate_next</mat-icon>
+        </button>
+      </div>
+
+      <div class="step-indicators">
+        <button *ngFor="let step of usageSteps; let i = index" [class.active]="i === usageStepIndex"
+          (click)="goToStep('usage', i)">
+          {{ i + 1 }}
+        </button>
+      </div>
     </div>
   </div>
 

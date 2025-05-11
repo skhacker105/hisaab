@@ -2,14 +2,17 @@ import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ImageDialogComponent } from '../';
 
+type TabType = 'install' | 'usage' | 'about';
+
 @Component({
   selector: 'app-prod-web-home-page',
   templateUrl: './prod-web-home-page.component.html',
   styleUrl: './prod-web-home-page.component.scss'
 })
 export class ProdWebHomePageComponent {
+  
   currentTab: 'app' | 'me' = 'app';
-  activeTab: 'install' | 'usage' | 'about' = 'install';
+  activeTab: TabType = 'install';
   installStepIndex = 0;
   usageStepIndex = 0;
 
@@ -35,7 +38,7 @@ export class ProdWebHomePageComponent {
 
   constructor(private dialog: MatDialog) {}
 
-  nextStep(type: 'install' | 'usage') {
+  nextStep(type: TabType) {
     if (type === 'install' && this.installStepIndex < this.installSteps.length - 1) {
       this.installStepIndex++;
     } else if (type === 'usage' && this.usageStepIndex < this.usageSteps.length - 1) {
@@ -43,7 +46,7 @@ export class ProdWebHomePageComponent {
     }
   }
 
-  prevStep(type: 'install' | 'usage') {
+  prevStep(type: TabType) {
     if (type === 'install' && this.installStepIndex > 0) {
       this.installStepIndex--;
     } else if (type === 'usage' && this.usageStepIndex > 0) {
@@ -51,7 +54,7 @@ export class ProdWebHomePageComponent {
     }
   }
 
-  goToStep(type: 'install' | 'usage', index: number) {
+  goToStep(type: TabType, index: number) {
     if (type === 'install') this.installStepIndex = index;
     else this.usageStepIndex = index;
   }
