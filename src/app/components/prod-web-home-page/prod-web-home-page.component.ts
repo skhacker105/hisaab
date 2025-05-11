@@ -22,9 +22,11 @@ export class ProdWebHomePageComponent {
   ];
 
   usageSteps = [
-    { text: 'Select potential transaction messages and confirm with the tick icon', img: '' },
-    { text: 'Convert or delete messages as needed', img: '' },
-    { text: 'Navigate or reopen the app to view categorized transactions and bar charts', img: '' }
+    { text: 'Select potential transaction messages and confirm with the tick icon', img: 'use1.png' },
+    { text: 'Convert or delete messages as needed', img: 'use2.png' },
+    { text: 'Navigate or reopen the app to view categorized transactions and bar charts', img: 'use3.png' },
+    { text: '', img: 'use4.png' },
+    { text: '', img: 'use5.png' }
   ];
 
   setTab(tab: 'app' | 'me') {

@@ -1,3 +1,10 @@
+.tab-container {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    height: 100%;
+}
+
 /* Tab Buttons Container */
 .tab-buttons {
     display: flex;
@@ -42,6 +49,9 @@
     border-top: none;
     padding: 1rem;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    flex-direction: column;
+    max-height: calc(100% - 60px);
+    overflow: auto;
 }
 
 
