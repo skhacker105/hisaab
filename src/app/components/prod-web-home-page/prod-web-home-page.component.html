@@ -1,8 +1,45 @@
 <div class="tab-container" appSwipe (swipeRight)="prevStep(activeTab)" (swipeLeft)="nextStep(activeTab)">
   <div class="tab-buttons">
+    <button [class.active]="activeTab === 'welcome'" (click)="activeTab = 'welcome'">🏠 Home</button>
     <button [class.active]="activeTab === 'install'" (click)="activeTab = 'install'">📥 How to Install</button>
     <button [class.active]="activeTab === 'usage'" (click)="activeTab = 'usage'">💡 How to Use</button>
     <button [class.active]="activeTab === 'about'" (click)="activeTab = 'about'">👨‍💻 About Me</button>
+  </div>
+
+  <div class="tab-content" *ngIf="activeTab === 'welcome'">
+    <div class="tab-content" *ngIf="activeTab === 'welcome'">
+      <section class="welcome-hero">
+        <img src="../../../assets/homescreen-logo.png" alt="hisaab" />
+        <h2>Welcome to 💸 Expense Tracker App "hisaab"</h2>
+        <p>Effortlessly track your monthly & yearly payments by auto-reading your phone's SMS alerts.</p>
+        <a class="button" (click)="activeTab = 'install'">📥 Get Started</a>
+      </section>
+    
+      <section class="welcome-features">
+        <h3>🚀 Features</h3>
+        <ul>
+          <li>📩 Auto-detects SMS messages related to transactions</li>
+          <li>📊 Monthly & yearly expense summaries</li>
+          <li>🔒 Private: all data stays on your device</li>
+          <li>🛠️ Works offline, no internet needed</li>
+          <li>🗃️ Categorize your expenses easily</li>
+        </ul>
+      </section>
+    
+      <section class="welcome-guide">
+        <h3>👣 Quick Guide</h3>
+        <p>1. Install the app manually<br>
+           2. Grant SMS permission<br>
+           3. Watch your expenses auto-categorize themselves!</p>
+        <a class="button" (click)="activeTab = 'usage'">💡 See How It Works</a>
+      </section>
+    
+      <section class="about-section">
+        <h3>❤️ Why I Built This</h3>
+        <p>I wanted a privacy-first app that doesn't send my spending data to any server. This app does everything on your device — lightweight, private, and powerful.</p>
+      </section>
+    </div>
+    
   </div>
 
   <div class="tab-content" *ngIf="activeTab === 'install'">
@@ -44,8 +81,7 @@
   <div class="tab-content" *ngIf="activeTab === 'usage'">
     <h2>How to Use</h2>
     <div class="step wizard" [@fadeIn]>
-      <img *ngIf="usageSteps[usageStepIndex].img"
-        [src]="'../../../assets/howTo/' + usageSteps[usageStepIndex].img"
+      <img *ngIf="usageSteps[usageStepIndex].img" [src]="'../../../assets/howTo/' + usageSteps[usageStepIndex].img"
         (click)="openImageDialog('../../../assets/howTo/' + usageSteps[usageStepIndex].img)" />
 
       <p>{{ usageSteps[usageStepIndex].text }}</p>
@@ -69,9 +105,24 @@
   </div>
 
   <div class="tab-content" *ngIf="activeTab === 'about'">
-    <h2>About Me</h2>
-    <p>I'm the developer of this app, created to help users track finances with complete privacy.</p>
-    <p>All data stays on your device and is never uploaded.</p>
-    <p>Thank you for supporting this project!</p>
+    <section class="about-profile">
+      <img src="../../../assets/my-photo.jpeg" alt="My Photo" />
+      <h3>Full Stack Developer</h3>
+      <p>ASP.NET &middot; MS SQL Server</p>
+    </section>
+  
+    <section class="about-section">
+      <h3>About This App</h3>
+      <p>
+        Hi there! I'm the developer behind this app — a tool designed to help users effortlessly manage their recurring expenses by analyzing SMS notifications from banks and service providers.
+      </p>
+      <p>
+        I built this app with a strong focus on **privacy** and **usability**. Your financial data never leaves your device. There’s no account required, no ads, and no background tracking. Just a clean, effective way to stay on top of your money.
+      </p>
+      <p>
+        Thank you for trying it out. I hope it adds value to your daily life and makes financial tracking less of a hassle!
+      </p>
+    </section>
   </div>
+  
 </div>

@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ImageDialogComponent } from '../';
 
-type TabType = 'install' | 'usage' | 'about';
+type TabType = 'welcome' | 'install' | 'usage' | 'about';
 
 @Component({
   selector: 'app-prod-web-home-page',
@@ -12,7 +12,7 @@ type TabType = 'install' | 'usage' | 'about';
 export class ProdWebHomePageComponent {
   
   currentTab: 'app' | 'me' = 'app';
-  activeTab: TabType = 'install';
+  activeTab: TabType = 'welcome';
   installStepIndex = 0;
   usageStepIndex = 0;
 

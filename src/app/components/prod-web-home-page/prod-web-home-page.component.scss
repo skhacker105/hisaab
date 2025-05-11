@@ -232,3 +232,110 @@ h2 {
     background-color: #4caf50;
     color: white;
 }
+
+
+.welcome-hero {
+    text-align: center;
+    padding: 2rem 1rem 1rem;
+    animation: fadeIn 0.4s ease-in-out;
+}
+
+.welcome-hero img {
+    width: 100px;
+    height: auto;
+    margin-bottom: 1rem;
+    border-radius: 1rem;
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.1);
+    background-color: #3743d4;
+}
+
+.welcome-hero h2 {
+    font-size: 1.6rem;
+    color: #4caf50;
+    margin-bottom: 0.5rem;
+}
+
+.welcome-hero p {
+    font-size: 1rem;
+    color: #555;
+    margin-bottom: 1rem;
+}
+
+.welcome-features {
+    padding: 1rem;
+    background-color: #f3fdf4;
+    border-radius: 1rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+    margin: 1rem 0;
+}
+
+.welcome-features h3 {
+    color: #2e7d32;
+    margin-bottom: 0.5rem;
+}
+
+.welcome-features ul {
+    list-style: none;
+    padding-left: 0;
+    color: #444;
+}
+
+.welcome-features ul li {
+    padding: 0.4rem 0;
+    font-size: 0.95rem;
+}
+
+.welcome-guide {
+    padding: 1rem;
+    background-color: #fff9e6;
+    border-radius: 1rem;
+    margin: 1rem 0;
+    text-align: center;
+}
+
+.welcome-guide h3 {
+    color: #e69500;
+}
+
+.welcome-guide p {
+    font-size: 0.95rem;
+    margin-bottom: 1rem;
+    color: #555;
+}
+
+
+.about-profile {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid #e0e0e0;
+    padding: 1rem;
+    border-radius: 1rem;
+    margin-bottom: 1.5rem;
+    background-color: #f8f9fa;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.about-profile img {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    object-position: top;
+    margin-bottom: 0.5rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.about-profile h3 {
+    margin: 0.5rem 0 0.2rem;
+    color: #4caf50;
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+.about-profile p {
+    margin: 0;
+    color: #666;
+    font-size: 0.95rem;
+}
