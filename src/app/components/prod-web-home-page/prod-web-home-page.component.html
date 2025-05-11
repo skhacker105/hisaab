@@ -11,7 +11,7 @@
         <div class="step-number">Step {{ i + 1 }}</div>
         <p>{{ step.text }}</p>
   
-        <img *ngIf="step.img" [src]="'../../../assets/info/' + step.img" [alt]="step.text" />
+        <img *ngIf="step.img" [src]="'../../../assets/howTo/' + step.img" [alt]="step.text" />
   
         <div class="download-box" *ngIf="step.file">
           <img class="file-icon" [src]="'../../../assets/icons/' + step.file.type + '.png'" [alt]="step.file.type + ' file'" />
@@ -30,7 +30,7 @@
       <div class="step" *ngFor="let step of usageSteps; let i = index">
         <div class="step-number">Step {{ i + 1 }}</div>
         <p>{{ step.text }}</p>
-        <img *ngIf="step.img" [src]="'../../../assets/info/' + step.img" [alt]="step.text" />
+        <img *ngIf="step.img" [src]="'../../../assets/howTo/' + step.img" [alt]="step.text" />
       </div>
     </div>
   
