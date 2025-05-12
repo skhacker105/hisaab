@@ -32,8 +32,8 @@ export class ProdWebHomePageComponent {
     { text: 'Select potential transaction messages and confirm with the tick icon', img: 'use1.png' },
     { text: 'Convert or delete messages as needed', img: 'use2.png' },
     { text: 'Navigate or reopen the app to view categorized transactions and bar charts', img: 'use3.png' },
-    { text: '', img: 'use4.png' },
-    { text: '', img: 'use5.png' }
+    { text: 'Filter By Category', img: 'use4.png' },
+    { text: 'Visualize your yearly spending on Graph', img: 'use5.png' }
   ];
 
   constructor(private dialog: MatDialog) {}

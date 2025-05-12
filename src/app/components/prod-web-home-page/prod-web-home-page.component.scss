@@ -45,12 +45,10 @@
 .tab-content {
     background-color: #ffffff;
     border-radius: 0 0 1rem 1rem;
-    border: 2px solid #ccc;
     border-top: none;
     padding: 1rem;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
     flex-direction: column;
-    max-height: calc(100% - 60px);
     overflow: auto;
     display: flex;
     flex: 1 auto;
@@ -325,6 +323,7 @@ h2 {
     object-position: top;
     margin-bottom: 0.5rem;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    border: solid 10px #ffffff;
 }
 
 .about-profile h3 {
