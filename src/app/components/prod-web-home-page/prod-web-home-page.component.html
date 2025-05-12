@@ -12,9 +12,12 @@
         <img src="../../../assets/homescreen-logo.png" alt="hisaab" />
         <h2>Welcome to 💸 Expense Tracker App "hisaab"</h2>
         <p>Effortlessly track your monthly & yearly payments by auto-reading your phone's SMS alerts.</p>
+        <a class="button download-button" href="../../../assets/files/hisaab-app.apk" download>
+          📥 Download APK
+        </a><br><br>
         <a class="button" (click)="activeTab = 'install'">📥 Get Started</a>
       </section>
-    
+
       <section class="welcome-features">
         <h3>🚀 Features</h3>
         <ul>
@@ -25,21 +28,22 @@
           <li>🗃️ Categorize your expenses easily</li>
         </ul>
       </section>
-    
+
       <section class="welcome-guide">
         <h3>👣 Quick Guide</h3>
         <p>1. Install the app manually<br>
-           2. Grant SMS permission<br>
-           3. Watch your expenses auto-categorize themselves!</p>
+          2. Grant SMS permission<br>
+          3. Watch your expenses auto-categorize themselves!</p>
         <a class="button" (click)="activeTab = 'usage'">💡 See How It Works</a>
       </section>
-    
+
       <section class="about-section">
         <h3>❤️ Why I Built This</h3>
-        <p>I wanted a privacy-first app that doesn't send my spending data to any server. This app does everything on your device — lightweight, private, and powerful.</p>
+        <p>I wanted a privacy-first app that doesn't send my spending data to any server. This app does everything on
+          your device — lightweight, private, and powerful.</p>
       </section>
     </div>
-    
+
   </div>
 
   <div class="tab-content" *ngIf="activeTab === 'install'">
@@ -110,19 +114,23 @@
       <h3>Full Stack Developer</h3>
       <p>Angular &middot; ASP.NET &middot; MS SQL Server &middot; Node</p>
     </section>
-  
+
     <section class="about-section">
       <h3>About This App</h3>
       <p>
-        Hi there! I'm the developer behind this app — a tool designed to help users effortlessly manage their recurring expenses by analyzing SMS notifications from banks and service providers.
+        Hi there! I'm the developer behind this app — a tool designed to help users effortlessly manage their recurring
+        expenses by analyzing SMS notifications from banks and service providers.
       </p>
       <p>
-        I built this app with a strong focus on **privacy** and **usability**. Your financial data never leaves your device. There’s no account required, no ads, and no background tracking. Just a clean, effective way to stay on top of your money.
+        I built this app with a strong focus on **privacy** and **usability**. Your financial data never leaves your
+        device. There’s no account required, no ads, and no background tracking. Just a clean, effective way to stay on
+        top of your money.
       </p>
       <p>
-        Thank you for trying it out. I hope it adds value to your daily life and makes financial tracking less of a hassle!
+        Thank you for trying it out. I hope it adds value to your daily life and makes financial tracking less of a
+        hassle!
       </p>
     </section>
   </div>
-  
+
 </div>
