@@ -37,19 +37,19 @@
 
       <!-- <ng-container *ngIf="isHomeRoute"> -->
 
-      <button class="fab-button" (click)="goToHome()">
+      <button class="fab-button" (click)="goToHome()" [ngClass]="{ 'active': isHomeRoute }">
         <span class="material-icons">home</span>
       </button>
 
-      <button class="fab-button" (click)="goToTentative()" [title]="'Tentative Transactions'">
+      <button class="fab-button" (click)="goToTentative()" [ngClass]="{ 'active': isTentativeRoute }">
         <span class="material-icons">pending_actions</span>
       </button>
 
-      <button class="fab-button" (click)="gotoCharts()">
+      <button class="fab-button" (click)="gotoCharts()" [ngClass]="{ 'active': isChartRoute }">
         <span class="material-icons">insert_chart</span>
       </button>
 
-      <button class="fab-button" (click)="gotoCategory()">
+      <button class="fab-button" (click)="gotoCategory()" [ngClass]="{ 'active': isCategoryRoute }">
         <span class="material-icons">interests</span>
       </button>
       <!-- </ng-container> -->

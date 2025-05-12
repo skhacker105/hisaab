@@ -27,6 +27,8 @@ export class AppComponent {
   isHomeRoute: boolean = true;
   isChartRoute = false;
   isWebProdVersion = true;
+  isTentativeRoute = false;
+  isCategoryRoute = false;
 
   constructor(
     public filterService: FilterService,
@@ -34,14 +36,17 @@ export class AppComponent {
     private router: Router,
     private loggerService: LoggerService
   ) {
-    if (environment.production)
+    // if (environment.production)
       this.isWebProdVersion = Capacitor.getPlatform() === 'web' && environment.production
     
     this.router.events
       .pipe(filter(event => event instanceof NavigationEnd))
       .subscribe((event: any) => {
-        this.isHomeRoute = event.urlAfterRedirects === '/' || event.urlAfterRedirects === '/home';
-        this.isChartRoute = event.urlAfterRedirects === '/charts';
+        const url = event.urlAfterRedirects;
+        this.isHomeRoute = url === '/' || url === '/home';
+        this.isChartRoute = url === '/charts';
+        this.isTentativeRoute = url === '/tentative';
+        this.isCategoryRoute = url === '/categories';
       });
   }
 
